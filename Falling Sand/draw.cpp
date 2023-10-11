@@ -1,7 +1,7 @@
 #include "pch.h"
 
-sf::RectangleShape sand(sf::Vector2f(pixelsize, pixelsize));
-sf::RectangleShape stone(sf::Vector2f(pixelsize, pixelsize));
+sf::RectangleShape sand(sf::Vector2f(static_cast<float>(pixelsize), static_cast<float>(pixelsize)));
+sf::RectangleShape stone(sf::Vector2f(static_cast<float>(pixelsize), static_cast<float>(pixelsize)));
 
 
 void draw(std::vector<std::vector<int>>& matrix, sf::RenderWindow& window)

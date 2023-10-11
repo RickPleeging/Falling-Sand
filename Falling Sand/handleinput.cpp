@@ -7,6 +7,8 @@ void handleinput(std::vector<std::vector<int>>& matrix, sf::RenderWindow& window
 
 	//swap selcted material
 	static int selectedID = 1;
+	static int cursorsize = 1;
+	static int cursorsizeplace = 1;
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1))
 	{
@@ -16,9 +18,28 @@ void handleinput(std::vector<std::vector<int>>& matrix, sf::RenderWindow& window
 	{
 		selectedID = 2;
 	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::R)) //reset screen
+	{
+		for (int i = worldheight - 1; i >= 0; i--)
+			for (int j = worldwidth - 1; j >= 0; j--)
+				matrix[i][j] = 0;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Hyphen))
+	{
+		if (cursorsize > 1)
+		{
+			cursorsize--;
+		
+		}
 
-	//TODO
-	//implement code to increase draw size (using for loop)
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Equal))
+	{
+		if (cursorsize < 10)
+			cursorsize++;
+	
+	}
+
 
 
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
@@ -28,19 +49,23 @@ void handleinput(std::vector<std::vector<int>>& matrix, sf::RenderWindow& window
 
 		if (mousePos.y >= 0 && mousePos.y < worldheight && mousePos.x < worldwidth && mousePos.x >= 0)
 		{
-			matrix[mousePos.y][mousePos.x] = selectedID;
+			for (int i = 0; i < cursorsize; i++)
+				for (int j = 0; j < cursorsize; j++)
+				{
+					if (matrix[mousePos.y + i][mousePos.x + j] == 0)
+					{
+
+					matrix[mousePos.y+i][mousePos.x+j] = selectedID;
+					//std::cout << "x: " << mousePos.x << " y: " << mousePos.y << "\n"; //debug position
+					}
+				}
+			
 			
 
-			// std::cout << "x: " << mousePos.x << " y: " << mousePos.y << "\n"; //debug position
 		}
 
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::R)) //reset screen
-	{
-		for (int i = worldheight - 1; i >= 0; i--)
-			for (int j = worldwidth - 1; j >= 0; j--)
-				matrix[i][j] = 0;
-	}
+
 
 
 }

@@ -24,12 +24,12 @@ void Material::updatematerial(std::vector<std::vector<int>>& matrix, int i, int 
 
 
 	}
-	else if (i + 1 < worldheight && matrix[i + 1][j + 1] == 0 && matrix[i][j + 1] == 0)
+	else if (i + 1 < worldheight && j+1 < worldwidth && matrix[i + 1][j + 1] == 0 && matrix[i][j + 1] == 0) //move down right
 	{
 		matrix[i][j] = 0;
 		matrix[i + 1][j + 1] = 1;
 	}
-	else if (i + 1 < worldheight && matrix[i + 1][j - 1] == 0 && matrix[i][j - 1] == 0)
+	else if (i + 1 < worldheight && j > 0 && matrix[i + 1][j - 1] == 0 && matrix[i][j - 1] == 0) //move down left
 	{
 		matrix[i][j] = 0;
 		matrix[i + 1][j - 1] = 1;

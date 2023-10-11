@@ -3,7 +3,7 @@
 int height = 800;
 int width = 1000;
 
-int pixelsize = 2;
+int pixelsize = 7;
 
 int worldheight = height / pixelsize;
 int worldwidth = width / pixelsize;
