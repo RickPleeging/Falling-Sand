@@ -3,7 +3,7 @@
 int height = 800;
 int width = 1000;
 
-int pixelsize = 7;
+int pixelsize = 5;
 
 int worldheight = height / pixelsize;
 int worldwidth = width / pixelsize;
@@ -33,6 +33,7 @@ int main() {
 			if (event.type == sf::Event::Closed)
 				window.close();
 
+
 			/////// RESIZE NOT IMPLEMENTED YET
 			//if (event.type == sf::Event::Resized)
 			//{
@@ -60,7 +61,7 @@ int main() {
 
 
 		//input
-		handleinput(matrix, window);
+		handleinput(matrix, window, event);
 
 		//Update the matrix
 		updatematrix(matrix, worldheight, worldwidth, window);

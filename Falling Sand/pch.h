@@ -17,3 +17,7 @@
 #include "Falling Sand.h"
 #include "Material.h"
 
+//external ints
+extern int worldwidth;
+extern int worldheight;
+extern int pixelsize;

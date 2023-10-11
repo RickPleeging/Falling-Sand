@@ -10,6 +10,8 @@ void draw(std::vector<std::vector<int>>& matrix, sf::RenderWindow& window)
 	//
 
 	//create sfml squares in their respective positions
+
+	// TODO Use Vertex Arrays instead (the drawing is hella slow)
 	for (int i = worldheight - 1; i >= 0; i--)
 		for (int j = worldwidth - 1; j >= 0; j--)
 		{
