@@ -1,9 +1,12 @@
 #pragma once
 #include "pch.h"
 
+
 extern int worldwidth;
 extern int worldheight;
 
+
+extern int pixelsize;
 /////////////////////
 //		Declerations
 
