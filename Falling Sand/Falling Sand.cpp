@@ -1,28 +1,40 @@
 #include "pch.h"
 
-int height = 800;
-int width = 1000;
-
-int pixelsize = 5;
-
-int worldheight = height / pixelsize;
-int worldwidth = width / pixelsize;
 
 //Array	= [height/y/Rows]	[width/x/Columns]
 
 Material Sand("Sand", 1);
 Material Stone("Stone", 2);
 
+int height = 1000;
+int width = 1500;
+
+int pixelsize = 3;
+
+int worldheight = height / pixelsize;
+int worldwidth = width / pixelsize;
+
+
+
+
 int main() {
+
+
+
+
+
+
+
 
 	sf::Clock clock;
 	float dt; //updates per second
 
-	std::vector<std::vector<int>> matrix(worldheight, std::vector<int>(worldwidth, 0));
 
 
 	sf::RenderWindow window(sf::VideoMode(width, height), "SandWindow", sf::Style::Close);
 	window.setFramerateLimit(144);
+
+	std::vector<std::vector<int>> matrix(worldheight, std::vector<int>(worldwidth, 0));
 
 	while (window.isOpen())
 	{
@@ -31,6 +43,8 @@ int main() {
 		while (window.pollEvent(event))
 		{
 			if (event.type == sf::Event::Closed)
+				window.close();
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::X))
 				window.close();
 
 
@@ -57,7 +71,9 @@ int main() {
 
 		//deltatime
 		dt = clock.restart().asSeconds();
-		std::cout << dt << "\n";
+
+		std::cout << "delta: " << std::fixed << std::setprecision(3) << dt << "\n";
+	
 
 
 		//input

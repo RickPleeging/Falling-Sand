@@ -2,6 +2,7 @@
 
 // Windows / Standard
 #include <iostream>
+#include <iomanip>
 #include <conio.h>
 #include <vector>
 #include <random>
@@ -16,8 +17,5 @@
 //My Headers
 #include "Falling Sand.h"
 #include "Material.h"
+#include "globals.h"
 
-//external ints
-extern int worldwidth;
-extern int worldheight;
-extern int pixelsize;

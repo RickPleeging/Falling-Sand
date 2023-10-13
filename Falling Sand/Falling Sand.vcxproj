@@ -139,6 +139,7 @@
   <ItemGroup>
     <ClCompile Include="draw.cpp" />
     <ClCompile Include="Falling Sand.cpp" />
+    <ClCompile Include="globals.cpp" />
     <ClCompile Include="handleinput.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="pch.cpp">
@@ -155,6 +156,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Falling Sand.h" />
+    <ClInclude Include="globals.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>

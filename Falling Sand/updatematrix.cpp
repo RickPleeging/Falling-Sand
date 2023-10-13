@@ -1,6 +1,5 @@
 #include "pch.h"
 
-extern Material Sand;
 
 
 void updatematrix(std::vector<std::vector<int>>& matrix, int worldheight, int worldwidth, sf::RenderWindow& window)
