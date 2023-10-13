@@ -3,11 +3,12 @@
 
 int ammount_created_pixels;
 
+
 void handleinput(std::vector<std::vector<int>>& matrix, sf::RenderWindow& window, sf::Event& event)
 {
 
 	//swap selcted material
-	static int selectedID = 1;
+
 
 	
 

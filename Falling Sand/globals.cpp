@@ -6,3 +6,5 @@ int cursorsize = 1;
 
 bool fullscreen;
 bool pause = false;
+
+int selectedID = 1;

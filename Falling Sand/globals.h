@@ -23,3 +23,5 @@ extern float dt;
 
 extern bool fullscreen;
 extern bool pause;
+
+extern int selectedID;

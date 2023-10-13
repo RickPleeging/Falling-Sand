@@ -39,24 +39,52 @@ void highlightmouse()
 
 }
 
-void drawperformanceoverlay(sf::RenderWindow& window)
+void draw_performanceoverlay(sf::RenderWindow& window)
 {
     
-    sf::Text text;
-    text.setFont(font); // Set the font
+    sf::Text t_deltatime;
+    t_deltatime.setFont(font); // Set the font
 
-    std::ostringstream oss;
-    oss << "Time: " << std::fixed << std::setprecision(3) << dt << " seconds";
-    text.setString(oss.str());
+    std::ostringstream dtstring;
+    dtstring << "Time: " << std::fixed << std::setprecision(3) << dt << " ms";
+    t_deltatime.setString(dtstring.str());
 
     
-    text.setCharacterSize(24); // Set the character size
-    text.setFillColor(sf::Color::White); // Set the color (optional)
+    t_deltatime.setCharacterSize(15); // Set the character size
+    t_deltatime.setFillColor(sf::Color::White); // Set the color (optional)
 
-    window.draw(text);
+    window.draw(t_deltatime);
 }
 
+void drawgameoverlay(sf::RenderWindow& window)
+{
+    sf::Text t_selectedMaterial;
+    t_selectedMaterial.setFont(font);
+    t_selectedMaterial.setFillColor(sf::Color::White);
+    t_selectedMaterial.setCharacterSize(20);
+    t_selectedMaterial.setPosition(150, 0);
 
+    std::ostringstream materialstring;
+    materialstring << "Selected Material: " << selectedID;
+    t_selectedMaterial.setString(materialstring.str());
+
+    window.draw(t_selectedMaterial);
+
+    if (pause == true)
+    {
+        sf::Text t_paused;
+        t_paused.setFont(font);
+        t_paused.setFillColor(sf::Color::White);
+        t_paused.setCharacterSize(30);
+        t_paused.setLetterSpacing(2);
+        t_paused.setPosition(0,60);
+
+        t_paused.setString("Paused!");
+        window.draw(t_paused);
+
+    }
+    
+}
 
 
 void draw(std::vector<std::vector<int>>& matrix, sf::RenderWindow& window) {
@@ -68,8 +96,9 @@ void draw(std::vector<std::vector<int>>& matrix, sf::RenderWindow& window) {
     window.draw(particles);
     
     //draw UI
-    drawperformanceoverlay(window);
- 
+    draw_performanceoverlay(window);
+    drawgameoverlay(window);
+
 
     // Draw mouse c
 
