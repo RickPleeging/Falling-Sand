@@ -6,32 +6,30 @@
 Material Sand("Sand", 1);
 Material Stone("Stone", 2);
 
-int height = 1000;
-int width = 1500;
-
-int pixelsize = 3;
-
-int worldheight = height / pixelsize;
-int worldwidth = width / pixelsize;
-
 
 
 
 int main() {
 
 
+	
 
 
+	sf::Uint32 windowstyle = sf::Style::Close;
 
-
+	if (startup() == true)
+	{
+		windowstyle = sf::Style::Fullscreen;
+	}
 
 
 	sf::Clock clock;
 	float dt; //updates per second
 
 
+	
 
-	sf::RenderWindow window(sf::VideoMode(width, height), "SandWindow", sf::Style::Close);
+	sf::RenderWindow window(sf::VideoMode(width, height), "SandWindow", windowstyle);
 	window.setFramerateLimit(144);
 
 	std::vector<std::vector<int>> matrix(worldheight, std::vector<int>(worldwidth, 0));
@@ -48,21 +46,23 @@ int main() {
 				window.close();
 
 
-			/////// RESIZE NOT IMPLEMENTED YET
-			//if (event.type == sf::Event::Resized)
-			//{
-			//	sf::Vector2u size = window.getSize();
-			//	width = size.x;
-			//	height = size.y;
+			///// RESIZE NOT IMPLEMENTED YET
+			/*
+			if (event.type == sf::Event::Resized)
+			{
+				sf::Vector2u size = window.getSize();
+				width = size.x;
+				height = size.y;
 
-			//	worldheight = height / pixelsize;
-			//	worldwidth = width / pixelsize;
+				worldheight = height / pixelsize;
+				worldwidth = width / pixelsize;
 
-			//	//this doesnt work for some reason
-			//	matrix.resize(worldheight, std::vector<int>(worldwidth, 0));\
-			//	//
-			//}
-			/////////
+				//this doesnt work for some reason
+				matrix.resize(worldheight, std::vector<int>(worldwidth, 0));
+				//
+			}
+			*/
+			///////
 		}
 
 

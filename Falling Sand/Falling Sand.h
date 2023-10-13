@@ -6,6 +6,7 @@
 
 /////////////////////
 //		Declerations
+bool startup();
 
 void updatematrix(std::vector<std::vector<int>>& matrix, int worldheight, int worldwidth, sf::RenderWindow& window);
 

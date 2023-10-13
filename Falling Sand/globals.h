@@ -8,5 +8,6 @@ extern int width;
 extern int worldwidth;
 extern int worldheight;
 extern int pixelsize;
+
 extern Material Sand;
 
