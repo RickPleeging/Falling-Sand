@@ -140,7 +140,9 @@
     <ClCompile Include="draw.cpp" />
     <ClCompile Include="Falling Sand.cpp" />
     <ClCompile Include="globals.cpp" />
+    <ClCompile Include="handleevents.cpp" />
     <ClCompile Include="handleinput.cpp" />
+    <ClCompile Include="initfont.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

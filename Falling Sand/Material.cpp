@@ -38,3 +38,5 @@ void Material::updatematerial(std::vector<std::vector<int>>& matrix, int i, int 
 
 }
 
+Material Sand("Sand", 1);
+Material Stone("Stone", 2);

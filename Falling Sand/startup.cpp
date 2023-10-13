@@ -3,16 +3,11 @@
 int height;
 int width;
 
-int pixelsize;
 
 int worldheight;
 int worldwidth;
 
-
-
-
-
-bool startup()
+void startup(bool& fullscreen)
 {
 
 	sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
@@ -42,11 +37,12 @@ bool startup()
 		worldheight = height / pixelsize;
 		worldwidth = width / pixelsize;
 		std::cout << "\nStartup Succesfull!\n\n\n\n\n";
-		return false;
+		
 		
 	}
 	if (choice == "f")
 	{
+		fullscreen = true;
 		height=desktopMode.height;
 		width=desktopMode.width;
 		
@@ -58,7 +54,7 @@ bool startup()
 		worldwidth = width / pixelsize;
 		std::cout << "Creating Window with height: " << height << " and width: " << width;
 		std::cout << "\n\nStartup Succesfull!\n\n\n\n\n";
-		return true;
+
 	}
 	if (choice == "c")
 	{
@@ -71,7 +67,7 @@ bool startup()
 		worldheight = height / pixelsize;
 		worldwidth = width / pixelsize;
 		std::cout << "\nStartup Succesfull!\n\n\n\n\n";
-		return false;
+
 	}
 	if (choice != "d" && choice != "f" && choice != "c")
 	{
