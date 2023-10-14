@@ -58,7 +58,7 @@ int main() {
 		// Inside your rendering function or game loop
 	
 		if (nodraw == false)
-		draw(matrix, window);
+		draw(matrix, window, event);
 		//
 		//		Main Loop End
 		//////////////////////////////

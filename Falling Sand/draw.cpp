@@ -37,20 +37,20 @@ void addParticle(float x, float y, const sf::Color& color) {
 
 
 
-void highlightmouse(sf::RenderWindow& window, std::vector<std::vector<int>>& matrix)
+void highlightmouse(sf::RenderWindow& window) // this cost me my sanity but it FUCKING WORKS FINNALY
 {
     mousehighlight.clear();
 
     sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-    float totalsize = (cursorsize * pixelsize)-pixelsize;
+    int totalsize = (cursorsize * pixelsize)-pixelsize;
 
     int rowindex = mousePos.y / pixelsize;
     int colindex = mousePos.x / pixelsize;
 
-    float startX = (colindex * pixelsize);
-    float startY = (rowindex * pixelsize);
-    float endX = ((colindex + 1) * pixelsize);
-    float endY = ((rowindex + 1) * pixelsize);
+    int startX = (colindex * pixelsize);
+    int startY = (rowindex * pixelsize);
+    int endX = ((colindex + 1) * pixelsize);
+    int endY = ((rowindex + 1) * pixelsize);
 
 
 	mousehighlight.append(sf::Vertex(sf::Vector2f(startX - totalsize, startY - totalsize), sf::Color::Green));
@@ -67,7 +67,7 @@ void draw_performanceoverlay(sf::RenderWindow& window)
     t_deltatime.setFont(font); // Set the font
 
     std::ostringstream dtstring;
-    dtstring << "Time: " << std::fixed << std::setprecision(3) << dt << " ms";
+    dtstring << "Time: " << std::fixed << std::setprecision(3) << dt << " seconds";
     t_deltatime.setString(dtstring.str());
 
     
@@ -108,8 +108,8 @@ void drawgameoverlay(sf::RenderWindow& window)
 }
 
 
-void draw(std::vector<std::vector<int>>& matrix, sf::RenderWindow& window) {
-    window.clear(sf::Color::Black);
+void draw(std::vector<std::vector<int>>& matrix, sf::RenderWindow& window,sf::Event& event) {
+    window.clear(sf::Color(55,55,55,255));
 
     initializeParticles(matrix);
 
@@ -121,7 +121,10 @@ void draw(std::vector<std::vector<int>>& matrix, sf::RenderWindow& window) {
     drawgameoverlay(window);
 
     // Draw mouse c
-    highlightmouse(window, matrix);
+    if (event.type == sf::Event::MouseMoved || event.type == sf::Event::MouseWheelScrolled)
+    { 
+    highlightmouse(window);
+    }
     window.draw(mousehighlight);
     //Display
     window.display();
