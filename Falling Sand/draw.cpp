@@ -4,6 +4,7 @@
 std::random_device rd;
 std::mt19937 mt(rd());
 
+sf::VertexArray mousehighlight(sf::LineStrip);
 
 
 sf::VertexArray particles(sf::Quads); // One vertex array for all particles
@@ -34,9 +35,29 @@ void addParticle(float x, float y, const sf::Color& color) {
     particles.append(sf::Vertex(sf::Vector2f(x, y + pixelsize), color));
 }
 
-void highlightmouse()
-{
 
+
+void highlightmouse(sf::RenderWindow& window, std::vector<std::vector<int>>& matrix)
+{
+    mousehighlight.clear();
+
+    sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+    float totalsize = (cursorsize * pixelsize)-pixelsize;
+
+    int rowindex = mousePos.y / pixelsize;
+    int colindex = mousePos.x / pixelsize;
+
+    float startX = (colindex * pixelsize);
+    float startY = (rowindex * pixelsize);
+    float endX = ((colindex + 1) * pixelsize);
+    float endY = ((rowindex + 1) * pixelsize);
+
+
+	mousehighlight.append(sf::Vertex(sf::Vector2f(startX - totalsize, startY - totalsize), sf::Color::Green));
+	mousehighlight.append(sf::Vertex(sf::Vector2f(endX + totalsize, startY - totalsize), sf::Color::Green));
+	mousehighlight.append(sf::Vertex(sf::Vector2f(endX + totalsize, endY + totalsize), sf::Color::Green));
+	mousehighlight.append(sf::Vertex(sf::Vector2f(startX - totalsize, endY + totalsize), sf::Color::Green));
+	mousehighlight.append(sf::Vertex(sf::Vector2f(startX - totalsize, startY - totalsize), sf::Color::Green));
 }
 
 void draw_performanceoverlay(sf::RenderWindow& window)
@@ -99,10 +120,9 @@ void draw(std::vector<std::vector<int>>& matrix, sf::RenderWindow& window) {
     draw_performanceoverlay(window);
     drawgameoverlay(window);
 
-
     // Draw mouse c
-
+    highlightmouse(window, matrix);
+    window.draw(mousehighlight);
+    //Display
     window.display();
 }
-
-

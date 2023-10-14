@@ -39,18 +39,14 @@ void handleinput(std::vector<std::vector<int>>& matrix, sf::RenderWindow& window
 		if (mousePos.y >= 0 && mousePos.y < worldheight && mousePos.x < worldwidth && mousePos.x >= 0)
 		{
 			
-			for (int i = 0; i < cursorsize; i++)
-				for (int j = 0; j < cursorsize; j++)
+			for (int i = 1-cursorsize; i < cursorsize; i++)
+				for (int j = 1-cursorsize; j < cursorsize; j++)
 				{
 					if (mousePos.y+i >= 0 && mousePos.y+i < worldheight && mousePos.x+j < worldwidth && mousePos.x+j >= 0)
 					{						
 						
 						matrix[mousePos.y+i][mousePos.x+j] = selectedID;
 						//std::cout << "x: " << mousePos.x << " y: " << mousePos.y << "\n"; //debug position	
-						
-						//count pixels (REALLY SLOW)
-						/*ammount_created_pixels++;
-						std::cout << "\nCreated Pixels total: " << ammount_created_pixels;*/
 					
 
 					

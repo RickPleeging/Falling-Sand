@@ -26,6 +26,8 @@ int main() {
 
 	std::vector<std::vector<int>> matrix(worldheight, std::vector<int>(worldwidth, 0));
 
+	
+
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -55,7 +57,7 @@ int main() {
 		//Draw
 		// Inside your rendering function or game loop
 	
-
+		if (nodraw == false)
 		draw(matrix, window);
 		//
 		//		Main Loop End

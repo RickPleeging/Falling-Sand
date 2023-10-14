@@ -8,6 +8,8 @@ extern int width;
 extern int worldwidth;
 extern int worldheight;
 extern int pixelsize;
+extern double worldarraysize;
+
 
 extern Material Sand;
 
@@ -22,6 +24,7 @@ extern int pixelsize;
 extern float dt;
 
 extern bool fullscreen;
+extern bool nodraw;
 extern bool pause;
 
 extern int selectedID;

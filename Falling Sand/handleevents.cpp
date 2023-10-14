@@ -6,7 +6,9 @@ extern bool pause;
 void handleevents(sf::Event& event, sf::RenderWindow& window)
 {
 	static int cursorsize_max = 100 / pixelsize;
-	static int increaserate = cursorsize_max / 5;
+	
+
+
 
 
 
@@ -16,6 +18,32 @@ void handleevents(sf::Event& event, sf::RenderWindow& window)
 	// x to close
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::X))
 		window.close();
+	if (event.type == sf::Event::MouseWheelScrolled)
+	{
+		if (event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel)
+		{
+			if (event.mouseWheelScroll.delta > 0)
+			{
+				//scrolled up
+				if (cursorsize > 1)
+				{
+					cursorsize --;
+				
+				}
+
+			}
+			else if (event.mouseWheelScroll.delta < 0)
+			{
+				//scrolled down
+				if (cursorsize < cursorsize_max)
+				{
+					cursorsize ++;
+					
+				}
+
+			}
+		}
+	}
 	// Keyboard Inputs
 	if (event.type == sf::Event::KeyPressed)
 	{
@@ -29,15 +57,17 @@ void handleevents(sf::Event& event, sf::RenderWindow& window)
 			break;
 
 		case sf::Keyboard::Hyphen:
-			if (cursorsize > 1)
-				cursorsize -= increaserate;
+			
 			break;
 
 		case sf::Keyboard::Equal:
-			if (cursorsize < cursorsize_max)
-				cursorsize += increaserate;
+		
 			break;
-
+		case sf::Keyboard::H:
+			if (nodraw == false)
+				nodraw = true;
+			else if (nodraw == true)
+				nodraw = false;
 		}
 
 
