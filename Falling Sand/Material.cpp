@@ -4,7 +4,7 @@
 Material::Material(std::string name, int id) : m_name(name), m_id(id) {}
 
 void Material::gravity(std::vector<std::vector<int>>& matrix, int i, int j) {
-    // Gravity logic
+    // Gravity logic (velocity)
 }
 
 void Material::updatematerial(std::vector<std::vector<int>>& matrix, int i, int j) {
@@ -34,4 +34,9 @@ void Material::updatematerial(std::vector<std::vector<int>>& matrix, int i, int 
 		matrix[i][j] = 0;
 		matrix[i + 1][j - 1] = 1;
 	}
+	
+
 }
+
+Material Sand("Sand", 1);
+Material Stone("Stone", 2);
