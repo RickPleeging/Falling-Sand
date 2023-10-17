@@ -3,6 +3,9 @@
 // Windows / Standard
 #include <iostream>
 #include <iomanip>
+#include <stdlib.h>
+#include <stdio.h>
+#include <time.h>
 #include <conio.h>
 #include <vector>
 #include <random>
@@ -19,4 +22,7 @@
 #include "Falling Sand.h"
 #include "Material.h"
 #include "globals.h"
+
+//#include "Elements.h"
+//#include "MovableSolids.h"
 

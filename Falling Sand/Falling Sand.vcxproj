@@ -138,6 +138,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="draw.cpp" />
+    <ClCompile Include="Elements.cpp" />
     <ClCompile Include="Falling Sand.cpp" />
     <ClCompile Include="globals.cpp" />
     <ClCompile Include="handleevents.cpp" />
@@ -158,6 +159,7 @@
     <ClCompile Include="updatematrix.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Elements.h" />
     <ClInclude Include="Falling Sand.h" />
     <ClInclude Include="globals.h" />
     <ClInclude Include="Material.h" />

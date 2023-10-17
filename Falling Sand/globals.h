@@ -12,6 +12,8 @@ extern double worldarraysize;
 
 
 extern Material Sand;
+extern Material Water;
+extern Material Stone;
 
 extern sf::Font font;
 
@@ -28,3 +30,6 @@ extern bool nodraw;
 extern bool pause;
 
 extern int selectedID;
+
+extern int selectedbrush;
+extern bool steponce;

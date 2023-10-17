@@ -15,10 +15,13 @@ void updatematrix(std::vector<std::vector<int>>& matrix, int worldheight, int wo
 				break;
 			case 1:
 				Sand.updatematerial(matrix, i, j);
+				
 				break;
 			case 2:
 				break;
-
+			case 3:
+				Water.updatematerial(matrix, i, j);
+				
 			}
 		}
 }

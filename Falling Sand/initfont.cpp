@@ -2,7 +2,7 @@
 
 void initfont()
 {
-	if (!font.loadFromFile("A:\\Rick\\Coding\\repos\\Falling-Sand\\Assets\\arial.ttf")) {
+	if (!font.loadFromFile("..\\Assets\\arial.ttf")) {
 		std::cout << "error loading font!";
 	}
 

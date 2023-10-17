@@ -2,6 +2,25 @@
 //Array	= [height/y/Rows]	[width/x/Columns]
 
 
+		//////////////////////////////
+		//		Notes
+		// 
+		// Todo: Create Classes and subclasses for Elements
+		// Todo: Make Array Resizable (create buffer array copy shit over, clear and resize ....)
+		// Todo: Change Array from INT to take in Elements as Parameters
+		// 
+		// Todo: New Elements
+		// Todo: Improve Brushes
+		// 
+		// Todo: Convert From Console Application to Windows Application
+		// Todo: Implement Menu Screen before game starts. (create 2 windows // or fix array resizing and do it in 1)
+		// 
+		//
+		// 
+		// 
+		//////////////////////////////
+
+
 
 sf::Font font;
 sf::Clock deltaclock;
@@ -11,6 +30,7 @@ float dt; //updates per second
 
 int main() {
 	
+
 
 	initfont();
 
@@ -42,7 +62,9 @@ int main() {
 
 		//delta time
 		dt = deltaclock.restart().asSeconds();
-
+		
+		//Create Random
+		
 		//std::cout << "delta: " << std::fixed << std::setprecision(3) << dt << "\n";
 		
 		//input
@@ -50,8 +72,11 @@ int main() {
 
 
 			//Update the matrix
-		if (pause == false)
+		if (pause == false || steponce == true)
+		{
 			updatematrix(matrix, worldheight, worldwidth, window);
+			steponce = false;
+		}
 		
 
 		//Draw

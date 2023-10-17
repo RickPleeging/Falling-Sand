@@ -19,10 +19,15 @@ void initializeParticles(std::vector<std::vector<int>>& matrix) {
             case 1: // Sand particle
                 addParticle(j * pixelsize, i * pixelsize, sf::Color::Yellow);
                 break;
+
             case 2: // Stone particle
                 addParticle(j * pixelsize, i * pixelsize, sf::Color::White);
                 break;
                 // Add more cases for other particle types if needed
+
+            case 3: //Water
+                addParticle(j * pixelsize, i * pixelsize, sf::Color::Blue);
+                break;
             }
         }
     }

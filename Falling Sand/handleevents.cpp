@@ -3,6 +3,8 @@
 
 extern bool pause;
 
+
+
 void handleevents(sf::Event& event, sf::RenderWindow& window)
 {
 	static int cursorsize_max = 100 / pixelsize;
@@ -24,21 +26,21 @@ void handleevents(sf::Event& event, sf::RenderWindow& window)
 		{
 			if (event.mouseWheelScroll.delta > 0)
 			{
-				//scrolled up
-				if (cursorsize > 1)
-				{
-					cursorsize --;
-				
-				}
-
-			}
-			else if (event.mouseWheelScroll.delta < 0)
-			{
 				//scrolled down
 				if (cursorsize < cursorsize_max)
 				{
 					cursorsize ++;
 					
+				}
+
+			}
+			else if (event.mouseWheelScroll.delta < 0)
+			{
+				//scrolled up
+				if (cursorsize > 1)
+				{
+					cursorsize --;
+				
 				}
 
 			}
@@ -57,17 +59,29 @@ void handleevents(sf::Event& event, sf::RenderWindow& window)
 			break;
 
 		case sf::Keyboard::Hyphen:
-			
+
 			break;
 
 		case sf::Keyboard::Equal:
-		
+
 			break;
 		case sf::Keyboard::H:
 			if (nodraw == false)
 				nodraw = true;
 			else if (nodraw == true)
 				nodraw = false;
+			break;
+		case sf::Keyboard::Period:
+			if (selectedbrush < 3)
+				selectedbrush++;
+			break;
+		case sf::Keyboard::Comma:
+		
+			if (selectedbrush > 1)
+				selectedbrush--;
+			break;
+		case sf::Keyboard::Space:
+			steponce = true;
 		}
 
 
