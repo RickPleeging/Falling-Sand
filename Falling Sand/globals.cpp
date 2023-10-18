@@ -13,3 +13,6 @@ int selectedID = 1;
 int selectedbrush = 1;
 
 bool steponce = false;
+
+Sand sand;
+Liquids water;

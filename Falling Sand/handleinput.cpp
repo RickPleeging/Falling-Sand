@@ -4,7 +4,7 @@
 int ammount_created_pixels;
 
 
-void handleinput(std::vector<std::vector<int>>& matrix, sf::RenderWindow& window, sf::Event& event)
+void handleinput(std::vector<std::vector<Pixels>>& matrix, sf::RenderWindow& window, sf::Event& event)
 {
 
 	//swap selcted material
@@ -33,7 +33,7 @@ void handleinput(std::vector<std::vector<int>>& matrix, sf::RenderWindow& window
 	{
 		for (int i = worldheight - 1; i >= 0; i--)
 			for (int j = worldwidth - 1; j >= 0; j--)
-				matrix[i][j] = 0;
+				matrix[i][j].ID = 0;
 	}
 	
 
@@ -61,7 +61,7 @@ void handleinput(std::vector<std::vector<int>>& matrix, sf::RenderWindow& window
 						if (mousePos.y + i >= 0 && mousePos.y + i < worldheight && mousePos.x + j < worldwidth && mousePos.x + j >= 0)
 						{
 
-							matrix[mousePos.y + i][mousePos.x + j] = selectedID;
+							matrix[mousePos.y + i][mousePos.x + j].ID = selectedID;
 							//std::cout << "x: " << mousePos.x << " y: " << mousePos.y << "\n"; //debug position	
 						}
 					}
@@ -77,7 +77,7 @@ void handleinput(std::vector<std::vector<int>>& matrix, sf::RenderWindow& window
 						if (mousePos.y + i >= 0 && mousePos.y + i < worldheight && mousePos.x + j < worldwidth && mousePos.x + j >= 0 && rng1 < 5)
 						{
 							
-							matrix[mousePos.y + i][mousePos.x + j] = selectedID;
+							matrix[mousePos.y + i][mousePos.x + j].ID = selectedID;
 							//std::cout << "x: " << mousePos.x << " y: " << mousePos.y << "\n"; //debug position	
 						}
 					}
@@ -90,7 +90,7 @@ void handleinput(std::vector<std::vector<int>>& matrix, sf::RenderWindow& window
 						if (mousePos.y + i >= 0 && mousePos.y + i < worldheight && mousePos.x + j < worldwidth && mousePos.x + j >= 0 && rng1 < 5)
 						{
 							
-							matrix[mousePos.y + i][mousePos.x + j] = selectedID;
+							matrix[mousePos.y + i][mousePos.x + j].ID = selectedID;
 							//std::cout << "x: " << mousePos.x << " y: " << mousePos.y << "\n"; //debug position	
 						}
 					}

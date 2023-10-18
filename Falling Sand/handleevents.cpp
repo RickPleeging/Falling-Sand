@@ -99,7 +99,7 @@ void handleevents(sf::Event& event, sf::RenderWindow& window)
 		worldwidth = width / pixelsize;
 
 		//this doesnt work for some reason
-		matrix.resize(worldheight, std::vector<int>(worldwidth, 0));
+		matrix.resize(worldheight, std::vector<Material>(worldwidth, 0));
 		//
 	}
 	*/

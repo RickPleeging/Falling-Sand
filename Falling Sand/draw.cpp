@@ -9,13 +9,13 @@ sf::VertexArray mousehighlight(sf::LineStrip);
 
 sf::VertexArray particles(sf::Quads); // One vertex array for all particles
 
-void initializeParticles(std::vector<std::vector<int>>& matrix) {
+void initializeParticles(std::vector<std::vector<Pixels>>& matrix) {
     particles.clear(); // Clear the existing vertex array
   
 
     for (int i = 0; i < worldheight; ++i) {
         for (int j = 0; j < worldwidth; ++j) {
-            switch (matrix[i][j]) {
+            switch (matrix[i][j].ID) {
             case 1: // Sand particle
                 addParticle(j * pixelsize, i * pixelsize, sf::Color::Yellow);
                 break;
@@ -113,7 +113,7 @@ void drawgameoverlay(sf::RenderWindow& window)
 }
 
 
-void draw(std::vector<std::vector<int>>& matrix, sf::RenderWindow& window,sf::Event& event) {
+void draw(std::vector<std::vector<Pixels>>& matrix, sf::RenderWindow& window,sf::Event& event) {
     window.clear(sf::Color(55,55,55,255));
 
     initializeParticles(matrix);

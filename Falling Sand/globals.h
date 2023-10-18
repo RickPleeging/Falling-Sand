@@ -11,10 +11,6 @@ extern int pixelsize;
 extern double worldarraysize;
 
 
-extern Material Sand;
-extern Material Water;
-extern Material Stone;
-
 extern sf::Font font;
 
 extern int cursorsize;
@@ -33,3 +29,6 @@ extern int selectedID;
 
 extern int selectedbrush;
 extern bool steponce;
+
+extern Sand sand;
+extern Liquids water;

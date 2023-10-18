@@ -44,9 +44,14 @@ int main() {
 	sf::RenderWindow window(sf::VideoMode(width, height), "SandWindow", windowstyle);
 	window.setFramerateLimit(144);
 
-	std::vector<std::vector<int>> matrix(worldheight, std::vector<int>(worldwidth, 0));
+	std::vector<std::vector<Pixels>> matrix(worldheight, std::vector<Pixels>(worldwidth));
 
-	
+	for (int i = worldheight - 1; i >= 0; i--)
+		for (int j = worldwidth - 1; j >= 0; j--)
+		{
+			matrix[i][j].ID = 0;
+		}
+
 
 	while (window.isOpen())
 	{

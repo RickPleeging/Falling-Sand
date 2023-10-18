@@ -19,10 +19,9 @@
 #include "SFML/Window.hpp"
 
 //My Headers
+#include "Elements.h"
 #include "Falling Sand.h"
-#include "Material.h"
 #include "globals.h"
 
-//#include "Elements.h"
-//#include "MovableSolids.h"
+//#include "Material.h"
 
