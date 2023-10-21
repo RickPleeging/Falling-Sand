@@ -2,27 +2,36 @@
 
 
 
-void updatematrix(std::vector<std::vector<Pixels>>& matrix, int worldheight, int worldwidth, sf::RenderWindow& window)
+void updatematrix(std::vector<std::vector<Elements>>& matrix, int worldheight, int worldwidth, sf::RenderWindow& window)
 {
+	for (int i = worldheight - 1; i >= 0; i--)
+		for (int j = worldwidth - 1; j >= 0; j--)
+		{
+			matrix[i][j].m_wasupdated = false;
+		}
 
 
 	for (int i = worldheight - 1; i >= 0; i--)
 		for (int j = worldwidth - 1; j >= 0; j--)
 		{
-			switch (matrix[i][j].ID)
+			switch (matrix[i][j].m_ID)
 			{
 			case 0:
 				break;
-			case 1:
-				sand.updatematerial(matrix, i, j);
-				
+			case 1: 
+				SAND.updateelement(matrix, i, j);
 				break;
 			case 2:
+				WATER.updateelement(matrix, i, j);
+				//debug
 				break;
 			case 3:
-				water.updatematerial(matrix, i, j);
+				STONE.updateelement(matrix, i, j);
+				break;
 				
 			}
 		}
+
+	
 }
 

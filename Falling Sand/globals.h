@@ -30,5 +30,22 @@ extern int selectedID;
 extern int selectedbrush;
 extern bool steponce;
 
-extern Sand sand;
-extern Liquids water;
+class Elements;
+class Solids;
+class MovableSolids;
+class ImmovableSolids;
+class Liquids;
+
+class Sand;
+class Water;
+class Stone;
+
+
+extern Elements AIR;
+extern Elements selection;
+
+extern Sand SAND;
+extern Water WATER;
+extern Stone STONE;
+
+using Matrix = std::vector<std::vector<Elements>>;

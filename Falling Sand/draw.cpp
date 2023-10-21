@@ -9,24 +9,25 @@ sf::VertexArray mousehighlight(sf::LineStrip);
 
 sf::VertexArray particles(sf::Quads); // One vertex array for all particles
 
-void initializeParticles(std::vector<std::vector<Pixels>>& matrix) {
+void initializeParticles(std::vector<std::vector<Elements>>& matrix) {
     particles.clear(); // Clear the existing vertex array
   
 
     for (int i = 0; i < worldheight; ++i) {
         for (int j = 0; j < worldwidth; ++j) {
-            switch (matrix[i][j].ID) {
+            switch (matrix[i][j].m_ID) {
+            // do this:  sf::Color(matrix[i][j].color));
             case 1: // Sand particle
                 addParticle(j * pixelsize, i * pixelsize, sf::Color::Yellow);
                 break;
 
-            case 2: // Stone particle
-                addParticle(j * pixelsize, i * pixelsize, sf::Color::White);
+            case 2: //Water
+                addParticle(j * pixelsize, i * pixelsize, sf::Color::Blue);
                 break;
                 // Add more cases for other particle types if needed
 
-            case 3: //Water
-                addParticle(j * pixelsize, i * pixelsize, sf::Color::Blue);
+            case 3: // Stone particle
+                addParticle(j * pixelsize, i * pixelsize, sf::Color::White);
                 break;
             }
         }
@@ -91,7 +92,7 @@ void drawgameoverlay(sf::RenderWindow& window)
     t_selectedMaterial.setPosition(150, 0);
 
     std::ostringstream materialstring;
-    materialstring << "Selected Material: " << selectedID;
+    materialstring << "Selected Material: " << selection.m_name;
     t_selectedMaterial.setString(materialstring.str());
 
     window.draw(t_selectedMaterial);
@@ -113,7 +114,7 @@ void drawgameoverlay(sf::RenderWindow& window)
 }
 
 
-void draw(std::vector<std::vector<Pixels>>& matrix, sf::RenderWindow& window,sf::Event& event) {
+void draw(std::vector<std::vector<Elements>>& matrix, sf::RenderWindow& window,sf::Event& event) {
     window.clear(sf::Color(55,55,55,255));
 
     initializeParticles(matrix);

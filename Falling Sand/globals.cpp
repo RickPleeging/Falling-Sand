@@ -14,5 +14,8 @@ int selectedbrush = 1;
 
 bool steponce = false;
 
-Sand sand;
-Liquids water;
+Elements AIR;
+Elements selection;
+Sand SAND;
+Water WATER;
+Stone STONE;
