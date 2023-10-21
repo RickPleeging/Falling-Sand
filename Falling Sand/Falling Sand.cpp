@@ -5,7 +5,7 @@
 		//////////////////////////////
 		//		Notes
 		// 
-		// Todo: Create Classes and subclasses for Elements
+		// 
 		// Todo: Make Array Resizable (create buffer array copy shit over, clear and resize ....)
 		// Todo: Change Array from INT to take in Elements as Parameters
 		// 
@@ -44,9 +44,15 @@ int main() {
 	sf::RenderWindow window(sf::VideoMode(width, height), "SandWindow", windowstyle);
 	window.setFramerateLimit(144);
 
-	std::vector<std::vector<int>> matrix(worldheight, std::vector<int>(worldwidth, 0));
+	std::vector<std::vector<Elements>> matrix(worldheight, std::vector<Elements>(worldwidth));
 
-	
+
+	/*for (int i = worldheight - 1; i >= 0; i--)
+		for (int j = worldwidth - 1; j >= 0; j--)
+		{
+			matrix[i][j] = elements;
+		}*/
+
 
 	while (window.isOpen())
 	{

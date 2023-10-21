@@ -1,39 +1,49 @@
 #include "pch.h"
 #include "Falling Sand.h"
-
+#include "globals.h"
 int ammount_created_pixels;
 
 
-void handleinput(std::vector<std::vector<int>>& matrix, sf::RenderWindow& window, sf::Event& event)
+
+void handleinput(std::vector<std::vector<Elements>>& matrix, sf::RenderWindow& window, sf::Event& event)
 {
 
 	//swap selcted material
-
 
 	
 
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num0))
 	{
-		selectedID = 0;
+		//selectedID = 0;
+		selection = AIR;
+		
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1))
 	{
-		selectedID = 1;
+		//selectedID = 1;
+		selection = SAND;
+		//std::cout << selection.m_ID;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2))
 	{
-		selectedID = 2;
+		selection = WATER;
+		//selectedID = 2;
+		//std::cout << selection.m_ID;
+
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3))
 	{
-		selectedID = 3;
+		selection = STONE;
+		//selectedID = 3;
+		//std::cout << selection.m_ID;
+
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::R)) //reset screen
 	{
 		for (int i = worldheight - 1; i >= 0; i--)
 			for (int j = worldwidth - 1; j >= 0; j--)
-				matrix[i][j] = 0;
+				matrix[i][j].m_ID = 0;
 	}
 	
 
@@ -61,7 +71,7 @@ void handleinput(std::vector<std::vector<int>>& matrix, sf::RenderWindow& window
 						if (mousePos.y + i >= 0 && mousePos.y + i < worldheight && mousePos.x + j < worldwidth && mousePos.x + j >= 0)
 						{
 
-							matrix[mousePos.y + i][mousePos.x + j] = selectedID;
+							matrix[mousePos.y + i][mousePos.x + j] = selection;
 							//std::cout << "x: " << mousePos.x << " y: " << mousePos.y << "\n"; //debug position	
 						}
 					}
@@ -77,7 +87,7 @@ void handleinput(std::vector<std::vector<int>>& matrix, sf::RenderWindow& window
 						if (mousePos.y + i >= 0 && mousePos.y + i < worldheight && mousePos.x + j < worldwidth && mousePos.x + j >= 0 && rng1 < 5)
 						{
 							
-							matrix[mousePos.y + i][mousePos.x + j] = selectedID;
+							matrix[mousePos.y + i][mousePos.x + j] = selection;
 							//std::cout << "x: " << mousePos.x << " y: " << mousePos.y << "\n"; //debug position	
 						}
 					}
@@ -90,7 +100,7 @@ void handleinput(std::vector<std::vector<int>>& matrix, sf::RenderWindow& window
 						if (mousePos.y + i >= 0 && mousePos.y + i < worldheight && mousePos.x + j < worldwidth && mousePos.x + j >= 0 && rng1 < 5)
 						{
 							
-							matrix[mousePos.y + i][mousePos.x + j] = selectedID;
+							matrix[mousePos.y + i][mousePos.x + j] = selection;
 							//std::cout << "x: " << mousePos.x << " y: " << mousePos.y << "\n"; //debug position	
 						}
 					}

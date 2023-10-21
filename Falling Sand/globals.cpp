@@ -13,3 +13,9 @@ int selectedID = 1;
 int selectedbrush = 1;
 
 bool steponce = false;
+
+Elements AIR;
+Elements selection;
+Sand SAND;
+Water WATER;
+Stone STONE;
