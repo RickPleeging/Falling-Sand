@@ -16,6 +16,8 @@ bool steponce = false;
 
 Elements AIR;
 Elements selection;
+Elements temp;
 Sand SAND;
 Water WATER;
 Stone STONE;
+

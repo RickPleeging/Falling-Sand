@@ -154,6 +154,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="randoms.cpp" />
     <ClCompile Include="startup.cpp" />
     <ClCompile Include="updatematrix.cpp" />
   </ItemGroup>

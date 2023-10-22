@@ -60,6 +60,9 @@
     <ClCompile Include="Elements.cpp">
       <Filter>Source Files\Classes\Elements</Filter>
     </ClCompile>
+    <ClCompile Include="randoms.cpp">
+      <Filter>Source Files\Functions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">

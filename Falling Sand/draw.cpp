@@ -15,20 +15,9 @@ void initializeParticles(std::vector<std::vector<Elements>>& matrix) {
 
     for (int i = 0; i < worldheight; ++i) {
         for (int j = 0; j < worldwidth; ++j) {
-            switch (matrix[i][j].m_ID) {
-            // do this:  sf::Color(matrix[i][j].color));
-            case 1: // Sand particle
-                addParticle(j * pixelsize, i * pixelsize, sf::Color::Yellow);
-                break;
-
-            case 2: //Water
-                addParticle(j * pixelsize, i * pixelsize, sf::Color::Blue);
-                break;
-                // Add more cases for other particle types if needed
-
-            case 3: // Stone particle
-                addParticle(j * pixelsize, i * pixelsize, sf::Color::White);
-                break;
+            if (matrix[i][j].m_ID != 0)
+            {
+                addParticle(j * pixelsize, i * pixelsize, sf::Color(matrix[i][j].m_color));
             }
         }
     }

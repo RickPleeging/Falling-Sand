@@ -20,6 +20,8 @@ void handleevents(sf::Event& event, sf::RenderWindow& window);
 
 void initfont();
 
+int getRandom();
+
 //
 /////////////////////
 

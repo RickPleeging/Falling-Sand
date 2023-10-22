@@ -43,6 +43,7 @@ class Stone;
 
 extern Elements AIR;
 extern Elements selection;
+extern Elements temp;
 
 extern Sand SAND;
 extern Water WATER;

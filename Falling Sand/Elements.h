@@ -23,6 +23,7 @@ public:
 	int m_ID;
 	float m_velocity;
 	float m_maxvelocity;
+	int m_maxdispersal;
 	float m_weight;
 	float health;
 	float hardness;
@@ -33,14 +34,18 @@ public:
 	bool m_isfreefaling;
 
 
-	sf::Color color;
+	sf::Color m_color;
+
+
 	Elements();
 
-	void gravity(Matrix& matrix, int i, int j);
+	inline bool completeboundscheck(int i, int j);
+
+	inline void gravity(Matrix& matrix, int i, int j);
 	void moveSideways(Matrix& matrix, int i, int j);
 	void moveDiagonallydown(Matrix& matrix, int i, int j);
 
-
+	void swapelements(Matrix& matrix, int i, int j, int i2, int j2);
 	void updateelement(Matrix& matrix, int i, int j);
 };
 
@@ -50,18 +55,13 @@ public:
 //  Solids
 class Solids : public Elements {
 public:
-
 	Solids();
-
 };
 
 class MovableSolids : public Solids {
 public:
-
 	MovableSolids();
-
 	void updateelement(Matrix& matrix, int i, int j);
-
 };
 
 class ImmovableSolids : public Solids {
@@ -90,6 +90,7 @@ public:
 class Sand : public MovableSolids {
 public:
 	Sand();
+	void updateelement(Matrix& matrix, int i, int j);
 };
 
 class Water : public Liquids {
@@ -100,7 +101,6 @@ public:
 class Stone : public ImmovableSolids {
 public:
 	Stone();
-
 };
 
 //

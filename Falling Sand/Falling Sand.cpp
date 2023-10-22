@@ -47,13 +47,6 @@ int main() {
 	std::vector<std::vector<Elements>> matrix(worldheight, std::vector<Elements>(worldwidth));
 
 
-	/*for (int i = worldheight - 1; i >= 0; i--)
-		for (int j = worldwidth - 1; j >= 0; j--)
-		{
-			matrix[i][j] = elements;
-		}*/
-
-
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -71,6 +64,7 @@ int main() {
 		
 		//Create Random
 		
+
 		//std::cout << "delta: " << std::fixed << std::setprecision(3) << dt << "\n";
 		
 		//input
