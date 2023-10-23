@@ -11,6 +11,7 @@ void updatematrix(std::vector<std::vector<Elements>>& matrix, int worldheight, i
 		}
 
 
+
 	for (int i = worldheight - 1; i >= 0; i--)
 		for (int j = worldwidth - 1; j >= 0; j--)
 		{
@@ -28,6 +29,12 @@ void updatematrix(std::vector<std::vector<Elements>>& matrix, int worldheight, i
 					break;
 				case 3:
 					STONE.updateelement(matrix, i, j);
+					break;
+				case 4:
+					SMOKE.updateelement(matrix, i, j);
+					break;
+				case 100:
+					SPAWNER.updateelement(matrix, i, j);
 					break;
 				}
 			}

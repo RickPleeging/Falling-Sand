@@ -7,7 +7,7 @@ int ammount_created_pixels;
 
 void handleinput(std::vector<std::vector<Elements>>& matrix, sf::RenderWindow& window, sf::Event& event)
 {
-
+	
 	//swap selcted material
 
 	
@@ -15,30 +15,41 @@ void handleinput(std::vector<std::vector<Elements>>& matrix, sf::RenderWindow& w
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num0))
 	{
-		//selectedID = 0;
 		selection = AIR;
-		
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1))
 	{
-		//selectedID = 1;
 		selection = SAND;
-		//std::cout << selection.m_ID;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2))
 	{
 		selection = WATER;
-		//selectedID = 2;
-		//std::cout << selection.m_ID;
-
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3))
 	{
 		selection = STONE;
-		//selectedID = 3;
-		//std::cout << selection.m_ID;
-
 	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num4))
+	{
+		selection = SMOKE;
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+	{
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1))
+		{
+			spawnID = 1;
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2))
+		{
+			spawnID = 2;
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num4))
+		{
+			spawnID = 4;
+		}
+	}
+
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::R)) //reset screen
 	{
 		for (int i = worldheight - 1; i >= 0; i--)
@@ -105,16 +116,21 @@ void handleinput(std::vector<std::vector<Elements>>& matrix, sf::RenderWindow& w
 						}
 					}
 				break;
-			
-			}
-			
-			
-			
-
+			}	
 		}
-
 	}
 
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
+	{
+		sf::Vector2i mousePos = sf::Mouse::getPosition(window) / pixelsize;
 
+		if (mousePos.y >= 0 && mousePos.y < worldheight && mousePos.x < worldwidth && mousePos.x >= 0)
+		{
+			//matrix[mousePos.y][mousePos.x] = Spawners();
 
+			matrix[mousePos.y][mousePos.x] = SPAWNER;
+			matrix[mousePos.y][mousePos.x].m_spawnID = spawnID;
+			//std::cout << "x: " << mousePos.x << " y: " << mousePos.y << "\n"; //debug position	
+		}
+	}
 }

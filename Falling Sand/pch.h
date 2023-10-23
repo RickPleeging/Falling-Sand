@@ -21,6 +21,7 @@
 //My Headers
 #include "globals.h"
 #include "Elements.h"
+#include "Spawners.h"
 #include "Falling Sand.h"
 //#include "Material.h"
 

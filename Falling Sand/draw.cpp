@@ -48,6 +48,7 @@ void highlightmouse(sf::RenderWindow& window) // this cost me my sanity but it F
     int endY = ((rowindex + 1) * pixelsize);
 
 
+
 	mousehighlight.append(sf::Vertex(sf::Vector2f(startX - totalsize, startY - totalsize), sf::Color::Green));
 	mousehighlight.append(sf::Vertex(sf::Vector2f(endX + totalsize, startY - totalsize), sf::Color::Green));
 	mousehighlight.append(sf::Vertex(sf::Vector2f(endX + totalsize, endY + totalsize), sf::Color::Green));

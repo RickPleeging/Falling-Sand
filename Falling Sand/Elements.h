@@ -26,13 +26,19 @@ public:
 	int m_maxdispersal;
 	float m_weight;
 	float health;
+	float lifetime;
 	float hardness;
 	float fireresistance;
+	int m_spawnID;
+
 
 
 	bool m_wasupdated;
 	bool m_isfreefaling;
 
+	bool issolid;
+	bool isliquid;
+	bool isgas;
 
 	sf::Color m_color;
 
@@ -42,8 +48,11 @@ public:
 	inline bool completeboundscheck(int i, int j);
 
 	inline void gravity(Matrix& matrix, int i, int j);
+	inline void inverse_gravity(Matrix& matrix, int i, int j);
+
 	void moveSideways(Matrix& matrix, int i, int j);
 	void moveDiagonallydown(Matrix& matrix, int i, int j);
+	void moveDiagonallyup(Matrix& matrix, int i, int j);
 
 	void swapelements(Matrix& matrix, int i, int j, int i2, int j2);
 	void updateelement(Matrix& matrix, int i, int j);
@@ -84,6 +93,18 @@ public:
 ////////////////
 
 
+///////////////
+//	Gas
+
+class Gas : public Elements {
+public:
+	Gas();
+	void updateelement(Matrix& matrix, int i, int j);
+};
+//
+////////////////
+
+
 ///////////////////////////////////////////////////////////
 //					Individual Elements
 
@@ -101,6 +122,13 @@ public:
 class Stone : public ImmovableSolids {
 public:
 	Stone();
+};
+
+class Smoke : public Gas
+{
+public:
+	Smoke();
+
 };
 
 //

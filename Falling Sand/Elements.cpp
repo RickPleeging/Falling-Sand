@@ -18,13 +18,18 @@ Elements::Elements() {
 	m_wasupdated = false;
 }
 Liquids::Liquids() {
+	isliquid = true;
 }
 
 Solids::Solids() {
+	issolid = true;
 }
 MovableSolids::MovableSolids() {
 }
 ImmovableSolids::ImmovableSolids() {
+}
+Gas::Gas() {
+	isgas = true;
 }
 
 //
@@ -53,6 +58,13 @@ Stone::Stone() {
 	m_name = "Stone";
 	m_ID = 3;
 	m_color = sf::Color(122, 116, 116,255);
+}
+
+Smoke::Smoke() {
+	m_name = "Smoke";
+	m_ID = 4;
+	m_color = sf::Color(30, 30, 30, 150);
+
 }
 
 //
@@ -124,6 +136,22 @@ void Elements::moveDiagonallydown(Matrix& matrix, int i, int j) {
 	
 	}
 }
+void Elements::moveDiagonallyup(Matrix& matrix, int i, int j) {
+	if (i - 1 > 0 && j + 1 < worldwidth && matrix[i - 1][j + 1].m_ID == 0 && matrix[i][j + 1].m_ID == 0) //move up right
+	{
+		matrix[i - 1][j + 1] = matrix[i][j];
+		matrix[i][j] = AIR;
+		matrix[i - 1][j + 1].m_wasupdated = true;
+
+	}
+	else if (i - 1 > 0 && j -1 > 0 && matrix[i - 1][j - 1].m_ID == 0 && matrix[i][j - 1].m_ID == 0) //move up left
+	{
+		matrix[i - 1][j - 1] = matrix[i][j];
+		matrix[i][j] = AIR;
+		matrix[i - 1][j - 1].m_wasupdated = true;
+
+	}
+}
 void Elements::swapelements(Matrix& matrix, int i, int j, int i2, int j2) {
 	
 	temp = matrix[i][j];
@@ -135,6 +163,16 @@ void Elements::swapelements(Matrix& matrix, int i, int j, int i2, int j2) {
 	matrix[i2][j2].m_wasupdated = true;
 
 }
+
+inline void Elements::inverse_gravity(Matrix& matrix, int i, int j){
+	if (i - 1 > 0 && matrix[i - 1][j].m_ID == 0)
+	{
+		matrix[i - 1][j] = matrix[i][j];
+		matrix[i][j] = AIR;
+		matrix[i - 1][j].m_wasupdated = true;
+	}
+}
+
 
 ////////////////////////
 //		 Solids
@@ -157,6 +195,20 @@ void Liquids::updateelement(Matrix& matrix, int i, int j) {
 //		LIQUIDS
 ////////////////////////
 
+
+////////////////////////
+//		Gas
+
+void Gas::updateelement(Matrix& matrix, int i, int j) {
+	inverse_gravity(matrix, i, j);
+	moveDiagonallyup(matrix, i, j);
+	moveSideways(matrix,i,j);
+}
+//		Gas
+////////////////////////
+
+
+
 //					CLASS FUNCTIONS
 //////////////////////////////////////////////////////
 
@@ -170,7 +222,7 @@ void Liquids::updateelement(Matrix& matrix, int i, int j) {
 void Sand::updateelement(Matrix& matrix, int i, int j){
 
 	
-	if (completeboundscheck(i, j) == true && matrix[i + 1][j].m_ID == 2)
+	if (completeboundscheck(i, j) == true && matrix[i + 1][j].isliquid == true || completeboundscheck(i, j) == true && matrix[i+1][j].isgas == true)
 	{
 		swapelements(matrix,i,j, i+1,j);
 		//std::cout << "Sand touched Water!";

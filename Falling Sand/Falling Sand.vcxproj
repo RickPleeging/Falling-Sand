@@ -155,6 +155,7 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="randoms.cpp" />
+    <ClCompile Include="Spawners.cpp" />
     <ClCompile Include="startup.cpp" />
     <ClCompile Include="updatematrix.cpp" />
   </ItemGroup>
@@ -163,6 +164,7 @@
     <ClInclude Include="Falling Sand.h" />
     <ClInclude Include="globals.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Spawners.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

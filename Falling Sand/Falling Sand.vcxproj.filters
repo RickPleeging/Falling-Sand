@@ -25,7 +25,10 @@
     <Filter Include="Source Files\Classes\Elements">
       <UniqueIdentifier>{323d0c17-34e5-49f1-b210-4911b1c49c60}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Elements">
+    <Filter Include="Header Files\Classes">
+      <UniqueIdentifier>{63634a22-1923-4683-934c-69410a14426b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Classes\Elements">
       <UniqueIdentifier>{5780f7d0-9885-46b6-b366-ec3e34bfb198}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -63,6 +66,9 @@
     <ClCompile Include="randoms.cpp">
       <Filter>Source Files\Functions</Filter>
     </ClCompile>
+    <ClCompile Include="Spawners.cpp">
+      <Filter>Source Files\Classes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -75,7 +81,10 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Elements.h">
-      <Filter>Header Files\Elements</Filter>
+      <Filter>Header Files\Classes\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Spawners.h">
+      <Filter>Header Files\Classes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

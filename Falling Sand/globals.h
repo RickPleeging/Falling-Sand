@@ -26,20 +26,24 @@ extern bool nodraw;
 extern bool pause;
 
 extern int selectedID;
-
+extern int spawnID;
 extern int selectedbrush;
 extern bool steponce;
+
 
 class Elements;
 class Solids;
 class MovableSolids;
 class ImmovableSolids;
 class Liquids;
+class Gas;
+
+class Spawners;
 
 class Sand;
 class Water;
 class Stone;
-
+class Smoke;
 
 extern Elements AIR;
 extern Elements selection;
@@ -48,5 +52,8 @@ extern Elements temp;
 extern Sand SAND;
 extern Water WATER;
 extern Stone STONE;
+extern Smoke SMOKE;
+
+extern Spawners SPAWNER;
 
 using Matrix = std::vector<std::vector<Elements>>;
