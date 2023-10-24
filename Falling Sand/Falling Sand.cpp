@@ -7,7 +7,7 @@
 		// 
 		// 
 		// Todo: Make Array Resizable (create buffer array copy shit over, clear and resize ....)
-		// Todo: Change Array from INT to take in Elements as Parameters
+		// 
 		// 
 		// Todo: New Elements
 		// Todo: Improve Brushes

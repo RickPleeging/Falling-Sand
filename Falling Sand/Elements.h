@@ -32,7 +32,6 @@ public:
 	int m_spawnID;
 
 
-
 	bool m_wasupdated;
 	bool m_isfreefaling;
 
@@ -45,17 +44,18 @@ public:
 
 	Elements();
 
-	inline bool completeboundscheck(int i, int j);
+	inline bool completeboundscheck(int y, int x);
 
-	inline void gravity(Matrix& matrix, int i, int j);
-	inline void inverse_gravity(Matrix& matrix, int i, int j);
+	inline void gravity(Matrix& matrix, int y, int x);
+	inline void inverse_gravity(Matrix& matrix, int y, int x);
 
-	void moveSideways(Matrix& matrix, int i, int j);
-	void moveDiagonallydown(Matrix& matrix, int i, int j);
-	void moveDiagonallyup(Matrix& matrix, int i, int j);
+	void moveSideways(Matrix& matrix, int y, int x);
+	void moveDiagonallydown(Matrix& matrix, int y, int x);
+	void moveDiagonallyup(Matrix& matrix, int y, int x);
 
-	void swapelements(Matrix& matrix, int i, int j, int i2, int j2);
-	void updateelement(Matrix& matrix, int i, int j);
+	void swapelements(Matrix& matrix, int y, int x, int i2, int j2);
+	void updateelement(Matrix& matrix, int y, int x);
+	void reacton(Matrix& matrix, int y, int x, int it, int jt);
 };
 
 
@@ -70,7 +70,7 @@ public:
 class MovableSolids : public Solids {
 public:
 	MovableSolids();
-	void updateelement(Matrix& matrix, int i, int j);
+	void updateelement(Matrix& matrix, int y, int x);
 };
 
 class ImmovableSolids : public Solids {
@@ -87,7 +87,7 @@ public:
 class Liquids : public Elements {
 public:
 	Liquids();
-	void updateelement(Matrix& matrix, int i, int j);
+	void updateelement(Matrix& matrix, int y, int x);
 };
 //
 ////////////////
@@ -99,7 +99,7 @@ public:
 class Gas : public Elements {
 public:
 	Gas();
-	void updateelement(Matrix& matrix, int i, int j);
+	void updateelement(Matrix& matrix, int y, int x);
 };
 //
 ////////////////
@@ -111,7 +111,7 @@ public:
 class Sand : public MovableSolids {
 public:
 	Sand();
-	void updateelement(Matrix& matrix, int i, int j);
+	void updateelement(Matrix& matrix, int y, int x);
 };
 
 class Water : public Liquids {
