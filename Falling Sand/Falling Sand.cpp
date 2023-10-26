@@ -35,7 +35,7 @@ int main() {
 	initfont();
 
 	startup(fullscreen);
-	sf::Uint32 windowstyle = sf::Style::Close;
+	sf::Uint32 windowstyle = sf::Style::Default;
 	if (fullscreen == true)
 	{
 		windowstyle = sf::Style::Fullscreen;
@@ -46,13 +46,15 @@ int main() {
 
 	std::vector<std::vector<Elements>> matrix(worldheight, std::vector<Elements>(worldwidth));
 
+	sf::View view(sf::FloatRect(0, 0, width, height));
+	window.setView(view);
 
 	while (window.isOpen())
 	{
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
-			handleevents(event, window);
+			handleevents(event, window,matrix,width,height);
 		}
 
 		//////////////////////////////

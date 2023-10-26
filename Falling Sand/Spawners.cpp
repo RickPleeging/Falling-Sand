@@ -10,18 +10,21 @@ Spawners::Spawners() {
 
 void Spawners::updateelement(Matrix& matrix, int i, int j)
 {
-	switch (matrix[i][j].m_spawnID)
-	{
-	case 1:
-		matrix[i + 1][j] = SAND;
-		break;
-	case 2:
-		matrix[i + 1][j] = WATER;
-		break;
-	case 4:
-		matrix[i + 1][j] = SMOKE;
-		break;
+	if (i + 1 < worldheight && matrix[i+1][j].m_ID == 0) {
 
+		switch (matrix[i][j].m_spawnID)
+		{
+		case 1:
+			matrix[i + 1][j] = SAND;
+			break;
+		case 2:
+			matrix[i + 1][j] = WATER;
+			break;
+		case 4:
+			matrix[i + 1][j] = SMOKE;
+			break;
+
+		}
 	}
 }
 

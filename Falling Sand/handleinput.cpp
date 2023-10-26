@@ -33,6 +33,10 @@ void handleinput(std::vector<std::vector<Elements>>& matrix, sf::RenderWindow& w
 	{
 		selection = SMOKE;
 	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num9))
+	{
+		selection = BLACKHOLE;
+	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
 	{

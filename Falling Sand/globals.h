@@ -44,6 +44,7 @@ class Sand;
 class Water;
 class Stone;
 class Smoke;
+class BlackHole;
 
 extern Elements AIR;
 extern Elements selection;
@@ -53,6 +54,7 @@ extern Sand SAND;
 extern Water WATER;
 extern Stone STONE;
 extern Smoke SMOKE;
+extern BlackHole BLACKHOLE;
 
 extern Spawners SPAWNER;
 

@@ -16,7 +16,7 @@ void draw(std::vector<std::vector<Elements>>& matrix, sf::RenderWindow& window, 
 
 void handleinput(std::vector<std::vector<Elements>>& matrix, sf::RenderWindow& window, sf::Event& event);
 
-void handleevents(sf::Event& event, sf::RenderWindow& window);
+void handleevents(sf::Event& event, sf::RenderWindow& window, Matrix& matrix, int& width, int& height);
 
 void initfont();
 

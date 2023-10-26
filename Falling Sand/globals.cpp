@@ -24,3 +24,4 @@ Sand SAND;
 Water WATER;
 Stone STONE;
 Smoke SMOKE;
+BlackHole BLACKHOLE;

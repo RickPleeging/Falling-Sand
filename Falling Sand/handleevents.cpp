@@ -1,11 +1,10 @@
 #include "pch.h"
 
-
 extern bool pause;
 
 
 
-void handleevents(sf::Event& event, sf::RenderWindow& window)
+void handleevents(sf::Event& event, sf::RenderWindow& window, Matrix& matrix,int& width, int& height)
 {
 	static int cursorsize_max = 100 / pixelsize;
 	
@@ -13,7 +12,7 @@ void handleevents(sf::Event& event, sf::RenderWindow& window)
 
 
 
-
+	
 	// Makes Close button work
 	if (event.type == sf::Event::Closed)
 		window.close();
@@ -87,22 +86,23 @@ void handleevents(sf::Event& event, sf::RenderWindow& window)
 
 	}
 
-	///// RESIZE NOT IMPLEMENTED YET
-	/*
+	///// RESIZE 
+	
 	if (event.type == sf::Event::Resized)
 	{
 		sf::Vector2u size = window.getSize();
+
 		width = size.x;
 		height = size.y;
 
 		worldheight = height / pixelsize;
 		worldwidth = width / pixelsize;
 
-		//this doesnt work for some reason
-		matrix.resize(worldheight, std::vector<Material>(worldwidth, 0));
-		//
+		matrix.resize(worldheight);
+		for (int i = 0; i < worldheight; ++i)
+			matrix[i].resize(worldwidth);
+
+		sf::View view(sf::FloatRect(0, 0, width, height));
+		window.setView(view);
 	}
-	*/
-
-
 }

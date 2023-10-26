@@ -1,7 +1,6 @@
 #include "pch.h"
 
 
-
 void updatematrix(std::vector<std::vector<Elements>>& matrix, int worldheight, int worldwidth, sf::RenderWindow& window)
 {
 	for (int i = worldheight - 1; i >= 0; i--)
@@ -32,6 +31,9 @@ void updatematrix(std::vector<std::vector<Elements>>& matrix, int worldheight, i
 					break;
 				case 4:
 					SMOKE.updateelement(matrix, i, j);
+					break;
+				case 10:
+					BLACKHOLE.updateelement(matrix, i, j);
 					break;
 				case 100:
 					SPAWNER.updateelement(matrix, i, j);

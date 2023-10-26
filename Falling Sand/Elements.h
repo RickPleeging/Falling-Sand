@@ -34,6 +34,7 @@ public:
 
 	bool m_wasupdated;
 	bool m_isfreefaling;
+	bool m_hasnotmoved;
 
 	bool issolid;
 	bool isliquid;
@@ -46,7 +47,7 @@ public:
 
 	inline bool completeboundscheck(int y, int x);
 
-	inline void gravity(Matrix& matrix, int y, int x);
+	virtual inline void gravity(Matrix& matrix, int y, int x);
 	inline void inverse_gravity(Matrix& matrix, int y, int x);
 
 	void moveSideways(Matrix& matrix, int y, int x);
@@ -117,6 +118,7 @@ public:
 class Water : public Liquids {
 public:
 	Water();
+	void updateelement(Matrix& matrix, int y, int x);
 };
 
 class Stone : public ImmovableSolids {
@@ -129,6 +131,12 @@ class Smoke : public Gas
 public:
 	Smoke();
 
+};
+
+class BlackHole : public ImmovableSolids {
+public:
+	BlackHole();
+	void updateelement(Matrix& matrix, int y, int x);
 };
 
 //

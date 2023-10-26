@@ -66,8 +66,17 @@ Smoke::Smoke() {
 	m_name = "Smoke";
 	m_ID = 4;
 	m_color = sf::Color(30, 30, 30, 150);
+}
+
+BlackHole::BlackHole() {
+	m_name = "BlackHole";
+	m_ID = 10;
+	m_color = sf::Color(0, 0, 0, 255);
 
 }
+
+//Rob Particle, make it bounce through the screen untill it hits something,
+//then change direction
 
 //
 ////////////
@@ -106,7 +115,7 @@ inline void Elements::gravity(Matrix& matrix, int y, int x) {
 
 	if (matrix[y][x].m_isfreefaling == true && tempvel < m_maxvelocity)
 	{
-		tempvel += 1;
+		tempvel += 0.3;
 	}
 	int desired = 1+ tempvel;
 	int actual=0;
@@ -212,8 +221,17 @@ inline void Elements::inverse_gravity(Matrix& matrix, int y, int x) {
 ////////////////////////
 //		 Solids
 void MovableSolids::updateelement(Matrix& matrix, int y, int x) {
+
+	if (completeboundscheck(y, x) == true)
+	{
+		if (matrix[y + 1][x].isliquid == true || matrix[y + 1][x].isgas == true){
+		swapelements(matrix, y, x, y + 1, x);
+		}
+	}
 	gravity(matrix, y, x);
 	moveDiagonallydown(matrix, y, x);
+
+	
 
 }
 //	
@@ -223,9 +241,16 @@ void MovableSolids::updateelement(Matrix& matrix, int y, int x) {
 ////////////////////////
 //		LIQUIDS
 void Liquids::updateelement(Matrix& matrix, int y, int x) {
+	
+
+	if (completeboundscheck(y, x) == true && matrix[y + 1][x].isgas == true)
+	{
+		swapelements(matrix, y, x, y + 1, x);
+	}
 	gravity(matrix, y, x);
 	moveDiagonallydown(matrix, y, x);
 	moveSideways(matrix, y, x);
+
 }
 //		LIQUIDS
 ////////////////////////
@@ -255,21 +280,39 @@ void Gas::updateelement(Matrix& matrix, int y, int x) {
 //					Individual FUNCTIONS
 
 void Sand::updateelement(Matrix& matrix, int y, int x) {
-
-
-	if (completeboundscheck(y, x) == true && matrix[y + 1][x].isliquid == true || completeboundscheck(y, x) == true && matrix[y + 1][x].isgas == true)
-	{
-		swapelements(matrix, y, x, y + 1, x);
-		//std::cout << "Sand touched Water!";
-	}
 	MovableSolids::updateelement(matrix, y, x);
-
 }
 
 
+void Water::updateelement(Matrix& matrix, int y, int x) {
+	Liquids::updateelement(matrix, y, x);
+}
+
+void BlackHole::updateelement(Matrix& matrix, int y, int x) {
+	ImmovableSolids::updateelement(matrix, y, x);
+	if (matrix[y-1][x].m_ID != 10)
+	{
+	matrix[y-1][x] = AIR;
+	}
+
+	if (matrix[y+1][x].m_ID != 10)
+	{
+	matrix[y + 1][x] = AIR;
+	}
+
+	if (matrix[y][x+1].m_ID != 10)
+	{
+	matrix[y][x+1] = AIR;
+	}
+
+	if (matrix[y][x-1].m_ID != 10)
+	{
+	matrix[y][x-1] = AIR;
+	}
+
+
+}
+
 //
 ///////////////////////////////////////////////////////////
-
-
-
 
