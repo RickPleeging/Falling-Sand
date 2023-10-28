@@ -49,8 +49,6 @@ Gas::Gas() {
 //	Individual Materials
 
 Sand::Sand() {
-
-
 	name = "Sand";
 	m_ID = 1;
 	health = 70;
@@ -71,7 +69,7 @@ Water::Water() {
 Stone::Stone() {
 	name = "Stone";
 	m_ID = 3;
-	health = 130;
+	health = 150;
 	corodable = true;
 	m_color = sf::Color(122, 116, 116, 255);
 }
@@ -95,11 +93,25 @@ FlammableGas::FlammableGas() {
 	m_color = sf::Color(63, 115, 62, 100);
 }
 
+Glass::Glass() {
+	name = "Glass";
+	m_ID = 7;
+	health = 50;
+	m_color = sf::Color(255, 255, 255,150);
+}
+
+Wood::Wood() {
+	name = "Wood";
+	m_ID = 8;
+	health = 80;
+	corodable = true;
+	m_color = sf::Color(36, 22, 8,255);
+}
+
 BlackHole::BlackHole() {
 	name = "BlackHole";
 	m_ID = 10;
 	m_color = sf::Color(0, 0, 0, 255);
-
 }
 
 //Rob Particle, make it bounce through the screen untill it hits something,
@@ -141,7 +153,7 @@ inline bool Elements::actOnOther(Matrix& matrix, int y, int x, int yt, int xt) {
 }
 
 void Elements::corode(Matrix& matrix, int yt, int xt) {
-	matrix[yt][xt].health -= 20;
+	matrix[yt][xt].health -= 30;
 	if (matrix[yt][xt].health < 0)
 	{
 		matrix[yt][xt] = FLAMMABLEGAS;
@@ -163,7 +175,7 @@ inline void Elements::gravity(Matrix& matrix, int y, int x) {
 	
 	if (matrix[y][x].isfreefaling == true && tempvel < maxvelocity)
 	{
-		tempvel += 1;
+		tempvel += 0.3 + getRandom1() * 0.01;
 	}
 
 	int desired = tempvel + 1;
@@ -242,6 +254,9 @@ inline void Elements::moveSideways(Matrix& matrix, int y, int x) {
 }
 
 inline void Elements::moveDiagonallydown(Matrix& matrix, int y, int x) {
+	if (getRandom() > 50)
+	{
+
 	if (y + 1 < worldheight && x + 1 < worldwidth && matrix[y + 1][x + 1].m_ID == 0 && matrix[y][x + 1].m_ID == 0) //move down right
 	{
 		matrix[y + 1][x + 1] = matrix[y][x];
@@ -255,6 +270,25 @@ inline void Elements::moveDiagonallydown(Matrix& matrix, int y, int x) {
 		matrix[y][x] = AIR;
 		matrix[y + 1][x - 1].wasupdated = true;
 
+	}
+	}
+	else
+	{
+		
+		if (y + 1 < worldheight && x > 0 && matrix[y + 1][x - 1].m_ID == 0 && matrix[y][x - 1].m_ID == 0) //move down left
+		{
+			matrix[y + 1][x - 1] = matrix[y][x];
+			matrix[y][x] = AIR;
+			matrix[y + 1][x - 1].wasupdated = true;
+
+		}
+		else if (y + 1 < worldheight && x + 1 < worldwidth && matrix[y + 1][x + 1].m_ID == 0 && matrix[y][x + 1].m_ID == 0) //move down right
+		{
+			matrix[y + 1][x + 1] = matrix[y][x];
+			matrix[y][x] = AIR;
+			matrix[y + 1][x + 1].wasupdated = true;
+
+		}
 	}
 }
 inline void Elements::moveDiagonallyup(Matrix& matrix, int y, int x) {
@@ -367,13 +401,25 @@ inline bool Acid::actOnOther(Matrix& matrix, int y, int x, int yt, int xt) {
 void Acid::updateelement(Matrix& matrix, int y, int x) {
 	
 
-	if (matrix[y][x].acidity == 0) {
+	if (matrix[y][x].acidity <= 0) {
 		matrix[y][x] = AIR;
 		matrix[y][x].wasupdated = true;
 	}
 
-	Liquids::updateelement(matrix, y, x);
+	if (y - 1 > 0&& y+1 < worldheight)
+	{
+		actOnOther(matrix, y, x, y + 1, x);
+		actOnOther(matrix, y, x, y - 1, x);
 
+	}
+	if (x + 1 < worldheight && x - 1 > 0)
+	{
+		actOnOther(matrix, y, x, y , x+1);
+		actOnOther(matrix, y, x, y , x-1);
+
+	}
+
+	Liquids::updateelement(matrix, y, x);
 }
 
 void BlackHole::updateelement(Matrix& matrix, int y, int x) {

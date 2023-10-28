@@ -159,6 +159,17 @@ public:
 
 };
 
+class Glass : public ImmovableSolids {
+public:
+	Glass();
+
+};
+
+class Wood : public ImmovableSolids {
+public:
+	Wood();
+};
+
 class BlackHole : public ImmovableSolids {
 public:
 	BlackHole();

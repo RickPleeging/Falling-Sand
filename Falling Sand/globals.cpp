@@ -31,3 +31,5 @@ Smoke SMOKE;
 BlackHole BLACKHOLE;
 Acid ACID;
 FlammableGas FLAMMABLEGAS;
+Glass GLASS;
+Wood WOOD;

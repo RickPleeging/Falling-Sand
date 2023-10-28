@@ -47,6 +47,8 @@ class Stone;
 class Smoke;
 class Acid;
 class FlammableGas;
+class Glass;
+class Wood;
 class BlackHole;
 
 extern Elements AIR;
@@ -62,6 +64,8 @@ extern Stone STONE;
 extern Smoke SMOKE;
 extern Acid ACID;
 extern FlammableGas FLAMMABLEGAS;
+extern Glass GLASS;
+extern Wood WOOD;
 extern BlackHole BLACKHOLE;
 
 extern Spawners SPAWNER;

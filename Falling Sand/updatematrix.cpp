@@ -39,6 +39,12 @@ void updatematrix(std::vector<std::vector<Elements>>& matrix, int worldheight, i
 				case 6:
 					FLAMMABLEGAS.updateelement(matrix, i, j);
 					break;
+				case 7:
+					GLASS.updateelement(matrix, i, j);
+					break;
+				case 8:
+					WOOD.updateelement(matrix, i, j);
+					break;
 				case 10:
 					BLACKHOLE.updateelement(matrix, i, j);
 					break;

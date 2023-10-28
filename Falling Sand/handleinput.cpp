@@ -41,6 +41,14 @@ void handleinput(std::vector<std::vector<Elements>>& matrix, sf::RenderWindow& w
 	{
 		selection = FLAMMABLEGAS;
 	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num7))
+	{
+		selection = GLASS;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num8))
+	{
+		selection = WOOD;
+	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num9))
 	{
 		selection = BLACKHOLE;

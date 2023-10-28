@@ -23,6 +23,7 @@ void handleevents(sf::Event& event, sf::RenderWindow& window, Matrix& matrix, in
 void initfont();
 
 int getRandom();
+int getRandom1();
 
 //
 /////////////////////
