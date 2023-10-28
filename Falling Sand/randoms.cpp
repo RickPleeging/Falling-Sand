@@ -8,3 +8,4 @@ std::uniform_int_distribution<int> distribution(0, 100);
 int getRandom() {
 	return distribution(gen);
 }
+

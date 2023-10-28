@@ -23,7 +23,12 @@ void Spawners::updateelement(Matrix& matrix, int i, int j)
 		case 4:
 			matrix[i + 1][j] = SMOKE;
 			break;
-
+		case 5:
+			matrix[i + 1][j] = ACID;
+			break;
+		case 6:
+			matrix[i + 1][j] = FLAMMABLEGAS;
+			break;
 		}
 	}
 }

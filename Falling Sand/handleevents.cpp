@@ -7,12 +7,7 @@ extern bool pause;
 void handleevents(sf::Event& event, sf::RenderWindow& window, Matrix& matrix,int& width, int& height)
 {
 	static int cursorsize_max = 100 / pixelsize;
-	
-
-
-
-
-	
+		
 	// Makes Close button work
 	if (event.type == sf::Event::Closed)
 		window.close();
@@ -81,12 +76,27 @@ void handleevents(sf::Event& event, sf::RenderWindow& window, Matrix& matrix,int
 			break;
 		case sf::Keyboard::Space:
 			steponce = true;
+			break;
+		case sf::Keyboard::B:
+			sf::Vector2i mousePos = sf::Mouse::getPosition(window) / pixelsize;
+
+			std::cout << std::endl << matrix[mousePos.y][mousePos.x].name << " X: " << mousePos.x << " Y: " << mousePos.y ;
+			std::cout << "\nID: " << matrix[mousePos.y][mousePos.x].m_ID;
+			std::cout << "\nVelocity: " << matrix[mousePos.y][mousePos.x].velocity;
+			std::cout << "\nWasUpdated: " << matrix[mousePos.y][mousePos.x].wasupdated;
+			std::cout << "\nIs Freefaling: " << matrix[mousePos.y][mousePos.x].isfreefaling;
+			std::cout << "\nHealth: " << matrix[mousePos.y][mousePos.x].health;
+			std::cout << "\nIs Corrodable: " << matrix[mousePos.y][mousePos.x].corodable;
+			std::cout << "\nAcidity: " << matrix[mousePos.y][mousePos.x].acidity;
+
+			std::cout << std::endl;
+			break;
 		}
 
 
 	}
 
-	///// RESIZE 
+	/// RESIZE 
 	
 	if (event.type == sf::Event::Resized)
 	{

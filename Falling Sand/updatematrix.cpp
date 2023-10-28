@@ -3,10 +3,11 @@
 
 void updatematrix(std::vector<std::vector<Elements>>& matrix, int worldheight, int worldwidth, sf::RenderWindow& window)
 {
+	//reset wasupdated for every Element
 	for (int i = worldheight - 1; i >= 0; i--)
 		for (int j = worldwidth - 1; j >= 0; j--)
 		{
-			matrix[i][j].m_wasupdated = false;
+			matrix[i][j].wasupdated = false;
 		}
 
 
@@ -14,7 +15,7 @@ void updatematrix(std::vector<std::vector<Elements>>& matrix, int worldheight, i
 	for (int i = worldheight - 1; i >= 0; i--)
 		for (int j = worldwidth - 1; j >= 0; j--)
 		{
-			if (matrix[i][j].m_wasupdated == false) {
+			if (matrix[i][j].wasupdated == false) {
 
 				switch (matrix[i][j].m_ID)
 				{
@@ -31,6 +32,12 @@ void updatematrix(std::vector<std::vector<Elements>>& matrix, int worldheight, i
 					break;
 				case 4:
 					SMOKE.updateelement(matrix, i, j);
+					break;
+				case 5:
+					ACID.updateelement(matrix, i, j);
+					break;
+				case 6:
+					FLAMMABLEGAS.updateelement(matrix, i, j);
 					break;
 				case 10:
 					BLACKHOLE.updateelement(matrix, i, j);

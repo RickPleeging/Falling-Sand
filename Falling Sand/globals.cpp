@@ -1,6 +1,8 @@
 #pragma once
 #include "pch.h"
 
+int FPS=0;
+
 int pixelsize = 1;
 int cursorsize = 1;
 
@@ -17,6 +19,8 @@ bool steponce = false;
 Elements AIR;
 Elements selection;
 Elements temp;
+Elements target;
+Elements current;
 
 Spawners SPAWNER;
 
@@ -25,3 +29,5 @@ Water WATER;
 Stone STONE;
 Smoke SMOKE;
 BlackHole BLACKHOLE;
+Acid ACID;
+FlammableGas FLAMMABLEGAS;

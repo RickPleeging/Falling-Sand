@@ -33,6 +33,14 @@ void handleinput(std::vector<std::vector<Elements>>& matrix, sf::RenderWindow& w
 	{
 		selection = SMOKE;
 	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num5))
+	{
+		selection = ACID;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num6))
+	{
+		selection = FLAMMABLEGAS;
+	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num9))
 	{
 		selection = BLACKHOLE;
@@ -40,18 +48,7 @@ void handleinput(std::vector<std::vector<Elements>>& matrix, sf::RenderWindow& w
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
 	{
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1))
-		{
-			spawnID = 1;
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2))
-		{
-			spawnID = 2;
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num4))
-		{
-			spawnID = 4;
-		}
+		
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::R)) //reset screen
@@ -73,10 +70,6 @@ void handleinput(std::vector<std::vector<Elements>>& matrix, sf::RenderWindow& w
 
 		if (mousePos.y >= 0 && mousePos.y < worldheight && mousePos.x < worldwidth && mousePos.x >= 0)
 		{
-		
-			
-			
-
 			switch (selectedbrush)
 			{
 			case 1: // brush 1
@@ -92,9 +85,6 @@ void handleinput(std::vector<std::vector<Elements>>& matrix, sf::RenderWindow& w
 					}
 				break;
 			case 2: // brush 2
-
-				
-				
 				for (int i = 1 - cursorsize; i < cursorsize; i++)
 					for (int j = 1 - cursorsize; j < cursorsize; j++)
 					{
@@ -133,7 +123,7 @@ void handleinput(std::vector<std::vector<Elements>>& matrix, sf::RenderWindow& w
 			//matrix[mousePos.y][mousePos.x] = Spawners();
 
 			matrix[mousePos.y][mousePos.x] = SPAWNER;
-			matrix[mousePos.y][mousePos.x].m_spawnID = spawnID;
+			matrix[mousePos.y][mousePos.x].m_spawnID = selection.m_ID;
 			//std::cout << "x: " << mousePos.x << " y: " << mousePos.y << "\n"; //debug position	
 		}
 	}

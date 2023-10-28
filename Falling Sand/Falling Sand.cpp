@@ -26,13 +26,14 @@ sf::Font font;
 sf::Clock deltaclock;
 float dt; //updates per second
 
-
+int framecount=0;
 
 int main() {
 	
-
-
 	initfont();
+
+	//mainmenu();
+
 
 	startup(fullscreen);
 	sf::Uint32 windowstyle = sf::Style::Default;
@@ -64,6 +65,12 @@ int main() {
 		//delta time
 		dt = deltaclock.restart().asSeconds();
 		
+
+		FPS = static_cast<int>(1.0f / dt);
+		
+		
+
+
 		//Create Random
 		
 

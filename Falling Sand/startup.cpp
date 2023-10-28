@@ -43,6 +43,7 @@ void startup(bool& fullscreen)
 				worldheight = height / pixelsize;
 				worldwidth = width / pixelsize;
 
+				std::cout << "\n\nGridsize: "<< worldheight * worldwidth << " Elements\n";
 
 				std::cout << "\nStartup Succesfull!\n\n\n\n\n";
 
@@ -62,6 +63,8 @@ void startup(bool& fullscreen)
 				worldwidth = width / pixelsize;
 
 				std::cout << "Creating Window with height: " << height << " and width: " << width;
+				std::cout << "\n\nGridsize: " << worldheight * worldwidth << " Elements\n";
+
 				std::cout << "\n\nStartup Succesfull!\n\n\n\n\n";
 
 			}
@@ -75,6 +78,8 @@ void startup(bool& fullscreen)
 				std::cin >> pixelsize;
 				worldheight = height / pixelsize;
 				worldwidth = width / pixelsize;
+				std::cout << "\n\nGridsize: " << worldheight * worldwidth << " Elements\n";
+
 				std::cout << "\nStartup Succesfull!\n\n\n\n\n";
 
 			}

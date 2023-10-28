@@ -20,6 +20,7 @@ extern int increaserate;
 extern int pixelsize;
 
 extern float dt;
+extern int FPS;
 
 extern bool fullscreen;
 extern bool nodraw;
@@ -44,16 +45,23 @@ class Sand;
 class Water;
 class Stone;
 class Smoke;
+class Acid;
+class FlammableGas;
 class BlackHole;
 
 extern Elements AIR;
 extern Elements selection;
 extern Elements temp;
+extern Elements target;
+extern Elements current;
+
 
 extern Sand SAND;
 extern Water WATER;
 extern Stone STONE;
 extern Smoke SMOKE;
+extern Acid ACID;
+extern FlammableGas FLAMMABLEGAS;
 extern BlackHole BLACKHOLE;
 
 extern Spawners SPAWNER;

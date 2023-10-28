@@ -146,6 +146,7 @@
     <ClCompile Include="handleevents.cpp" />
     <ClCompile Include="handleinput.cpp" />
     <ClCompile Include="initfont.cpp" />
+    <ClCompile Include="mainmenu.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -159,6 +160,7 @@
     <ClCompile Include="randoms.cpp" />
     <ClCompile Include="Spawners.cpp" />
     <ClCompile Include="startup.cpp" />
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="updatematrix.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -167,6 +169,7 @@
     <ClInclude Include="globals.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Spawners.h" />
+    <ClInclude Include="Button.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

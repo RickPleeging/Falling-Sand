@@ -58,19 +58,31 @@ void highlightmouse(sf::RenderWindow& window) // this cost me my sanity but it F
 
 void draw_performanceoverlay(sf::RenderWindow& window)
 {
-    
+    sf::Text t_FPS;
     sf::Text t_deltatime;
+
     t_deltatime.setFont(font); // Set the font
+    t_FPS.setFont(font);
 
     std::ostringstream dtstring;
     dtstring << "Time: " << std::fixed << std::setprecision(3) << dt << " seconds";
     t_deltatime.setString(dtstring.str());
 
-    
+    std::ostringstream FPSstring;
+    FPSstring << "FPS: " << FPS;
+    t_FPS.setString(FPSstring.str());
+
+
     t_deltatime.setCharacterSize(15); // Set the character size
+    t_FPS.setCharacterSize(15); // Set the character size
+
     t_deltatime.setFillColor(sf::Color::White); // Set the color (optional)
+    t_FPS.setFillColor(sf::Color::White); // Set the color (optional)
+
+    t_FPS.setPosition(0, 20);
 
     window.draw(t_deltatime);
+    window.draw(t_FPS);
 }
 
 void drawgameoverlay(sf::RenderWindow& window)
@@ -82,7 +94,7 @@ void drawgameoverlay(sf::RenderWindow& window)
     t_selectedMaterial.setPosition(150, 0);
 
     std::ostringstream materialstring;
-    materialstring << "Selected Material: " << selection.m_name;
+    materialstring << "Selected Material: " << selection.name;
     t_selectedMaterial.setString(materialstring.str());
 
     window.draw(t_selectedMaterial);
@@ -94,7 +106,7 @@ void drawgameoverlay(sf::RenderWindow& window)
         t_paused.setFillColor(sf::Color::White);
         t_paused.setCharacterSize(30);
         t_paused.setLetterSpacing(2);
-        t_paused.setPosition(0,60);
+        t_paused.setPosition(150,50);
 
         t_paused.setString("Paused!");
         window.draw(t_paused);

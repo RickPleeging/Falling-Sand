@@ -17,30 +17,34 @@
 class Elements
 {
 protected:
-	
+
 public:
-	std::string m_name;
+	std::string name;
 	int m_ID;
-	float m_velocity;
-	float m_maxvelocity;
-	int m_maxdispersal;
-	float m_weight;
+	float velocity;
+	float maxvelocity;
+	int maxdispersal;
+	float weight;
+	float density;
 	float health;
 	float lifetime;
 	float hardness;
 	float fireresistance;
 	int m_spawnID;
+	int acidity;
 
 
-	bool m_wasupdated;
-	bool m_isfreefaling;
-	bool m_hasnotmoved;
+	bool wasupdated;
+	bool isfreefaling;
+	bool hasnotmoved;
 
+	bool corodable;
 	bool issolid;
 	bool isliquid;
 	bool isgas;
 
 	sf::Color m_color;
+
 
 
 	Elements();
@@ -50,13 +54,20 @@ public:
 	virtual inline void gravity(Matrix& matrix, int y, int x);
 	inline void inverse_gravity(Matrix& matrix, int y, int x);
 
-	void moveSideways(Matrix& matrix, int y, int x);
-	void moveDiagonallydown(Matrix& matrix, int y, int x);
-	void moveDiagonallyup(Matrix& matrix, int y, int x);
+	inline void moveSideways(Matrix& matrix, int y, int x);
+	inline void moveDiagonallydown(Matrix& matrix, int y, int x);
+	inline void moveDiagonallyup(Matrix& matrix, int y, int x);
 
-	void swapelements(Matrix& matrix, int y, int x, int i2, int j2);
+	void corode(Matrix& matrix,int yt, int xt);
+
+	inline void move(Matrix& matrix, int y, int x, int yt, int xt);
+	inline void swapelements(Matrix& matrix, int y, int x, int i2, int j2);
 	void updateelement(Matrix& matrix, int y, int x);
-	void reacton(Matrix& matrix, int y, int x, int it, int jt);
+	void reaction(Matrix& matrix, int y, int x, int yt, int xt);
+	virtual inline bool actOnOther(Matrix& matrix, int y, int x, int yt, int xt);
+
+	
+
 };
 
 
@@ -80,7 +91,7 @@ public:
 };
 //  Solids
 ///////////////
- 
+
 
 ///////////////
 //	Liquids
@@ -133,6 +144,21 @@ public:
 
 };
 
+class FlammableGas : public Gas {
+public:
+	FlammableGas();
+};
+
+class Acid : public Liquids
+{
+public:
+	Acid();
+
+	inline bool actOnOther(Matrix& matrix, int y, int x, int yt, int xt);
+	void updateelement(Matrix& matrix, int y, int x);
+
+};
+
 class BlackHole : public ImmovableSolids {
 public:
 	BlackHole();
@@ -141,3 +167,21 @@ public:
 
 //
 ///////////////////////////////////////////////////////////
+
+
+//Create Element Checklist:
+//
+// Elements.cpp / Elemenets.h 
+// Create Class Definition and Decleration
+// 
+// globals.h / globals.cpp
+// Create Class Instance
+// 
+// updatematrix.cpp
+// Add Element update
+//
+// handleinput.cpp
+// Create keyboard shortcut
+//
+// spawners
+// Create spawner if necesarry.

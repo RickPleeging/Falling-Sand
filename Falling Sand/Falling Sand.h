@@ -4,6 +4,8 @@
 /////////////////////
 //		Declerations
 
+void mainmenu();
+
 void startup(bool& fullscreen);
 
 void updatematrix(std::vector<std::vector<Elements>>& matrix, int worldheight, int worldwidth, sf::RenderWindow& window);
