@@ -3,16 +3,6 @@
 #include "pch.h"
 
 
-//struct Pixels {
-//	int ID;
-//	
-//	sf::Color color;
-//	bool wasupdated;
-//
-//	Pixels() : ID(0), color(sf::Color::White), wasupdated(false) {}
-//};
-
-
 
 class Elements
 {
@@ -39,6 +29,8 @@ public:
 	bool hasnotmoved;
 
 	bool corodable;
+	bool onfire;
+	bool flammable;
 	bool issolid;
 	bool isliquid;
 	bool isgas;
@@ -51,7 +43,7 @@ public:
 
 	inline bool completeboundscheck(int y, int x);
 
-	virtual inline void gravity(Matrix& matrix, int y, int x);
+	virtual inline bool gravity(Matrix& matrix, int y, int x);
 	inline void inverse_gravity(Matrix& matrix, int y, int x);
 
 	inline void moveSideways(Matrix& matrix, int y, int x);
@@ -64,9 +56,10 @@ public:
 	inline void swapelements(Matrix& matrix, int y, int x, int i2, int j2);
 	void updateelement(Matrix& matrix, int y, int x);
 	void reaction(Matrix& matrix, int y, int x, int yt, int xt);
+	virtual inline void tryactOnOther(Matrix& matrix, int y, int x);
 	virtual inline bool actOnOther(Matrix& matrix, int y, int x, int yt, int xt);
 
-	
+	inline void burn(Matrix& matrix, int y, int x);
 
 };
 
@@ -124,12 +117,12 @@ class Sand : public MovableSolids {
 public:
 	Sand();
 	void updateelement(Matrix& matrix, int y, int x);
+
 };
 
 class Water : public Liquids {
 public:
 	Water();
-	void updateelement(Matrix& matrix, int y, int x);
 };
 
 class Stone : public ImmovableSolids {
@@ -169,6 +162,7 @@ class Wood : public ImmovableSolids {
 public:
 	Wood();
 };
+
 
 class BlackHole : public ImmovableSolids {
 public:

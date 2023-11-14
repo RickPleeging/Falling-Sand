@@ -16,6 +16,8 @@ int selectedbrush = 1;
 
 bool steponce = false;
 
+float gravity = 10;
+
 Elements AIR;
 Elements selection;
 Elements temp;
