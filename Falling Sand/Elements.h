@@ -21,6 +21,7 @@ protected:
 public:
 	std::string name;
 	int m_ID;
+
 	float velocity;
 	float maxvelocity;
 	int maxdispersal;
@@ -31,6 +32,7 @@ public:
 	float hardness;
 	float fireresistance;
 	int m_spawnID;
+	int burnID;
 	int acidity;
 
 
@@ -179,9 +181,18 @@ public:
 
 class StaticFire : public ImmovableSolids {
 public:
+
 	StaticFire();
 	void updateelement(Matrix& matrix, int y, int x);
 	inline bool actOnOther(Matrix& matrix, int y, int x, int yt, int xt);
+
+
+};
+
+class Steam : public Gas {
+public:
+	Steam();
+	void updateelement(Matrix& matrix, int y, int x);
 
 
 };

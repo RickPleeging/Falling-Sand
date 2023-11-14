@@ -34,3 +34,4 @@ FlammableGas FLAMMABLEGAS;
 Glass GLASS;
 Wood WOOD;
 StaticFire STATICFIRE;
+Steam STEAM;

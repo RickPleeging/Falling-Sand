@@ -45,6 +45,9 @@ void updatematrix(std::vector<std::vector<Elements>>& matrix, int worldheight, i
 				case 8:
 					WOOD.updateelement(matrix, i, j);
 					break;
+				case 9:
+					STEAM.updateelement(matrix, i, j);
+					break;
 				case 10:
 					BLACKHOLE.updateelement(matrix, i, j);
 					break;

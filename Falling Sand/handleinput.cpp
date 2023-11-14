@@ -57,6 +57,10 @@ void handleinput(std::vector<std::vector<Elements>>& matrix, sf::RenderWindow& w
 	{
 		selection = STATICFIRE;
 	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::P))
+	{
+		selection = STEAM;
+	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
 	{
 		
