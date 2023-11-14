@@ -22,9 +22,9 @@ void handleevents(sf::Event& event, sf::RenderWindow& window, Matrix& matrix, in
 
 void initfont();
 
-int getRandom();
-int getRandom1();
-
+int getRandom100();
+int getRandom05();
+int getRandom(int min, int max);
 //
 /////////////////////
 

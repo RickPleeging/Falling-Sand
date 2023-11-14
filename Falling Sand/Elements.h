@@ -176,6 +176,27 @@ public:
 	void updateelement(Matrix& matrix, int y, int x);
 };
 
+
+class StaticFire : public ImmovableSolids {
+public:
+	StaticFire();
+	void updateelement(Matrix& matrix, int y, int x);
+	inline bool actOnOther(Matrix& matrix, int y, int x, int yt, int xt);
+
+
+};
+/*
+class MovableFire : public ImmovableSolids {
+public:
+	MovableFire();
+
+};
+class LiquidFire : public ImmovableSolids {
+public:
+	LiquidFire();
+
+};
+*/
 //
 ///////////////////////////////////////////////////////////
 

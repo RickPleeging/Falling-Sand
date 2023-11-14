@@ -50,6 +50,7 @@ class FlammableGas;
 class Glass;
 class Wood;
 class BlackHole;
+class StaticFire;
 
 extern Elements AIR;
 extern Elements selection;
@@ -67,6 +68,8 @@ extern FlammableGas FLAMMABLEGAS;
 extern Glass GLASS;
 extern Wood WOOD;
 extern BlackHole BLACKHOLE;
+extern StaticFire STATICFIRE;
+
 
 extern Spawners SPAWNER;
 

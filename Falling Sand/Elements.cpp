@@ -16,6 +16,7 @@ Elements::Elements() {
 	maxvelocity = 10;
 	maxdispersal = 1;
 	health = 100;
+	fireresistance = 100;
 	issolid = false;
 	isliquid = false;
 	isgas = false;
@@ -90,7 +91,9 @@ Acid::Acid() {
 FlammableGas::FlammableGas() {
 	name = "Flamable Gas";
 	m_ID = 6;
+	health = 5;
 	m_color = sf::Color(63, 115, 62, 100);
+	fireresistance = 15;
 }
 
 Glass::Glass() {
@@ -105,6 +108,7 @@ Wood::Wood() {
 	m_ID = 8;
 	health = 80;
 	corodable = true;
+	fireresistance = 95;
 	m_color = sf::Color(36, 22, 8,255);
 }
 
@@ -113,6 +117,24 @@ BlackHole::BlackHole() {
 	m_ID = 10;
 	m_color = sf::Color(0, 0, 0, 255);
 }
+
+StaticFire::StaticFire() {
+	name = "Fire";
+	m_ID = 20;
+	m_color = sf::Color(255, 0, 0, 255);
+
+}
+/*
+MovableFire::MovableFire() {
+	name = "Fire";
+	m_ID = 21;
+}
+LiquidFire::LiquidFire() {
+	name = "Fire";
+	m_ID = 22;
+}
+*/
+
 
 //Rob Particle, make it bounce through the screen untill it hits something,
 //then change direction
@@ -175,7 +197,7 @@ inline void Elements::gravity(Matrix& matrix, int y, int x) {
 	
 	if (matrix[y][x].isfreefaling == true && tempvel < maxvelocity)
 	{
-		tempvel += 0.3 + getRandom1() * 0.01;
+		tempvel += 0.3 + getRandom05() * 0.01;
 	}
 
 	int desired = tempvel + 1;
@@ -222,7 +244,7 @@ inline void Elements::gravity(Matrix& matrix, int y, int x) {
 inline void Elements::moveSideways(Matrix& matrix, int y, int x) {
 	// Check leftward movement
 
-	if (getRandom() > 50) {
+	if (getRandom100() > 50) {
 		if (x - 1 > 0 && matrix[y][x - 1].m_ID == 0) {
 			matrix[y][x - 1] = matrix[y][x];
 			matrix[y][x] = AIR;
@@ -254,7 +276,7 @@ inline void Elements::moveSideways(Matrix& matrix, int y, int x) {
 }
 
 inline void Elements::moveDiagonallydown(Matrix& matrix, int y, int x) {
-	if (getRandom() > 50)
+	if (getRandom100() > 50)
 	{
 
 	if (y + 1 < worldheight && x + 1 < worldwidth && matrix[y + 1][x + 1].m_ID == 0 && matrix[y][x + 1].m_ID == 0) //move down right
@@ -379,11 +401,14 @@ void Gas::updateelement(Matrix& matrix, int y, int x) {
 
 void Sand::updateelement(Matrix& matrix, int y, int x) {
 	MovableSolids::updateelement(matrix, y, x);
+
 }
 
 
 void Water::updateelement(Matrix& matrix, int y, int x) {
 	Liquids::updateelement(matrix, y, x);
+
+
 }
 
 inline bool Acid::actOnOther(Matrix& matrix, int y, int x, int yt, int xt) {
@@ -412,7 +437,7 @@ void Acid::updateelement(Matrix& matrix, int y, int x) {
 		actOnOther(matrix, y, x, y - 1, x);
 
 	}
-	if (x + 1 < worldheight && x - 1 > 0)
+	if (x + 1 < worldwidth && x - 1 > 0)
 	{
 		actOnOther(matrix, y, x, y , x+1);
 		actOnOther(matrix, y, x, y , x-1);
@@ -421,6 +446,62 @@ void Acid::updateelement(Matrix& matrix, int y, int x) {
 
 	Liquids::updateelement(matrix, y, x);
 }
+
+void StaticFire::updateelement(Matrix& matrix, int y, int x) {
+
+	matrix[y][x].m_color = sf::Color(255, getRandom(50, 100), 0, getRandom(50,255));
+
+
+	matrix[y][x].health -= 0.5;
+	if (matrix[y][x].health < 0)
+	{
+		matrix[y][x] = AIR;
+		matrix[y][x].wasupdated = true;
+	}
+	
+
+	if (y - 1 > 0 && y + 1 < worldheight)
+	{
+		actOnOther(matrix, y, x, y + 1, x);
+		actOnOther(matrix, y, x, y - 1, x);
+
+	}
+ 	if (x + 1 < worldwidth && x - 1 > 0)
+	{
+		actOnOther(matrix, y, x, y, x + 1);
+		actOnOther(matrix, y, x, y, x - 1);
+
+	}
+
+	ImmovableSolids::updateelement(matrix, y, x);
+
+
+}
+inline bool StaticFire::actOnOther(Matrix& matrix, int y, int x, int yt, int xt) {
+	//checks if flamable
+	if (matrix[yt][xt].fireresistance!=100) {
+		//random chance to turn into fire particle
+		if (getRandom100() > matrix[yt][xt].fireresistance)
+		{
+			float temphealth = matrix[yt][xt].health;
+			matrix[yt][xt] = STATICFIRE;
+			matrix[yt][xt].health = temphealth;
+
+		}
+		return true;
+	}
+	//turns water into smoke
+	if (matrix[yt][xt].m_ID == 2) {
+		matrix[y][x] = SMOKE;
+		matrix[yt][xt] = SMOKE;
+	}
+
+
+	return false;
+	
+
+}
+
 
 void BlackHole::updateelement(Matrix& matrix, int y, int x) {
 	ImmovableSolids::updateelement(matrix, y, x);

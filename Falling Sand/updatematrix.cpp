@@ -48,6 +48,9 @@ void updatematrix(std::vector<std::vector<Elements>>& matrix, int worldheight, i
 				case 10:
 					BLACKHOLE.updateelement(matrix, i, j);
 					break;
+				case 20:
+					STATICFIRE.updateelement(matrix, i, j);
+					break;
 				case 100:
 					SPAWNER.updateelement(matrix, i, j);
 					break;

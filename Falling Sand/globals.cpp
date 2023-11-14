@@ -33,3 +33,4 @@ Acid ACID;
 FlammableGas FLAMMABLEGAS;
 Glass GLASS;
 Wood WOOD;
+StaticFire STATICFIRE;
