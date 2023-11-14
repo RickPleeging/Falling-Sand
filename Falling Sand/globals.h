@@ -50,6 +50,8 @@ class FlammableGas;
 class Glass;
 class Wood;
 class BlackHole;
+class StaticFire;
+class Steam;
 
 extern Elements AIR;
 extern Elements selection;
@@ -67,7 +69,8 @@ extern FlammableGas FLAMMABLEGAS;
 extern Glass GLASS;
 extern Wood WOOD;
 extern BlackHole BLACKHOLE;
-
+extern StaticFire STATICFIRE;
+extern Steam STEAM;
 extern Spawners SPAWNER;
 
 using Matrix = std::vector<std::vector<Elements>>;

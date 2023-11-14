@@ -74,6 +74,13 @@ void handleevents(sf::Event& event, sf::RenderWindow& window, Matrix& matrix,int
 			if (selectedbrush > 1)
 				selectedbrush--;
 			break;
+		case sf::Keyboard::BackSlash:
+				for (int i = worldheight - 1; i >= 0; i--)
+					for (int j = worldwidth - 1; j >= 0; j--)
+					{
+						matrix[i][j] = selection;
+					}
+			break;
 		case sf::Keyboard::Space:
 			steponce = true;
 			break;
@@ -88,7 +95,7 @@ void handleevents(sf::Event& event, sf::RenderWindow& window, Matrix& matrix,int
 			std::cout << "\nHealth: " << matrix[mousePos.y][mousePos.x].health;
 			std::cout << "\nIs Corrodable: " << matrix[mousePos.y][mousePos.x].corodable;
 			std::cout << "\nAcidity: " << matrix[mousePos.y][mousePos.x].acidity;
-
+			std::cout << "\nFireResistance: " << matrix[mousePos.y][mousePos.x].fireresistance;
 			std::cout << std::endl;
 			break;
 		}
