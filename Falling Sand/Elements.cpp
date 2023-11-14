@@ -1,6 +1,7 @@
 ////Elements.cpp
 #include "pch.h"
 
+
 //////////////////////////////////////////////////////
 //						CONSTRUCTORS
 
@@ -8,19 +9,17 @@
 
 ///////////
 // Classes
- 
-
 Elements::Elements() {
 	name = "AIR";
 	m_ID = 0;
 	velocity = 0;
-	maxvelocity = 20;
+	maxvelocity = 10;
 	maxdispersal = 1;
 	health = 100;
 	issolid = false;
 	isliquid = false;
 	isgas = false;
-
+	
 	corodable = false;
 
 	wasupdated = false;
@@ -43,13 +42,18 @@ Gas::Gas() {
 }
 
 
+//
+//////////
+
+///////////
+//	Individual Materials
+
 Sand::Sand() {
 	name = "Sand";
 	m_ID = 1;
 	health = 70;
 	weight = 4;
 	corodable = true;
-
 	m_color = sf::Color(217, 184, 17, 255);
 
 }
@@ -80,7 +84,7 @@ Acid::Acid() {
 	name = "Acid";
 	m_ID = 5;
 	acidity = 3;
-	m_color = sf::Color(15, 222, 11, 255);
+	m_color = sf::Color(15, 222, 11,255);
 }
 
 FlammableGas::FlammableGas() {
@@ -93,7 +97,7 @@ Glass::Glass() {
 	name = "Glass";
 	m_ID = 7;
 	health = 50;
-	m_color = sf::Color(255, 255, 255, 150);
+	m_color = sf::Color(255, 255, 255,150);
 }
 
 Wood::Wood() {
@@ -101,25 +105,14 @@ Wood::Wood() {
 	m_ID = 8;
 	health = 80;
 	corodable = true;
-	m_color = sf::Color(36, 22, 8, 255);
+	m_color = sf::Color(36, 22, 8,255);
 }
-
-
 
 BlackHole::BlackHole() {
 	name = "BlackHole";
 	m_ID = 10;
 	m_color = sf::Color(0, 0, 0, 255);
 }
-
-
-//
-//////////
-
-///////////
-//	Individual Materials
-
-
 
 //Rob Particle, make it bounce through the screen untill it hits something,
 //then change direction
@@ -131,6 +124,7 @@ BlackHole::BlackHole() {
 
 //						CONSTRUCTORS
 //////////////////////////////////////////////////////
+
 
 
 
@@ -151,32 +145,12 @@ inline void Elements::move(Matrix& matrix, int y, int x, int yt, int xt) {
 
 
 void Elements::reaction(Matrix& matrix, int y, int x, int yt, int xt) {
-
+	
 }
 
 inline bool Elements::actOnOther(Matrix& matrix, int y, int x, int yt, int xt) {
 	return false;
 }
-
-inline void Elements::tryactOnOther(Matrix& matrix, int y, int x) {
-	if (y - 1 > 0 && matrix[y - 1][x].m_ID != 0)
-	{
-		actOnOther(matrix, y, x, y - 1, x);
-	}
-	if (y + 1 < worldheight && matrix[y + 1][x].m_ID != 0)
-	{
-		actOnOther(matrix, y, x, y + 1, x);
-	}
-	if (x + 1 < worldheight && matrix[y][x + 1].m_ID != 0)
-	{
-		actOnOther(matrix, y, x, y, x + 1);
-	}
-	if (x - 1 > 0 && matrix[y][x - 1].m_ID != 0)
-	{
-		actOnOther(matrix, y, x, y, x - 1);
-	}
-}
-
 
 void Elements::corode(Matrix& matrix, int yt, int xt) {
 	matrix[yt][xt].health -= 30;
@@ -187,7 +161,6 @@ void Elements::corode(Matrix& matrix, int yt, int xt) {
 }
 
 
-
 inline bool Elements::completeboundscheck(int y, int x) {
 	if (y - 1 > 0 && y + 1 < worldheight && x - 1 > 0 && x + 1 < worldwidth)
 	{
@@ -196,29 +169,29 @@ inline bool Elements::completeboundscheck(int y, int x) {
 	else return false;
 }
 
-inline bool Elements::gravity(Matrix& matrix, int y, int x) {
+inline void Elements::gravity(Matrix& matrix, int y, int x) {
 	float tempvel;
 	tempvel = matrix[y][x].velocity;
-
+	
 	if (matrix[y][x].isfreefaling == true && tempvel < maxvelocity)
 	{
 		tempvel += 0.3 + getRandom1() * 0.01;
 	}
 
 	int desired = tempvel + 1;
-	int actual = 0;
+	int actual=0;
 
 	if (y + 1 < worldheight)
 	{
 		if (matrix[y + 1][x].m_ID == 0 || matrix[y + 1][x].isgas)
 		{
 			for (int i = 1; i <= desired; i++) {
-				if (y + i < worldheight && matrix[y + i][x].m_ID == 0 || y + i < worldheight && matrix[y + i][x].isgas)
+				if (y + i < worldheight && matrix[y + i][x].m_ID == 0|| y + i < worldheight && matrix[y + i][x].isgas)
 				{
 					//increase actual for every free pixel underneath
 					actual++;
 				}
-
+			
 				else { break; }
 			}
 			if (actual == 0) { actual += 1; }
@@ -227,13 +200,13 @@ inline bool Elements::gravity(Matrix& matrix, int y, int x) {
 				swapelements(matrix, y, x, y + actual, x);
 			}
 			else {
-				matrix[y + actual][x] = matrix[y][x];
-				matrix[y][x] = AIR;
+			matrix[y + actual][x] = matrix[y][x];
+			matrix[y][x] = AIR;
 			}
 			matrix[y + actual][x].wasupdated = true;
 			matrix[y + actual][x].isfreefaling = true;
 			matrix[y + actual][x].velocity = tempvel;
-			return true;
+			
 			//std::cout << "Velocity: " << matrix[y + actual][x].m_velocity << std::endl;
 
 
@@ -241,10 +214,8 @@ inline bool Elements::gravity(Matrix& matrix, int y, int x) {
 		else {
 			actOnOther(matrix, y, x, y + 1, x);
 			matrix[y][x].isfreefaling = false;
-
 		}
 	}
-	return false;
 
 }
 
@@ -277,33 +248,33 @@ inline void Elements::moveSideways(Matrix& matrix, int y, int x) {
 			matrix[y][x] = AIR;
 			matrix[y][x - 1].wasupdated = true;
 		}
-
+		
 	}
-
+	
 }
 
 inline void Elements::moveDiagonallydown(Matrix& matrix, int y, int x) {
 	if (getRandom() > 50)
 	{
 
-		if (y + 1 < worldheight && x + 1 < worldwidth && matrix[y + 1][x + 1].m_ID == 0 && matrix[y][x + 1].m_ID == 0) //move down right
-		{
-			matrix[y + 1][x + 1] = matrix[y][x];
-			matrix[y][x] = AIR;
-			matrix[y + 1][x + 1].wasupdated = true;
+	if (y + 1 < worldheight && x + 1 < worldwidth && matrix[y + 1][x + 1].m_ID == 0 && matrix[y][x + 1].m_ID == 0) //move down right
+	{
+		matrix[y + 1][x + 1] = matrix[y][x];
+		matrix[y][x] = AIR;
+		matrix[y + 1][x + 1].wasupdated = true;
 
-		}
-		else if (y + 1 < worldheight && x > 0 && matrix[y + 1][x - 1].m_ID == 0 && matrix[y][x - 1].m_ID == 0) //move down left
-		{
-			matrix[y + 1][x - 1] = matrix[y][x];
-			matrix[y][x] = AIR;
-			matrix[y + 1][x - 1].wasupdated = true;
+	}
+	else if (y + 1 < worldheight && x > 0 && matrix[y + 1][x - 1].m_ID == 0 && matrix[y][x - 1].m_ID == 0) //move down left
+	{
+		matrix[y + 1][x - 1] = matrix[y][x];
+		matrix[y][x] = AIR;
+		matrix[y + 1][x - 1].wasupdated = true;
 
-		}
+	}
 	}
 	else
 	{
-
+		
 		if (y + 1 < worldheight && x > 0 && matrix[y + 1][x - 1].m_ID == 0 && matrix[y][x - 1].m_ID == 0) //move down left
 		{
 			matrix[y + 1][x - 1] = matrix[y][x];
@@ -358,31 +329,16 @@ inline void Elements::inverse_gravity(Matrix& matrix, int y, int x) {
 }
 
 
-
 ////////////////////////
 //		 Solids
 void MovableSolids::updateelement(Matrix& matrix, int y, int x) {
-
 
 	if (y + 1 < worldheight && matrix[y + 1][x].isliquid)
 	{
 		swapelements(matrix, y, x, y + 1, x);
 	}
-	
-
-	tryactOnOther(matrix, y, x);
-
 	gravity(matrix, y, x);
 	moveDiagonallydown(matrix, y, x);
-
-	if (x - 1 > 0 && matrix[y][x - 1].isgas)
-	{
-		swapelements(matrix, y, x, y, x - 1);
-	}
-	if (x + 1 < worldwidth && matrix[y][x + 1].isgas)
-	{
-		swapelements(matrix, y, x, y, x + 1);
-	}
 }
 //	
 ////////////////////////
@@ -391,20 +347,11 @@ void MovableSolids::updateelement(Matrix& matrix, int y, int x) {
 ////////////////////////
 //		LIQUIDS
 void Liquids::updateelement(Matrix& matrix, int y, int x) {
-	
-	tryactOnOther(matrix, y, x);
+
 	gravity(matrix, y, x);
 	moveDiagonallydown(matrix, y, x);
 	moveSideways(matrix, y, x);
 
-	if (x - 1 > 0 && matrix[y][x - 1].isgas)
-	{
-		swapelements(matrix, y, x, y, x - 1);
-	}
-	if (x + 1 < worldwidth && matrix[y][x + 1].isgas)
-	{
-		swapelements(matrix, y, x, y, x + 1);
-	}
 
 }
 //		LIQUIDS
@@ -415,7 +362,6 @@ void Liquids::updateelement(Matrix& matrix, int y, int x) {
 //		Gas
 
 void Gas::updateelement(Matrix& matrix, int y, int x) {
-	tryactOnOther(matrix, y, x);
 	inverse_gravity(matrix, y, x);
 	moveDiagonallyup(matrix, y, x);
 	moveSideways(matrix, y, x);
@@ -431,10 +377,13 @@ void Gas::updateelement(Matrix& matrix, int y, int x) {
 ///////////////////////////////////////////////////////////
 //					Individual FUNCTIONS
 
-
-
 void Sand::updateelement(Matrix& matrix, int y, int x) {
-	MovableSolids::updateelement(matrix, y,x);
+	MovableSolids::updateelement(matrix, y, x);
+}
+
+
+void Water::updateelement(Matrix& matrix, int y, int x) {
+	Liquids::updateelement(matrix, y, x);
 }
 
 inline bool Acid::actOnOther(Matrix& matrix, int y, int x, int yt, int xt) {
@@ -457,6 +406,18 @@ void Acid::updateelement(Matrix& matrix, int y, int x) {
 		matrix[y][x].wasupdated = true;
 	}
 
+	if (y - 1 > 0&& y+1 < worldheight)
+	{
+		actOnOther(matrix, y, x, y + 1, x);
+		actOnOther(matrix, y, x, y - 1, x);
+
+	}
+	if (x + 1 < worldheight && x - 1 > 0)
+	{
+		actOnOther(matrix, y, x, y , x+1);
+		actOnOther(matrix, y, x, y , x-1);
+
+	}
 
 	Liquids::updateelement(matrix, y, x);
 }

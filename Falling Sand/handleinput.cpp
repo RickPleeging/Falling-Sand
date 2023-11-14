@@ -88,12 +88,24 @@ void handleinput(std::vector<std::vector<Elements>>& matrix, sf::RenderWindow& w
 						{
 
 							matrix[mousePos.y + i][mousePos.x + j] = selection;
-
 							//std::cout << "x: " << mousePos.x << " y: " << mousePos.y << "\n"; //debug position	
 						}
 					}
 				break;
 			case 2: // brush 2
+				for (int i = 1 - cursorsize; i < cursorsize; i++)
+					for (int j = 1 - cursorsize; j < cursorsize; j++)
+					{
+						int rng1 = rand() % 100 + 1;
+						if (mousePos.y + i >= 0 && mousePos.y + i < worldheight && mousePos.x + j < worldwidth && mousePos.x + j >= 0 && rng1 < 5)
+						{
+							
+							matrix[mousePos.y + i][mousePos.x + j] = selection;
+							//std::cout << "x: " << mousePos.x << " y: " << mousePos.y << "\n"; //debug position	
+						}
+					}
+				break;
+			case 3: // brush 3
 				for (int i = 1 - cursorsize; i < cursorsize; i++)
 					for (int j = 1 - cursorsize; j < cursorsize; j++)
 					{

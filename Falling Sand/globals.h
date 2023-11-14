@@ -30,7 +30,6 @@ extern int selectedID;
 extern int spawnID;
 extern int selectedbrush;
 extern bool steponce;
-extern float gravity;
 
 
 class Elements;

@@ -1,4 +1,5 @@
 #include "pch.h"
+
 extern bool pause;
 
 
@@ -90,8 +91,9 @@ void handleevents(sf::Event& event, sf::RenderWindow& window, Matrix& matrix,int
 
 			std::cout << std::endl;
 			break;
-	
 		}
+
+
 	}
 
 	/// RESIZE 

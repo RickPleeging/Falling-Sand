@@ -18,7 +18,6 @@ void initializeParticles(std::vector<std::vector<Elements>>& matrix) {
             if (matrix[i][j].m_ID != 0)
             {
                 addParticle(j * pixelsize, i * pixelsize, sf::Color(matrix[i][j].m_color));
-
             }
         }
     }
