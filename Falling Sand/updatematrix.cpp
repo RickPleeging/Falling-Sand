@@ -11,7 +11,7 @@ void updatematrix(std::vector<std::vector<Elements>>& matrix, int worldheight, i
 		}
 
 
-
+	//update every pixel in the matrix if it wasnt already updated
 	for (int i = worldheight - 1; i >= 0; i--)
 		for (int j = worldwidth - 1; j >= 0; j--)
 		{
@@ -50,6 +50,12 @@ void updatematrix(std::vector<std::vector<Elements>>& matrix, int worldheight, i
 					break;
 				case 10:
 					BLACKHOLE.updateelement(matrix, i, j);
+					break;
+				case 11:
+					LAVA.updateelement(matrix, i, j);
+					break;
+				case 12:
+					OIL.updateelement(matrix, i, j);
 					break;
 				case 20:
 					STATICFIRE.updateelement(matrix, i, j);

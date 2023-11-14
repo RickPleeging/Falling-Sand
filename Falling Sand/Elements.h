@@ -41,6 +41,7 @@ public:
 	bool hasnotmoved;
 
 	bool corodable;
+
 	bool issolid;
 	bool isliquid;
 	bool isgas;
@@ -189,13 +190,25 @@ public:
 
 };
 
+class Lava : public Liquids {
+public:
+	Lava();
+	void updateelement(Matrix& matrix, int y, int x);
+	inline bool actOnOther(Matrix& matrix, int y, int x, int yt, int xt);
+};
+
 class Steam : public Gas {
 public:
 	Steam();
 	void updateelement(Matrix& matrix, int y, int x);
+};
 
+class Oil : public Liquids {
+public:
+	Oil();
 
 };
+
 /*
 class MovableFire : public ImmovableSolids {
 public:
@@ -225,6 +238,7 @@ public:
 //
 // handleinput.cpp
 // Create keyboard shortcut
+// Create selectedmat
 //
 // spawners
 // Create spawner if necesarry.

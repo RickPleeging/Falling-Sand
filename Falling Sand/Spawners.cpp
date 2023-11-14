@@ -29,6 +29,14 @@ void Spawners::updateelement(Matrix& matrix, int i, int j)
 		case 6:
 			matrix[i + 1][j] = FLAMMABLEGAS;
 			break;
+		case 9:
+			matrix[i + 1][j] = STEAM;
+		case 11:
+			matrix[i + 1][j] = LAVA;
+			break;
+		case 12:
+			matrix[i + 1][j] = OIL;
+			break;
 		}
 	}
 }

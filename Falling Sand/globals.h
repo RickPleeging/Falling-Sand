@@ -27,6 +27,7 @@ extern bool nodraw;
 extern bool pause;
 
 extern int selectedID;
+extern int selectedmat;
 extern int spawnID;
 extern int selectedbrush;
 extern bool steponce;
@@ -52,6 +53,8 @@ class Wood;
 class BlackHole;
 class StaticFire;
 class Steam;
+class Lava;
+class Oil;
 
 extern Elements AIR;
 extern Elements selection;
@@ -71,6 +74,9 @@ extern Wood WOOD;
 extern BlackHole BLACKHOLE;
 extern StaticFire STATICFIRE;
 extern Steam STEAM;
+extern Lava LAVA;
+extern Oil OIL;
+
 extern Spawners SPAWNER;
 
 using Matrix = std::vector<std::vector<Elements>>;

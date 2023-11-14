@@ -84,6 +84,23 @@ void handleevents(sf::Event& event, sf::RenderWindow& window, Matrix& matrix,int
 		case sf::Keyboard::Space:
 			steponce = true;
 			break;
+		case sf::Keyboard::Left:
+			if (selectedmat > 0)
+			{
+				selectedmat--;
+			}
+			else
+			{
+				selectedmat = 14;
+			}
+			break;
+		case sf::Keyboard::Right:
+			if (selectedmat < 14)
+			{
+				selectedmat++;
+			}
+			break;
+
 		case sf::Keyboard::B:
 			sf::Vector2i mousePos = sf::Mouse::getPosition(window) / pixelsize;
 

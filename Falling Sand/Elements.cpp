@@ -49,6 +49,24 @@ Gas::Gas() {
 ///////////
 //	Individual Materials
 
+/*
+ID:
+	Air			  = 0
+	Sand		  = 1
+	Water		  = 2
+	Stone		  = 3
+	Smoke		  = 4
+	Acid		  = 5
+	FlammableGas  = 6
+	Glass		  = 7
+	Wood		  = 8
+	Steam		  = 9 
+	Blackhole	  = 10
+	Lava		  = 11
+	StaticFire	  = 20
+	Spawners	  = 100
+
+*/
 Sand::Sand() {
 	name = "Sand";
 	m_ID = 1;
@@ -112,24 +130,41 @@ Wood::Wood() {
 	m_color = sf::Color(36, 22, 8, 255);
 }
 
+Steam::Steam() {
+	name = "Steam";
+	m_ID = 9;
+	m_color = sf::Color(183, 198, 201, 150);
+}
+
 BlackHole::BlackHole() {
 	name = "BlackHole";
 	m_ID = 10;
 	m_color = sf::Color(0, 0, 0, 255);
 }
 
+Lava::Lava(){
+	name = "Lava";
+	m_ID = 11;
+	m_color = sf::Color(255, 90, 0, 255);
+	corodable = true;
+
+}
+
+Oil::Oil() {
+	name = "Oil";
+	m_ID = 12;
+	health = 100;
+	m_color = sf::Color(100, 80, 40, 255);
+	fireresistance = 50;
+	corodable = true;
+}
+
 StaticFire::StaticFire() {
 	name = "Fire";
 	m_ID = 20;
 	m_color = sf::Color(255, 0, 0, 255);
-
 }
 
-Steam::Steam() {
-	name = "Steam";
-	m_ID = 9;
-	m_color = sf::Color(183, 198, 201, 255);
-}
 /*
 MovableFire::MovableFire() {
 	name = "Fire";
@@ -251,75 +286,128 @@ inline void Elements::moveSideways(Matrix& matrix, int y, int x) {
 	// Check leftward movement
 
 	if (getRandom100() > 50) {
-		if (x - 1 > 0 && matrix[y][x - 1].m_ID == 0) {
-			matrix[y][x - 1] = matrix[y][x];
-			matrix[y][x] = AIR;
-			matrix[y][x - 1].wasupdated = true;
+		if (x - 1 > 0) {
+			if (matrix[y][x - 1].m_ID == 0) {
+
+				matrix[y][x - 1] = matrix[y][x];
+				matrix[y][x] = AIR;
+				matrix[y][x - 1].wasupdated = true;
+			}
+			else if (matrix[y][x - 1].isgas)
+			{
+				swapelements(matrix, y, x, y, x - 1);
+			}
 		}
 		// Check rightward movement
-		if (x + 1 < worldwidth && matrix[y][x + 1].m_ID == 0) {
-			matrix[y][x + 1] = matrix[y][x];
-			matrix[y][x] = AIR;
-			matrix[y][x + 1].wasupdated = true;
+		else if (x + 1 < worldwidth) {
+			if (matrix[y][x + 1].m_ID == 0) {
+
+				matrix[y][x + 1] = matrix[y][x];
+				matrix[y][x] = AIR;
+				matrix[y][x + 1].wasupdated = true;
+			}
+			else if (matrix[y][x + 1].isgas) {
+				swapelements(matrix, y, x, y, x + 1);
+			}
 		}
 	}
 	else
 	{
 		// Check rightward movement
-		if (x + 1 < worldwidth && matrix[y][x + 1].m_ID == 0) {
-			matrix[y][x + 1] = matrix[y][x];
-			matrix[y][x] = AIR;
-			matrix[y][x + 1].wasupdated = true;
-		}
-		if (x - 1 > 0 && matrix[y][x - 1].m_ID == 0) {
-			matrix[y][x - 1] = matrix[y][x];
-			matrix[y][x] = AIR;
-			matrix[y][x - 1].wasupdated = true;
-		}
+		if (x + 1 < worldwidth) {
+			if (matrix[y][x + 1].m_ID == 0) {
 
+				matrix[y][x + 1] = matrix[y][x];
+				matrix[y][x] = AIR;
+				matrix[y][x + 1].wasupdated = true;
+			}
+			else if (matrix[y][x + 1].isgas) {
+				swapelements(matrix, y, x, y, x + 1);
+			}
+			// Check left movement
+			if (x - 1 > 0) {
+				if (matrix[y][x - 1].m_ID == 0) {
+
+					matrix[y][x - 1] = matrix[y][x];
+					matrix[y][x] = AIR;
+					matrix[y][x - 1].wasupdated = true;
+				}
+				else if (matrix[y][x - 1].isgas)
+				{
+					swapelements(matrix, y, x, y, x - 1);
+				}
+			}
+		}
 	}
+
 
 }
 
 inline void Elements::moveDiagonallydown(Matrix& matrix, int y, int x) {
 	if (getRandom100() > 50)
 	{
-
-		if (y + 1 < worldheight && x + 1 < worldwidth && matrix[y + 1][x + 1].m_ID == 0 && matrix[y][x + 1].m_ID == 0) //move down right
+		if (y + 1 < worldheight && x + 1 < worldwidth) //move down right
 		{
-			matrix[y + 1][x + 1] = matrix[y][x];
-			matrix[y][x] = AIR;
-			matrix[y + 1][x + 1].wasupdated = true;
-
+			if (matrix[y + 1][x + 1].m_ID == 0 && matrix[y][x + 1].m_ID == 0)
+			{
+				matrix[y + 1][x + 1] = matrix[y][x];
+				matrix[y][x] = AIR;
+				matrix[y + 1][x + 1].wasupdated = true;
+			}
+			else if (matrix[y + 1][x + 1].isgas && matrix[y][x + 1].isgas)
+			{
+				swapelements(matrix, y, x, y + 1, x + 1);
+			}
 		}
-		
-		else if (y + 1 < worldheight && x > 0 && matrix[y + 1][x - 1].m_ID == 0 && matrix[y][x - 1].m_ID == 0) //move down left
+		else if (y + 1 < worldheight && x - 1 > 0) //move down left
 		{
-			matrix[y + 1][x - 1] = matrix[y][x];
-			matrix[y][x] = AIR;
-			matrix[y + 1][x - 1].wasupdated = true;
+			if (matrix[y + 1][x - 1].m_ID == 0 && matrix[y][x - 1].m_ID == 0)
+			{
 
+				matrix[y + 1][x - 1] = matrix[y][x];
+				matrix[y][x] = AIR;
+				matrix[y + 1][x - 1].wasupdated = true;
+			}
+			else if (matrix[y + 1][x - 1].isgas && matrix[y][x - 1].isgas)
+			{
+				swapelements(matrix, y, x, y + 1, x - 1);
+			}
 		}
 	}
 	else
 	{
 
-		if (y + 1 < worldheight && x > 0 && matrix[y + 1][x - 1].m_ID == 0 && matrix[y][x - 1].m_ID == 0) //move down left
+		if (y + 1 < worldheight && x - 1 > 0) //move down left
 		{
-			matrix[y + 1][x - 1] = matrix[y][x];
-			matrix[y][x] = AIR;
-			matrix[y + 1][x - 1].wasupdated = true;
+			if (matrix[y + 1][x - 1].m_ID == 0 && matrix[y][x - 1].m_ID == 0)
+			{
 
+				matrix[y + 1][x - 1] = matrix[y][x];
+				matrix[y][x] = AIR;
+				matrix[y + 1][x - 1].wasupdated = true;
+			}
+			else if (matrix[y + 1][x - 1].isgas && matrix[y][x - 1].isgas)
+			{
+				swapelements(matrix, y, x, y + 1, x - 1);
+			}
 		}
-		else if (y + 1 < worldheight && x + 1 < worldwidth && matrix[y + 1][x + 1].m_ID == 0 && matrix[y][x + 1].m_ID == 0) //move down right
+		else if (y + 1 < worldheight && x + 1 < worldwidth) //move down right
 		{
-			matrix[y + 1][x + 1] = matrix[y][x];
-			matrix[y][x] = AIR;
-			matrix[y + 1][x + 1].wasupdated = true;
-
+			if (matrix[y + 1][x + 1].m_ID == 0 && matrix[y][x + 1].m_ID == 0)
+			{
+				matrix[y + 1][x + 1] = matrix[y][x];
+				matrix[y][x] = AIR;
+				matrix[y + 1][x + 1].wasupdated = true;
+			}
+			else if (matrix[y + 1][x + 1].isgas && matrix[y][x + 1].isgas)
+			{
+				swapelements(matrix, y, x, y + 1, x + 1);
+			}
 		}
 	}
 }
+
+
 inline void Elements::moveDiagonallyup(Matrix& matrix, int y, int x) {
 	if (y - 1 > 0 && x + 1 < worldwidth && matrix[y - 1][x + 1].m_ID == 0 && matrix[y][x + 1].m_ID == 0) //move up right
 	{
@@ -380,8 +468,6 @@ void Liquids::updateelement(Matrix& matrix, int y, int x) {
 	gravity(matrix, y, x);
 	moveDiagonallydown(matrix, y, x);
 	moveSideways(matrix, y, x);
-
-
 }
 //		LIQUIDS
 ////////////////////////
@@ -514,7 +600,7 @@ inline bool StaticFire::actOnOther(Matrix& matrix, int y, int x, int yt, int xt)
 	}
 	//turns water into smoke
 	if (matrix[yt][xt].m_ID == 2) {
-		matrix[y][x] = STEAM;
+		matrix[y][x] = AIR;
 		matrix[yt][xt] = STEAM;
 
 		matrix[y][x].wasupdated = true;
@@ -528,18 +614,63 @@ inline bool StaticFire::actOnOther(Matrix& matrix, int y, int x, int yt, int xt)
 
 }
 
-void Steam::updateelement(Matrix& matrix, int y, int x) {
-	
-	matrix[y][x].health -= 1;
+void Lava::updateelement(Matrix& matrix, int y, int x) {
 
+	if (y - 1 > 0)
+	{
+		actOnOther(matrix, y, x, y - 1, x);
+	}
+	if (y + 1 < worldheight)
+	{
+		actOnOther(matrix, y, x, y + 1, x);
+	}
+	if (x + 1 < worldwidth)
+	{
+		actOnOther(matrix, y, x, y, x + 1);
+	}
+	if (x - 1 > 0)
+	{
+		actOnOther(matrix, y, x, y, x - 1);
+	}
+
+	Liquids::updateelement(matrix,y,x);
+}
+
+
+inline bool Lava::actOnOther(Matrix& matrix, int y, int x, int yt, int xt) {
+
+	if (matrix[yt][xt].fireresistance != 100) {
+		if (getRandom(50, 100) > matrix[yt][xt].fireresistance)
+		{
+			matrix[yt][xt].burnID = matrix[yt][xt].m_ID;
+			float temphealth = matrix[yt][xt].health;
+			matrix[yt][xt] = STATICFIRE;
+			matrix[yt][xt].health = temphealth;
+			matrix[yt][xt].wasupdated = true;
+		}
+		return true;
+	}
+	if (matrix[yt][xt].m_ID == 2)
+	{
+		matrix[y][x] = STONE;
+		matrix[yt][xt] = STONE;
+		return true;
+	}
+	else
+	return false;
+}
+
+
+void Steam::updateelement(Matrix& matrix, int y, int x) {
+	//turns into Water after a while
+	if (health > 0) {
+	matrix[y][x].health -= 1;
+	}
 	if (matrix[y][x].health < 0){
 
-		if (getRandom(0, 1000) == 1)
+		if (getRandom(0, 100000) == 10)
 		{
 			matrix[y][x] = WATER;
-		}
-		else {
-			matrix[y][x].health = 50;
 		}
 
 	}

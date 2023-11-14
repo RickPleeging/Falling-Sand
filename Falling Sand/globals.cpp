@@ -11,6 +11,7 @@ bool pause = false;
 bool nodraw = false;
 
 int selectedID = 1;
+int selectedmat = 1;
 int spawnID = 0;
 int selectedbrush = 1;
 
@@ -35,3 +36,5 @@ Glass GLASS;
 Wood WOOD;
 StaticFire STATICFIRE;
 Steam STEAM;
+Lava LAVA;
+Oil OIL;
