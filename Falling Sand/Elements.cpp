@@ -16,7 +16,7 @@ Elements::Elements() {
 	maxvelocity = 10;
 	maxdispersal = 1;
 	health = 100;
-	fireresistance = 100;
+	fireresistance = -1;
 	issolid = false;
 	isliquid = false;
 	isgas = false;
@@ -60,10 +60,11 @@ ID:
 	FlammableGas  = 6
 	Glass		  = 7
 	Wood		  = 8
-	Steam		  = 9 
+	Steam		  = 9
 	Blackhole	  = 10
 	Lava		  = 11
 	StaticFire	  = 20
+	GasFire		  = 22
 	Spawners	  = 100
 
 */
@@ -142,11 +143,13 @@ BlackHole::BlackHole() {
 	m_color = sf::Color(0, 0, 0, 255);
 }
 
-Lava::Lava(){
+Lava::Lava() {
 	name = "Lava";
 	m_ID = 11;
 	m_color = sf::Color(255, 90, 0, 255);
 	corodable = true;
+	baseheat = 50;
+	maxheat = 100;
 
 }
 
@@ -162,8 +165,34 @@ Oil::Oil() {
 StaticFire::StaticFire() {
 	name = "Fire";
 	m_ID = 20;
+
+	baseheat = 0;
+	maxheat = 100;
 	m_color = sf::Color(255, 0, 0, 255);
+	colorPallete = { sf::Color(255, 206, 0, 255),
+					sf::Color(255, 154, 0, 255),
+					sf::Color(255,  90, 0, 255),
+					sf::Color(218,  75, 3, 255) };
+
 }
+
+GasFire::GasFire() {
+	name = "Fire";
+	health = 20;
+	m_ID = 22;
+
+	baseheat = 0;
+	maxheat = 100;
+
+	m_color = sf::Color(255, 0, 0, 255);
+	colorPallete = { sf::Color(228, 84, 1, 155),
+					sf::Color(228, 84, 1, 155),
+					sf::Color(254, 145, 20, 155),
+					sf::Color(246, 189, 57, 155) };
+
+}
+
+
 
 /*
 MovableFire::MovableFire() {
@@ -215,6 +244,95 @@ inline bool Elements::actOnOther(Matrix& matrix, int y, int x, int yt, int xt) {
 	return false;
 }
 
+inline bool Elements::try_actOnOther(Matrix& matrix, int y, int x) {
+	if (y - 1 > 0)
+	{
+		if (actOnOther(matrix, y, x, y - 1, x) == true) {
+			return true;
+		};
+	}
+	if (y + 1 < worldheight)
+	{
+		if (actOnOther(matrix, y, x, y + 1, x) == true) {
+			return true;
+		}
+	}
+	if (x + 1 < worldwidth)
+	{
+		if (actOnOther(matrix, y, x, y, x + 1) == true) {
+			return true;
+		}
+	}
+	if (x - 1 > 0)
+	{
+		if (actOnOther(matrix, y, x, y, x - 1) == true) {
+			return true;
+		}
+	}
+		return false;
+}
+
+inline bool Elements::try_applyHeat(Matrix& matrix, int y, int x) {
+	if (y - 1 > 0)
+	{
+		if (applyHeat(matrix, y, x, y - 1, x) == true) {
+			return true;
+		};
+	}
+	if (y + 1 < worldheight)
+	{
+		if (applyHeat(matrix, y, x, y + 1, x) == true) {
+			return true;
+		}
+	}
+	if (x + 1 < worldwidth)
+	{
+		if (applyHeat(matrix, y, x, y, x + 1) == true) {
+			return true;
+		}
+	}
+	if (x - 1 > 0)
+	{
+		if (applyHeat(matrix, y, x, y, x - 1) == true) {
+			return true;
+		}
+	}
+	return false;
+}
+
+inline bool Elements::applyHeat(Matrix& matrix, int y, int x, int yt, int xt) {
+
+	if (matrix[yt][xt].fireresistance != -1) {
+		if (getRandom(baseheat, maxheat) > matrix[yt][xt].fireresistance)
+		{
+			matrix[yt][xt].burnID = matrix[yt][xt].m_ID;
+			float temphealth = matrix[yt][xt].health;
+			matrix[yt][xt] = STATICFIRE;
+			matrix[yt][xt].health = temphealth;
+			matrix[yt][xt].wasupdated = true;
+		}
+		return true;
+	}
+	//turns water to steam
+	if (matrix[yt][xt].m_ID == 2)
+	{
+		matrix[y][x] = AIR;
+		matrix[yt][xt] = STEAM;
+		return true;
+	}
+	//turns sand into glass
+	if (matrix[yt][xt].m_ID == 1) {
+		matrix[y][x] = AIR;
+		matrix[yt][xt] = GLASS;
+
+		matrix[y][x].wasupdated = true;
+		matrix[yt][xt].wasupdated = true;
+	}
+	else
+		return false;
+}
+
+
 void Elements::corode(Matrix& matrix, int yt, int xt) {
 	matrix[yt][xt].health -= 30;
 	if (matrix[yt][xt].health < 0)
@@ -222,6 +340,15 @@ void Elements::corode(Matrix& matrix, int yt, int xt) {
 		matrix[yt][xt] = FLAMMABLEGAS;
 	}
 }
+
+
+const inline void Elements::getColor(std::vector<sf::Color>& colorPalette, Matrix& matrix, int y, int x) {
+
+	std::size_t paletteSize = colorPalette.size();
+	matrix[y][x].m_color = colorPalette[getRandom(0, paletteSize - 1)];
+
+}
+
 
 
 inline bool Elements::completeboundscheck(int y, int x) {
@@ -524,33 +651,16 @@ void Acid::updateelement(Matrix& matrix, int y, int x) {
 		matrix[y][x].wasupdated = true;
 	}
 
-
-	if (y - 1 > 0)
-	{
-		actOnOther(matrix, y, x, y - 1, x);
-	}
-	if (y + 1 < worldheight)
-	{
-		actOnOther(matrix, y, x, y + 1, x);
-	}
-	if (x + 1 < worldwidth)
-	{
-		actOnOther(matrix, y, x, y, x + 1);
-	}
-	if (x - 1 > 0)
-	{
-		actOnOther(matrix, y, x, y, x - 1);
-	}
+	try_actOnOther(matrix,y,x);
 
 	Liquids::updateelement(matrix, y, x);
 }
 
 void StaticFire::updateelement(Matrix& matrix, int y, int x) {
 
-	matrix[y][x].m_color = sf::Color(255, getRandom(0, 100), 0, getRandom(50, 255));
+	getColor(colorPallete, matrix, y, x);
 
-
-	matrix[y][x].health -= getRandom(1,5) *0.2;
+	matrix[y][x].health -= getRandom(1, 5) * 0.2;
 
 	if (matrix[y][x].health < 0)
 	{
@@ -559,22 +669,28 @@ void StaticFire::updateelement(Matrix& matrix, int y, int x) {
 	}
 	if (getRandom(0, 100) < 30)
 	{
+		try_applyHeat(matrix, y, x);
 
-		if (y - 1 > 0)
+	}
+
+	//random chance to spawn GasFire Particle
+	if (getRandom(0, 100) < 50)
+	{
+		if (y - 1 > 0 && matrix[y - 1][x].m_ID == 0)
 		{
-			actOnOther(matrix, y, x, y - 1, x);
+			matrix[y - 1][x] = GASFIRE;
 		}
-		if (y + 1 < worldheight)
+		else if (y + 1 < worldheight && matrix[y + 1][x].m_ID == 0)
 		{
-			actOnOther(matrix, y, x, y + 1, x);
+			matrix[y + 1][x] = GASFIRE;
 		}
-		if (x + 1 < worldwidth )
+		else if (x + 1 < worldwidth && matrix[y][x + 1].m_ID == 0)
 		{
-			actOnOther(matrix, y, x, y, x + 1);
+			matrix[y][x + 1] = GASFIRE;
 		}
-		if (x - 1 > 0)
+		else if (x - 1 > 0 && matrix[y][x - 1].m_ID == 0)
 		{
-			actOnOther(matrix, y, x, y, x - 1);
+			matrix[y][x - 1] = GASFIRE;
 		}
 	}
 
@@ -582,91 +698,49 @@ void StaticFire::updateelement(Matrix& matrix, int y, int x) {
 
 
 }
-inline bool StaticFire::actOnOther(Matrix& matrix, int y, int x, int yt, int xt) {
-	//checks if flamable
-	if (matrix[yt][xt].fireresistance != 100) {
-		//random chance to turn into fire particle
-		if (getRandom(0, 100) > matrix[yt][xt].fireresistance)
+
+void GasFire::updateelement(Matrix& matrix, int y, int x) {
+
+	//matrix[y][x].m_color = sf::Color(255, getRandom(0, 100), 0, getRandom(50, 255));
+
+	getColor(colorPallete, matrix, y, x);
+
+	matrix[y][x].health -= getRandom(0, 5);
+
+	if (matrix[y][x].health < 0)
+	{
+		if (getRandom(0, 100) < 30)
 		{
-			matrix[yt][xt].burnID = matrix[yt][xt].m_ID;
-			float temphealth = matrix[yt][xt].health;
-			matrix[yt][xt] = STATICFIRE;
-			matrix[yt][xt].health = temphealth;
-			matrix[yt][xt].wasupdated = true;
-
-
+			matrix[y][x] = SMOKE;
 		}
-		return true;
-	}
-	//turns water into smoke
-	if (matrix[yt][xt].m_ID == 2) {
-		matrix[y][x] = AIR;
-		matrix[yt][xt] = STEAM;
-
+		else {
+			matrix[y][x] = AIR;
+		}
 		matrix[y][x].wasupdated = true;
-		matrix[yt][xt].wasupdated = true;
-
+	}
+	if (getRandom(0, 100) < 30)
+	{
+		try_applyHeat(matrix, y, x);
 	}
 
-
-	return false;
-
+	Gas::updateelement(matrix, y, x);
 
 }
+
 
 void Lava::updateelement(Matrix& matrix, int y, int x) {
 
-	if (y - 1 > 0)
-	{
-		actOnOther(matrix, y, x, y - 1, x);
-	}
-	if (y + 1 < worldheight)
-	{
-		actOnOther(matrix, y, x, y + 1, x);
-	}
-	if (x + 1 < worldwidth)
-	{
-		actOnOther(matrix, y, x, y, x + 1);
-	}
-	if (x - 1 > 0)
-	{
-		actOnOther(matrix, y, x, y, x - 1);
-	}
-
-	Liquids::updateelement(matrix,y,x);
-}
-
-
-inline bool Lava::actOnOther(Matrix& matrix, int y, int x, int yt, int xt) {
-
-	if (matrix[yt][xt].fireresistance != 100) {
-		if (getRandom(50, 100) > matrix[yt][xt].fireresistance)
-		{
-			matrix[yt][xt].burnID = matrix[yt][xt].m_ID;
-			float temphealth = matrix[yt][xt].health;
-			matrix[yt][xt] = STATICFIRE;
-			matrix[yt][xt].health = temphealth;
-			matrix[yt][xt].wasupdated = true;
-		}
-		return true;
-	}
-	if (matrix[yt][xt].m_ID == 2)
-	{
-		matrix[y][x] = STONE;
-		matrix[yt][xt] = STONE;
-		return true;
-	}
-	else
-	return false;
+	try_applyHeat(matrix, y, x);
+	Liquids::updateelement(matrix, y, x);
 }
 
 
 void Steam::updateelement(Matrix& matrix, int y, int x) {
 	//turns into Water after a while
 	if (health > 0) {
-	matrix[y][x].health -= 1;
+		matrix[y][x].health -= 1;
 	}
-	if (matrix[y][x].health < 0){
+	if (matrix[y][x].health < 0) {
 
 		if (getRandom(0, 100000) == 10)
 		{

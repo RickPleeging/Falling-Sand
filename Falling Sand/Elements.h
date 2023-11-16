@@ -32,9 +32,12 @@ public:
 	float hardness;
 	float fireresistance;
 	int m_spawnID;
+	int baseheat;
+	int maxheat;
 	int burnID;
 	int acidity;
 
+	std::vector<sf::Color> colorPallete;
 
 	bool wasupdated;
 	bool isfreefaling;
@@ -52,6 +55,10 @@ public:
 
 	Elements();
 
+	//virtual inline void getColor();
+
+	const inline void getColor(std::vector<sf::Color>& colorPallete, Matrix& matrix, int y, int x);
+
 	inline bool completeboundscheck(int y, int x);
 
 	virtual inline void gravity(Matrix& matrix, int y, int x);
@@ -67,7 +74,10 @@ public:
 	inline void swapelements(Matrix& matrix, int y, int x, int i2, int j2);
 	void updateelement(Matrix& matrix, int y, int x);
 	void reaction(Matrix& matrix, int y, int x, int yt, int xt);
+	virtual inline bool try_actOnOther(Matrix& matrix, int y, int x);
 	virtual inline bool actOnOther(Matrix& matrix, int y, int x, int yt, int xt);
+	virtual inline bool try_applyHeat(Matrix& matrix, int y, int x);
+	virtual inline bool applyHeat(Matrix& matrix, int y, int x, int yt, int xt);
 
 	
 
@@ -185,16 +195,23 @@ public:
 
 	StaticFire();
 	void updateelement(Matrix& matrix, int y, int x);
-	inline bool actOnOther(Matrix& matrix, int y, int x, int yt, int xt);
 
 
 };
+
+class GasFire : public Gas {
+public:
+
+	GasFire();
+	void updateelement(Matrix& matrix, int y, int x);
+
+};
+
 
 class Lava : public Liquids {
 public:
 	Lava();
 	void updateelement(Matrix& matrix, int y, int x);
-	inline bool actOnOther(Matrix& matrix, int y, int x, int yt, int xt);
 };
 
 class Steam : public Gas {
@@ -208,6 +225,8 @@ public:
 	Oil();
 
 };
+
+
 
 /*
 class MovableFire : public ImmovableSolids {

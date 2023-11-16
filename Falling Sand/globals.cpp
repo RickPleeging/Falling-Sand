@@ -35,6 +35,7 @@ FlammableGas FLAMMABLEGAS;
 Glass GLASS;
 Wood WOOD;
 StaticFire STATICFIRE;
+GasFire GASFIRE;
 Steam STEAM;
 Lava LAVA;
 Oil OIL;

@@ -3,7 +3,7 @@
 #include "Spawners.h"
 
 Spawners::Spawners() {
-	m_color = sf::Color(236, 66, 245, 255);
+	m_color = sf::Color(236, 66, 245, 100);
 	m_ID = 100;
 
 }
@@ -37,6 +37,10 @@ void Spawners::updateelement(Matrix& matrix, int i, int j)
 		case 12:
 			matrix[i + 1][j] = OIL;
 			break;
+		case 20:
+			matrix[i + 1][j] = STATICFIRE;
+			break;
+
 		}
 	}
 }
