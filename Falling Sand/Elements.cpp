@@ -649,8 +649,7 @@ void MovableSolids::updateelement(Matrix& matrix, int y, int x) {
 			matrix[y][x].hasmoved = false;
 		}
 	}
-	if (matrix[y][x].hasmoved)
-		getColor(colorPalette, matrix, y, x);
+	
 }
 
 void ImmovableSolids::updateelement(Matrix& matrix, int y, int x) {
