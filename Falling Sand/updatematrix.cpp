@@ -60,6 +60,9 @@ void updatematrix(std::vector<std::vector<Elements>>& matrix, int worldheight, i
 				case 20:
 					STATICFIRE.updateelement(matrix, i, j);
 					break;
+				case 21:
+					LIQUIDFIRE.updateelement(matrix, i, j);
+					break;
 				case 22:
 					GASFIRE.updateelement(matrix, i, j);
 					break;

@@ -2,13 +2,69 @@
 #include "Falling Sand.h"
 #include "globals.h"
 
+//thank you chatgpt 
+void drawline(std::vector<std::vector<Elements>>& matrix, int x0, int y0, int x1, int y1)
+{
+	int dx = abs(x1 - x0);
+	int dy = abs(y1 - y0);
+	int sx = (x0 < x1) ? 1 : -1;
+	int sy = (y0 < y1) ? 1 : -1;
+	int err = dx - dy;
+
+	while (true)
+	{
+		switch (selectedbrush)
+		{
+		case 1:
+
+			for (int i = 1 - cursorsize; i < cursorsize; i++)
+				for (int j = 1 - cursorsize; j < cursorsize; j++)
+				{
+					if (y0 + i >= 0 && y0 + i < worldheight && x0 + j < worldwidth && x0 + j >= 0)
+					{
+						matrix[y0 + i][x0 + j] = selection;
+						matrix[y0 + i][x0 + j].getColor(selection.colorPalette, matrix, y0 + i, x0 + j);
+					}
+				}
+			break;
+		case 2:
+			for (int i = 1 - cursorsize; i < cursorsize; i += getRandom(0, cursorsize))
+				for (int j = 1 - cursorsize; j < cursorsize; j += getRandom(0, cursorsize))
+				{
+					if (y1 + i >= 0 && y1 + i < worldheight && x1 + j < worldwidth && x1 + j >= 0)
+					{
+						matrix[y1 + i][x1 + j] = selection;
+						matrix[y1 + i][x1 + j].getColor(selection.colorPalette, matrix, y1 + i, x1 + j);
+					}
+				}
+			break;
+		}
+
+		if (x0 == x1 && y0 == y1)
+			break;
+
+		int e2 = 2 * err;
+
+		if (e2 > -dy)
+		{
+			err -= dy;
+			x0 += sx;
+		}
+
+		if (e2 < dx)
+		{
+			err += dx;
+			y0 += sy;
+		}
+	}
+}
+
+
 void handleinput(std::vector<std::vector<Elements>>& matrix, sf::RenderWindow& window, sf::Event& event)
 {
-	
+
+
 	//swap selcted material
-
-	
-
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num0))
 	{
@@ -72,14 +128,14 @@ void handleinput(std::vector<std::vector<Elements>>& matrix, sf::RenderWindow& w
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
 	{
-		
+
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::R)) //reset screen
 	{
 		for (int i = worldheight - 1; i >= 0; i--)
 			for (int j = worldwidth - 1; j >= 0; j--)
-				matrix[i][j].m_ID = 0;
+				matrix[i][j] = AIR;
 	}
 
 	switch (selectedmat)
@@ -125,74 +181,38 @@ void handleinput(std::vector<std::vector<Elements>>& matrix, sf::RenderWindow& w
 		break;
 	case 13:
 		selection = OIL;
+		break;
+	case 14:
+		selection = LIQUIDFIRE;
+		break;
 	}
+
+	static sf::Vector2i mousePos;
+	static sf::Vector2i oldmousePos;
+
+	oldmousePos = mousePos;
+	mousePos = sf::Mouse::getPosition(window) / pixelsize;
 
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
-		srand(time(NULL));
-		sf::Vector2i mousePos = sf::Mouse::getPosition(window) / pixelsize;
-
 
 		if (mousePos.y >= 0 && mousePos.y < worldheight && mousePos.x < worldwidth && mousePos.x >= 0)
 		{
-			switch (selectedbrush)
-			{
-			case 1: // brush 1
-				for (int i = 1 - cursorsize; i < cursorsize; i++)
-					for (int j = 1 - cursorsize; j < cursorsize; j++)
-					{
-						if (mousePos.y + i >= 0 && mousePos.y + i < worldheight && mousePos.x + j < worldwidth && mousePos.x + j >= 0)
-						{
-
-							matrix[mousePos.y + i][mousePos.x + j] = selection;
-							matrix[mousePos.y + i][mousePos.x + j].getColor(selection.colorPalette,matrix, mousePos.y + i, mousePos.x + j);
-							//std::cout << "x: " << mousePos.x << " y: " << mousePos.y << "\n"; //debug position	
-						}
-					}
-				break;
-			case 2: // brush 2
-				for (int i = 1 - cursorsize; i < cursorsize; i++)
-					for (int j = 1 - cursorsize; j < cursorsize; j++)
-					{
-						int rng1 = rand() % 100 + 1;
-						if (mousePos.y + i >= 0 && mousePos.y + i < worldheight && mousePos.x + j < worldwidth && mousePos.x + j >= 0 && rng1 < 5)
-						{
-							
-							matrix[mousePos.y + i][mousePos.x + j] = selection;
-							matrix[mousePos.y + i][mousePos.x + j].getColor(selection.colorPalette, matrix, mousePos.y + i, mousePos.x + j);
-
-							//std::cout << "x: " << mousePos.x << " y: " << mousePos.y << "\n"; //debug position	
-						}
-					}
-				break;
-			case 3: // brush 3
-				for (int i = 1 - cursorsize; i < cursorsize; i++)
-					for (int j = 1 - cursorsize; j < cursorsize; j++)
-					{
-						int rng1 = rand() % 100 + 1;
-						if (mousePos.y + i >= 0 && mousePos.y + i < worldheight && mousePos.x + j < worldwidth && mousePos.x + j >= 0 && rng1 < 5)
-						{
-							
-							matrix[mousePos.y + i][mousePos.x + j] = selection;
-							//std::cout << "x: " << mousePos.x << " y: " << mousePos.y << "\n"; //debug position	
-						}
-					}
-				break;
-			}	
+			drawline(matrix, oldmousePos.x, oldmousePos.y, mousePos.x, mousePos.y);
 		}
-	}
 
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
-	{
-		sf::Vector2i mousePos = sf::Mouse::getPosition(window) / pixelsize;
-
-		if (mousePos.y >= 0 && mousePos.y < worldheight && mousePos.x < worldwidth && mousePos.x >= 0)
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
 		{
-			//matrix[mousePos.y][mousePos.x] = Spawners();
+			sf::Vector2i mousePos = sf::Mouse::getPosition(window) / pixelsize;
 
-			matrix[mousePos.y][mousePos.x] = SPAWNER;
-			matrix[mousePos.y][mousePos.x].m_spawnID = selection.m_ID;
-			//std::cout << "x: " << mousePos.x << " y: " << mousePos.y << "\n"; //debug position	
+			if (mousePos.y >= 0 && mousePos.y < worldheight && mousePos.x < worldwidth && mousePos.x >= 0)
+			{
+				//matrix[mousePos.y][mousePos.x] = Spawners();
+
+				matrix[mousePos.y][mousePos.x] = SPAWNER;
+				matrix[mousePos.y][mousePos.x].m_spawnID = selection.m_ID;
+				//std::cout << "x: " << mousePos.x << " y: " << mousePos.y << "\n"; //debug position
+			}
 		}
 	}
 }

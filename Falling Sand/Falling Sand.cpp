@@ -2,25 +2,6 @@
 //Array	= [height/y/Rows]	[width/x/Columns]
 
 
-		//////////////////////////////
-		//		Notes
-		// 
-		// 
-		// Todo: Make Array Resizable (create buffer array copy shit over, clear and resize ....)
-		// 
-		// 
-		// Todo: New Elements
-		// Todo: Improve Brushes
-		// 
-		// Todo: Convert From Console Application to Windows Application
-		// Todo: Implement Menu Screen before game starts. (create 2 windows // or fix array resizing and do it in 1)
-		// 
-		//
-		// 
-		// 
-		//////////////////////////////
-
-
 
 sf::Font font;
 sf::Clock deltaclock;
@@ -29,7 +10,7 @@ float dt; //updates per second
 int framecount=0;
 
 int main() {
-	
+
 	initfont();
 
 	//mainmenu();

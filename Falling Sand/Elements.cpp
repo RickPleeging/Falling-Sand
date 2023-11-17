@@ -192,7 +192,7 @@ Lava::Lava() {
 Oil::Oil() {
 	name = "Oil";
 	m_ID = 12;
-	health = 100;
+	health = 200;
 	m_color = sf::Color(100, 80, 40, 255);
 	fireresistance = 50;
 	corodable = true;
@@ -214,8 +214,21 @@ StaticFire::StaticFire() {
 
 }
 
+LiquidFire::LiquidFire() {
+	name = "Liquid Fire";
+	m_ID = 21;
+
+	baseheat = 0;
+	maxheat = 100;
+	m_color = sf::Color(255, 0, 0, 255);
+	colorPalette = { sf::Color(255, 206, 0, 255),
+					sf::Color(255, 154, 0, 255),
+					sf::Color(255,  90, 0, 255),
+					sf::Color(218,  75, 3, 255) };
+
+}
 GasFire::GasFire() {
-	name = "Fire";
+	name = "Gas Fire";
 	health = 20;
 	m_ID = 22;
 
@@ -225,23 +238,10 @@ GasFire::GasFire() {
 	m_color = sf::Color(255, 0, 0, 255);
 	colorPalette = { sf::Color(228, 84, 1, 155),
 					sf::Color(228, 84, 1, 155),
-					sf::Color(254, 145, 20, 155),
+					sf::Color(244, 145, 20, 155),
 					sf::Color(246, 189, 57, 155) };
 
 }
-
-
-
-/*
-MovableFire::MovableFire() {
-	name = "Fire";
-	m_ID = 21;
-}
-LiquidFire::LiquidFire() {
-	name = "Fire";
-	m_ID = 22;
-}
-*/
 
 
 //Rob Particle, make it bounce through the screen untill it hits something,
@@ -300,6 +300,7 @@ inline bool Elements::try_actOnOther(Matrix& matrix, int y, int x) {
 }
 
 inline bool Elements::try_applyHeat(Matrix& matrix, int y, int x) {
+
 	if (y - 1 > 0)
 	{
 		if (applyHeat(matrix, y, x, y - 1, x) == true) {
@@ -327,16 +328,34 @@ inline bool Elements::try_applyHeat(Matrix& matrix, int y, int x) {
 	return false;
 }
 
+inline void Elements::ignite(Matrix& matrix, int y, int x, int yt, int xt) {
+	
+	matrix[yt][xt].burnID = matrix[yt][xt].m_ID;
+	float temphealth = matrix[yt][xt].health;
+	if (matrix[yt][xt].issolid)
+	{
+		matrix[yt][xt] = STATICFIRE;
+	}
+	else if (matrix[yt][xt].isliquid)
+	{
+		matrix[yt][xt] = LIQUIDFIRE;
+	}
+	else
+	{
+		matrix[yt][xt] = STATICFIRE;
+	}
+	matrix[yt][xt].health = temphealth;
+	matrix[yt][xt].wasupdated = true;
+
+}
+
+
 inline bool Elements::applyHeat(Matrix& matrix, int y, int x, int yt, int xt) {
 
 	if (matrix[yt][xt].fireresistance != -1) {
 		if (getRandom(baseheat, maxheat) > matrix[yt][xt].fireresistance)
 		{
-			matrix[yt][xt].burnID = matrix[yt][xt].m_ID;
-			float temphealth = matrix[yt][xt].health;
-			matrix[yt][xt] = STATICFIRE;
-			matrix[yt][xt].health = temphealth;
-			matrix[yt][xt].wasupdated = true;
+			ignite(matrix, y, x, yt, xt);
 		}
 		return true;
 	}
@@ -350,12 +369,19 @@ inline bool Elements::applyHeat(Matrix& matrix, int y, int x, int yt, int xt) {
 	}
 	//turns sand into glass
 	if (matrix[yt][xt].m_ID == 1) {
+		if (getRandom(0, 100) < 30)
+		{
 		matrix[y][x] = AIR;
 		matrix[yt][xt] = GLASS;
 		matrix[yt][xt].getColor(GLASS.colorPalette, matrix, yt, xt);
-
 		matrix[y][x].wasupdated = true;
 		matrix[yt][xt].wasupdated = true;
+		}
+		else
+		{
+			return false;
+		}
+		
 	}
 	else
 		return false;
@@ -745,6 +771,8 @@ void StaticFire::updateelement(Matrix& matrix, int y, int x) {
 
 	getColor(colorPalette, matrix, y, x);
 
+	
+
 	matrix[y][x].health -= getRandom(1, 5) * 0.2;
 
 	if (matrix[y][x].health < 0)
@@ -816,6 +844,45 @@ void GasFire::updateelement(Matrix& matrix, int y, int x) {
 
 }
 
+void LiquidFire::updateelement(Matrix& matrix, int y, int x) {
+
+	getColor(colorPalette, matrix, y, x);
+
+	matrix[y][x].health -= getRandom(1, 5) * 0.2;
+
+	if (matrix[y][x].health < 0)
+	{
+		matrix[y][x] = AIR;
+		matrix[y][x].wasupdated = true;
+	}
+	if (getRandom(0, 100) < 30)
+	{
+		try_applyHeat(matrix, y, x);
+	}
+
+	//random chance to spawn GasFire Particle
+	if (getRandom(0, 100) < 50)
+	{
+		if (y - 1 > 0 && matrix[y - 1][x].m_ID == 0)
+		{
+			matrix[y - 1][x] = GASFIRE;
+		}
+		else if (y + 1 < worldheight && matrix[y + 1][x].m_ID == 0)
+		{
+			matrix[y + 1][x] = GASFIRE;
+		}
+		else if (x + 1 < worldwidth && matrix[y][x + 1].m_ID == 0)
+		{
+			matrix[y][x + 1] = GASFIRE;
+		}
+		else if (x - 1 > 0 && matrix[y][x - 1].m_ID == 0)
+		{
+			matrix[y][x - 1] = GASFIRE;
+		}
+	}
+
+	Liquids::updateelement(matrix, y, x);
+}
 
 void Lava::updateelement(Matrix& matrix, int y, int x) {
 

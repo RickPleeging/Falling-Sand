@@ -3,17 +3,23 @@
 extern bool pause;
 
 
-
-void handleevents(sf::Event& event, sf::RenderWindow& window, Matrix& matrix,int& width, int& height)
+void handleevents(sf::Event& event, sf::RenderWindow& window, Matrix& matrix, int& width, int& height)
 {
 	static int cursorsize_max = 100 / pixelsize;
-		
+
+	sf::Vector2i mousePos;
+	sf::Vector2i oldmousePos;
+
+
+
 	// Makes Close button work
 	if (event.type == sf::Event::Closed)
 		window.close();
 	// x to close
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::X))
 		window.close();
+
+
 	if (event.type == sf::Event::MouseWheelScrolled)
 	{
 		if (event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel)
@@ -23,8 +29,8 @@ void handleevents(sf::Event& event, sf::RenderWindow& window, Matrix& matrix,int
 				//scrolled down
 				if (cursorsize < cursorsize_max)
 				{
-					cursorsize ++;
-					
+					cursorsize++;
+
 				}
 
 			}
@@ -33,8 +39,8 @@ void handleevents(sf::Event& event, sf::RenderWindow& window, Matrix& matrix,int
 				//scrolled up
 				if (cursorsize > 1)
 				{
-					cursorsize --;
-				
+					cursorsize--;
+
 				}
 
 			}
@@ -70,17 +76,17 @@ void handleevents(sf::Event& event, sf::RenderWindow& window, Matrix& matrix,int
 				selectedbrush++;
 			break;
 		case sf::Keyboard::Comma:
-		
+
 			if (selectedbrush > 1)
 				selectedbrush--;
 			break;
 		case sf::Keyboard::BackSlash:
-				for (int i = worldheight - 1; i >= 0; i--)
-					for (int j = worldwidth - 1; j >= 0; j--)
-					{
-						matrix[i][j] = selection;
-						matrix[i][j].getColor(selection.colorPalette,matrix,i,j);
-					}
+			for (int i = worldheight - 1; i >= 0; i--)
+				for (int j = worldwidth - 1; j >= 0; j--)
+				{
+					matrix[i][j] = selection;
+					matrix[i][j].getColor(selection.colorPalette, matrix, i, j);
+				}
 			break;
 		case sf::Keyboard::Space:
 			steponce = true;
@@ -105,7 +111,7 @@ void handleevents(sf::Event& event, sf::RenderWindow& window, Matrix& matrix,int
 		case sf::Keyboard::B:
 			sf::Vector2i mousePos = sf::Mouse::getPosition(window) / pixelsize;
 
-			std::cout << std::endl << matrix[mousePos.y][mousePos.x].name << " X: " << mousePos.x << " Y: " << mousePos.y ;
+			std::cout << std::endl << matrix[mousePos.y][mousePos.x].name << " X: " << mousePos.x << " Y: " << mousePos.y;
 			std::cout << "\nID: " << matrix[mousePos.y][mousePos.x].m_ID;
 			std::cout << "\nVelocity: " << matrix[mousePos.y][mousePos.x].velocity;
 			std::cout << "\nWasUpdated: " << matrix[mousePos.y][mousePos.x].wasupdated;
@@ -122,7 +128,7 @@ void handleevents(sf::Event& event, sf::RenderWindow& window, Matrix& matrix,int
 	}
 
 	/// RESIZE 
-	
+
 	if (event.type == sf::Event::Resized)
 	{
 		sf::Vector2u size = window.getSize();

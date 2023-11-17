@@ -74,7 +74,7 @@ public:
 	virtual inline bool actOnOther(Matrix& matrix, int y, int x, int yt, int xt);
 	inline bool try_applyHeat(Matrix& matrix, int y, int x);
 	inline bool applyHeat(Matrix& matrix, int y, int x, int yt, int xt);
-
+	inline void ignite(Matrix& matrix, int y, int x, int yt, int xt);
 	
 
 };
@@ -205,6 +205,12 @@ public:
 
 };
 
+class LiquidFire : public Liquids {
+public:
+	LiquidFire();
+	void updateelement(Matrix& matrix, int y, int x);
+
+};
 
 class Lava : public Liquids {
 public:
@@ -226,18 +232,6 @@ public:
 
 
 
-/*
-class MovableFire : public ImmovableSolids {
-public:
-	MovableFire();
-
-};
-class LiquidFire : public ImmovableSolids {
-public:
-	LiquidFire();
-
-};
-*/
 //
 ///////////////////////////////////////////////////////////
 
