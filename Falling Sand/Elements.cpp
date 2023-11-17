@@ -25,7 +25,7 @@ Elements::Elements() {
 
 	wasupdated = false;
 	hasmoved = false;
-
+	colorPalette = { sf::Color(55,55,55,255) };
 
 }
 Liquids::Liquids() {
@@ -157,6 +157,9 @@ Wood::Wood() {
 	corodable = true;
 	fireresistance = 95;
 	m_color = sf::Color(36, 22, 8, 255);
+	colorPalette = {
+	sf::Color(36, 22, 8, 255),
+	};
 }
 
 Steam::Steam() {
@@ -805,6 +808,10 @@ void GasFire::updateelement(Matrix& matrix, int y, int x) {
 		try_applyHeat(matrix, y, x);
 	}
 
+	if (y - 1 > 0 && matrix[y - 1][x].m_ID == 4)
+	{
+		swapelements(matrix, y, x, y - 1, x);
+	}
 	Gas::updateelement(matrix, y, x);
 
 }

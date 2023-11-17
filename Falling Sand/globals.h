@@ -31,6 +31,7 @@ extern int selectedmat;
 extern int spawnID;
 extern int selectedbrush;
 extern bool steponce;
+extern sf::Color BackgroundColor;
 
 
 class Elements;

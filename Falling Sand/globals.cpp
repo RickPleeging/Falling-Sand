@@ -15,6 +15,8 @@ int selectedmat = 1;
 int spawnID = 0;
 int selectedbrush = 1;
 
+sf::Color BackgroundColor = sf::Color(55, 55, 55, 255);
+
 bool steponce = false;
 
 Elements AIR;

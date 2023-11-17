@@ -117,7 +117,7 @@ void drawgameoverlay(sf::RenderWindow& window)
 
 
 void draw(std::vector<std::vector<Elements>>& matrix, sf::RenderWindow& window,sf::Event& event) {
-    window.clear(sf::Color(55,55,55,255));
+    window.clear(BackgroundColor);
 
     initializeParticles(matrix);
 
