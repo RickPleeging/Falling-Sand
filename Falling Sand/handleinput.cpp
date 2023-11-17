@@ -2,7 +2,6 @@
 #include "Falling Sand.h"
 #include "globals.h"
 
-
 void handleinput(std::vector<std::vector<Elements>>& matrix, sf::RenderWindow& window, sf::Event& event)
 {
 	
@@ -146,6 +145,7 @@ void handleinput(std::vector<std::vector<Elements>>& matrix, sf::RenderWindow& w
 						{
 
 							matrix[mousePos.y + i][mousePos.x + j] = selection;
+							matrix[mousePos.y + i][mousePos.x + j].getColor(selection.colorPalette,matrix, mousePos.y + i, mousePos.x + j);
 							//std::cout << "x: " << mousePos.x << " y: " << mousePos.y << "\n"; //debug position	
 						}
 					}
@@ -159,6 +159,8 @@ void handleinput(std::vector<std::vector<Elements>>& matrix, sf::RenderWindow& w
 						{
 							
 							matrix[mousePos.y + i][mousePos.x + j] = selection;
+							matrix[mousePos.y + i][mousePos.x + j].getColor(selection.colorPalette, matrix, mousePos.y + i, mousePos.x + j);
+
 							//std::cout << "x: " << mousePos.x << " y: " << mousePos.y << "\n"; //debug position	
 						}
 					}

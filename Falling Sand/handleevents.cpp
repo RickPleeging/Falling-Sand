@@ -79,6 +79,7 @@ void handleevents(sf::Event& event, sf::RenderWindow& window, Matrix& matrix,int
 					for (int j = worldwidth - 1; j >= 0; j--)
 					{
 						matrix[i][j] = selection;
+						matrix[i][j].getColor(selection.colorPalette,matrix,i,j);
 					}
 			break;
 		case sf::Keyboard::Space:

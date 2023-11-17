@@ -16,8 +16,6 @@
 
 class Elements
 {
-protected:
-
 public:
 	std::string name;
 	int m_ID;
@@ -37,11 +35,11 @@ public:
 	int burnID;
 	int acidity;
 
-	std::vector<sf::Color> colorPallete;
+	std::vector<sf::Color> colorPalette;
 
 	bool wasupdated;
 	bool isfreefaling;
-	bool hasnotmoved;
+	bool hasmoved;
 
 	bool corodable;
 
@@ -57,27 +55,25 @@ public:
 
 	//virtual inline void getColor();
 
-	const inline void getColor(std::vector<sf::Color>& colorPallete, Matrix& matrix, int y, int x);
+	const inline void getColor(std::vector<sf::Color>& colorPalette, Matrix& matrix, int y, int x);
 
 	inline bool completeboundscheck(int y, int x);
 
-	virtual inline void gravity(Matrix& matrix, int y, int x);
-	inline void inverse_gravity(Matrix& matrix, int y, int x);
+	virtual inline bool gravity(Matrix& matrix, int y, int x);
+	inline bool inverse_gravity(Matrix& matrix, int y, int x);
 
-	inline void moveSideways(Matrix& matrix, int y, int x);
-	inline void moveDiagonallydown(Matrix& matrix, int y, int x);
-	inline void moveDiagonallyup(Matrix& matrix, int y, int x);
+	inline bool moveSideways(Matrix& matrix, int y, int x);
+	inline bool moveDiagonallydown(Matrix& matrix, int y, int x);
+	inline bool moveDiagonallyup(Matrix& matrix, int y, int x);
 
 	void corode(Matrix& matrix,int yt, int xt);
 
-	inline void move(Matrix& matrix, int y, int x, int yt, int xt);
 	inline void swapelements(Matrix& matrix, int y, int x, int i2, int j2);
 	void updateelement(Matrix& matrix, int y, int x);
-	void reaction(Matrix& matrix, int y, int x, int yt, int xt);
 	virtual inline bool try_actOnOther(Matrix& matrix, int y, int x);
 	virtual inline bool actOnOther(Matrix& matrix, int y, int x, int yt, int xt);
-	virtual inline bool try_applyHeat(Matrix& matrix, int y, int x);
-	virtual inline bool applyHeat(Matrix& matrix, int y, int x, int yt, int xt);
+	inline bool try_applyHeat(Matrix& matrix, int y, int x);
+	inline bool applyHeat(Matrix& matrix, int y, int x, int yt, int xt);
 
 	
 
@@ -101,6 +97,8 @@ public:
 class ImmovableSolids : public Solids {
 public:
 	ImmovableSolids();
+	void updateelement(Matrix& matrix, int y, int x);
+
 };
 //  Solids
 ///////////////
