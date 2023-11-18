@@ -201,18 +201,18 @@ void handleinput(std::vector<std::vector<Elements>>& matrix, sf::RenderWindow& w
 			drawline(matrix, oldmousePos.x, oldmousePos.y, mousePos.x, mousePos.y);
 		}
 
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
+	}
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
+	{
+		sf::Vector2i mousePos = sf::Mouse::getPosition(window) / pixelsize;
+
+		if (mousePos.y >= 0 && mousePos.y < worldheight && mousePos.x < worldwidth && mousePos.x >= 0)
 		{
-			sf::Vector2i mousePos = sf::Mouse::getPosition(window) / pixelsize;
+			//matrix[mousePos.y][mousePos.x] = Spawners();
 
-			if (mousePos.y >= 0 && mousePos.y < worldheight && mousePos.x < worldwidth && mousePos.x >= 0)
-			{
-				//matrix[mousePos.y][mousePos.x] = Spawners();
-
-				matrix[mousePos.y][mousePos.x] = SPAWNER;
-				matrix[mousePos.y][mousePos.x].m_spawnID = selection.m_ID;
-				//std::cout << "x: " << mousePos.x << " y: " << mousePos.y << "\n"; //debug position
-			}
+			matrix[mousePos.y][mousePos.x] = SPAWNER;
+			matrix[mousePos.y][mousePos.x].m_spawnID = selection.m_ID;
+			//std::cout << "x: " << mousePos.x << " y: " << mousePos.y << "\n"; //debug position
 		}
 	}
 }
