@@ -89,6 +89,7 @@ Water::Water() {
 	m_ID = 2;
 	weight = 2;
 	maxdispersal = 5;
+	density = 5;
 	corodable = true;
 	m_color = sf::Color(0, 92, 212, 255);
 	colorPalette = {
@@ -120,6 +121,7 @@ Acid::Acid() {
 	name = "Acid";
 	m_ID = 5;
 	acidity = 3;
+	density = 6;
 	m_color = sf::Color(15, 222, 11, 255);
 	colorPalette = { sf::Color(15, 222, 11, 255) };
 
@@ -181,10 +183,11 @@ BlackHole::BlackHole() {
 Lava::Lava() {
 	name = "Lava";
 	m_ID = 11;
-	m_color = sf::Color(255, 90, 0, 255);
 	corodable = true;
+	density = 10;
 	baseheat = 50;
 	maxheat = 500;
+	m_color = sf::Color(255, 90, 0, 255);
 	colorPalette = { sf::Color(255, 90, 0, 255) };
 
 }
@@ -193,6 +196,7 @@ Oil::Oil() {
 	name = "Oil";
 	m_ID = 12;
 	health = 200;
+	density = 4;
 	m_color = sf::Color(100, 80, 40, 255);
 	fireresistance = 50;
 	corodable = true;
@@ -695,6 +699,29 @@ void ImmovableSolids::updateelement(Matrix& matrix, int y, int x) {
 //		LIQUIDS
 void Liquids::updateelement(Matrix& matrix, int y, int x) {
 	matrix[y][x].hasmoved = true;
+
+	if (y - 1 > 0)
+	{
+		if (matrix[y][x].density < matrix[y - 1][x].density)
+		{
+			if(getRandom(0, 100) < 15)
+			{
+			swapelements(matrix, y, x, y - 1, x);
+			}
+		}
+	}
+	if (getRandom(0, 100) < 30) {
+		if (x - 1 > 0 && x + 1 < worldwidth) {
+			int rng = getRandom(-1, 1);
+			if (matrix[y][x + rng].m_ID != 0 && matrix[y][x + rng].m_ID != matrix[y][x].m_ID)
+			{
+
+				swapelements(matrix, y, x, y, x + rng);
+			}
+
+		}
+	}
+
 	if (!gravity(matrix, y, x)) {
 		if (!moveDiagonallydown(matrix, y, x)) {
 			if (!moveSideways(matrix, y, x))
