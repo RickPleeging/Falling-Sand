@@ -113,7 +113,9 @@ void handleevents(sf::Event& event, sf::RenderWindow& window, Matrix& matrix, in
 
 			std::cout << std::endl << matrix[mousePos.y][mousePos.x].name << " X: " << mousePos.x << " Y: " << mousePos.y;
 			std::cout << "\nID: " << matrix[mousePos.y][mousePos.x].m_ID;
-			std::cout << "\nVelocity: " << matrix[mousePos.y][mousePos.x].velocity;
+			std::cout << "\nVelocity X: " << matrix[mousePos.y][mousePos.x].velocity_x;
+			std::cout << "\nVelocity Y: " << matrix[mousePos.y][mousePos.x].velocity_y;
+
 			std::cout << "\nWasUpdated: " << matrix[mousePos.y][mousePos.x].wasupdated;
 			std::cout << "\nIs Freefaling: " << matrix[mousePos.y][mousePos.x].isfreefaling;
 			std::cout << "\nHealth: " << matrix[mousePos.y][mousePos.x].health;

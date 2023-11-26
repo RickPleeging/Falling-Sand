@@ -20,7 +20,12 @@ public:
 	std::string name;
 	int m_ID;
 
-	float velocity;
+	double velocity;
+	double velocity_x;
+	double velocity_y;
+	double inertialresistance;
+
+
 	float maxvelocity;
 	int maxdispersal;
 	float weight;
@@ -92,6 +97,8 @@ class MovableSolids : public Solids {
 public:
 	MovableSolids();
 	void updateelement(Matrix& matrix, int y, int x);
+	inline bool moveSideways(Matrix& matrix, int y, int x);
+
 };
 
 class ImmovableSolids : public Solids {
@@ -230,7 +237,16 @@ public:
 
 };
 
+class Cement : public Liquids {
+public:
+	Cement();
+	void updateelement(Matrix& matrix, int y, int x);
 
+};
+
+//gunpowder
+//salt
+//cement
 
 //
 ///////////////////////////////////////////////////////////

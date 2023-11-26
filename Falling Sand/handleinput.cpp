@@ -183,8 +183,12 @@ void handleinput(std::vector<std::vector<Elements>>& matrix, sf::RenderWindow& w
 		selection = OIL;
 		break;
 	case 14:
+		selection = CEMENT;
+		break;
+	case 15:
 		selection = LIQUIDFIRE;
 		break;
+
 	}
 
 	static sf::Vector2i mousePos;

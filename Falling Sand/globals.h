@@ -58,6 +58,7 @@ class GasFire;
 class Steam;
 class Lava;
 class Oil;
+class Cement;
 
 extern Elements AIR;
 extern Elements selection;
@@ -81,6 +82,7 @@ extern GasFire GASFIRE;
 extern Steam STEAM;
 extern Lava LAVA;
 extern Oil OIL;
+extern Cement CEMENT;
 
 extern Spawners SPAWNER;
 
