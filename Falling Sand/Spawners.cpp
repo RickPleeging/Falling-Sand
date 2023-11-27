@@ -46,6 +46,11 @@ void Spawners::updateelement(Matrix& matrix, int i, int j)
 			matrix[i + 1][j] = OIL;
 			matrix[i + 1][j].getColor(OIL.colorPalette, matrix, i + 1, j);
 			break;
+		case 13:
+			matrix[i + 1][j] = CEMENT;
+			matrix[i + 1][j].getColor(CEMENT.colorPalette, matrix, i + 1, j);
+			break;
+
 		case 20:
 			matrix[i + 1][j] = STATICFIRE;
 			matrix[i + 1][j].getColor(STATICFIRE.colorPalette, matrix, i + 1, j);

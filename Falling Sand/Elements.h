@@ -63,7 +63,8 @@ public:
 	const inline void getColor(std::vector<sf::Color>& colorPalette, Matrix& matrix, int y, int x);
 
 	inline bool completeboundscheck(int y, int x);
-
+	inline bool istouchedby(Matrix& matrix, int y, int x, int id);
+	inline bool issurroundedby(Matrix& matrix, int y, int x,int id);
 	virtual inline bool gravity(Matrix& matrix, int y, int x);
 	inline bool inverse_gravity(Matrix& matrix, int y, int x);
 
@@ -244,9 +245,11 @@ public:
 
 };
 
+
+
 //gunpowder
 //salt
-//cement
+
 
 //
 ///////////////////////////////////////////////////////////

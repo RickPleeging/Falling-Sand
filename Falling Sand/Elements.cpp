@@ -65,6 +65,9 @@ ID:
 	Steam		  = 9
 	Blackhole	  = 10
 	Lava		  = 11
+
+
+	cement		  = 13
 	StaticFire	  = 20
 	GasFire		  = 22
 	Spawners	  = 100
@@ -92,7 +95,6 @@ Water::Water() {
 	weight = 2;
 	maxdispersal = 5;
 	density = 5;
-	corodable = true;
 	m_color = sf::Color(0, 92, 212, 255);
 	colorPalette = {
 		sf::Color(136, 186, 182, 200),
@@ -206,6 +208,18 @@ Oil::Oil() {
 
 }
 
+
+
+Cement::Cement() {
+	name = "Cement";
+	m_ID = 13;
+	lifetime = 100;
+	density = 9;
+	m_color = sf::Color(150, 147, 138, 255);
+	colorPalette = { sf::Color(150, 147, 138, 200),
+					sf::Color(145, 144, 140, 200), };
+}
+
 StaticFire::StaticFire() {
 	name = "Fire";
 	m_ID = 20;
@@ -247,15 +261,6 @@ GasFire::GasFire() {
 					sf::Color(244, 145, 20, 155),
 					sf::Color(246, 189, 57, 155) };
 
-}
-
-Cement::Cement() {
-	name = "Cement";
-	m_ID = 13;
-	lifetime = 100;
-	m_color = sf::Color(150, 147, 138, 255);
-	colorPalette = { sf::Color(150, 147, 138, 155),
-					sf::Color(145, 144, 140, 155), };
 }
 
 //Rob Particle, make it bounce through the screen untill it hits something,
@@ -429,6 +434,41 @@ inline bool Elements::completeboundscheck(int y, int x) {
 	}
 	else return false;
 }
+
+inline bool Elements::issurroundedby(Matrix& matrix, int y, int x,int id) {
+	if (completeboundscheck(y,x) == true) {
+		for(int i = -1; i < 2; i++)
+			for (int j = -1; j < 2; j++)
+			{
+				if (matrix[y + i][x + j].m_ID != id)
+				{
+					return false;
+				}
+			}
+		return true;
+	}
+	else {
+	return false;
+	}
+
+}
+inline bool Elements::istouchedby(Matrix& matrix, int y, int x, int id) {
+
+	for (int i = -1; i < 2; i++)
+		for (int j = -1; j < 2; j++)
+		{
+			if (y + i < worldheight && y + i > 0 && x + j < worldwidth && x + j > 0)
+			{
+				if (matrix[y + i][x + j].m_ID == id)
+				{
+					return true;
+				}
+			}
+		}
+	return false;
+
+}
+
 
 //moves element down with acceleration
 inline bool Elements::gravity(Matrix& matrix, int y, int x) {
@@ -764,7 +804,7 @@ inline bool Elements::moveDiagonallyup(Matrix& matrix, int y, int x) {
 inline void Elements::swapelements(Matrix& matrix, int y, int x, int y2, int x2) {
 
 	temp = matrix[y][x];
-	matrix[y][x] = matrix[y2][x2];
+	matrix[y][x] = matrix[y2][x2]; 
 	matrix[y2][x2] = temp;
 	temp = AIR;
 
@@ -1061,13 +1101,17 @@ void Steam::updateelement(Matrix& matrix, int y, int x) {
 
 void Cement::updateelement(Matrix& matrix, int y, int x) {
 
-
+	if (!istouchedby(matrix, y, x, 2)) {
 	matrix[y][x].lifetime -= getRandom(0,5) * 0.1;
+	}
+
 	if (matrix[y][x].lifetime < 0)
 	{
+		if (!issurroundedby(matrix, y, x, 13) && !istouchedby(matrix,y,x,2))
+		{
 		matrix[y][x] = STONE;
 		matrix[y][x].getColor(STONE.colorPalette, matrix, y, x);
-		
+		}
 	}
 	if(matrix[y][x].isliquid)
 	Liquids::updateelement(matrix, y, x);
