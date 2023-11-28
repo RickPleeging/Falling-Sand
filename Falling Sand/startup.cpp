@@ -26,12 +26,23 @@ void startup(bool& fullscreen)
 
 		do
 		{
-			std::system("cls");
+			//std::system("cls");
 			std::cout << "Welcome to Falling Sand by Rick.\nHit Enter for quickstart\nStart Windowed: w\nStart in Fullscren: f\nStart with custom settings: c\n\nEnter Choice: ";
 			std::cin >> choice;
 
 
+			if (choice == "q") {
+				height = 1000;
+				width = 1500;
+				pixelsize = 5;
+				worldheight = height / pixelsize;
+				worldwidth = width / pixelsize;
 
+				std::cout << "\n\nGridsize: " << worldheight * worldwidth << " Elements\n";
+
+				std::cout << "\nStartup Succesfull!\n\n\n\n\n";
+
+			}
 			if (choice == "w")
 			{
 				height = 1000;
@@ -39,7 +50,9 @@ void startup(bool& fullscreen)
 
 				std::cout << "\nPlease enter pixelsize: ";
 				std::cin >> pixelsize;
-
+				if (pixelsize < 1) {
+					pixelsize = 1;
+				}
 				worldheight = height / pixelsize;
 				worldwidth = width / pixelsize;
 
@@ -57,7 +70,9 @@ void startup(bool& fullscreen)
 
 				std::cout << "\nPlease enter pixelsize: ";
 				std::cin >> pixelsize;
-
+				if (pixelsize < 1) {
+					pixelsize = 1;
+				}
 
 				worldheight = height / pixelsize;
 				worldwidth = width / pixelsize;
@@ -76,6 +91,9 @@ void startup(bool& fullscreen)
 				std::cin >> height;
 				std::cout << "Enter Pixel Size: ";
 				std::cin >> pixelsize;
+				if (pixelsize < 1) {
+					pixelsize = 1;
+				}
 				worldheight = height / pixelsize;
 				worldwidth = width / pixelsize;
 				std::cout << "\n\nGridsize: " << worldheight * worldwidth << " Elements\n";
@@ -88,7 +106,7 @@ void startup(bool& fullscreen)
 				std::cout << "Wrong input please try again";
 			}
 
-		} while (choice != "w" && choice != "f" && choice != "c");
+		} while (choice != "w" && choice != "f" && choice != "c" && choice !="q");
 	}
 
 

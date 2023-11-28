@@ -13,11 +13,13 @@ Elements::Elements() {
 	name = "AIR";
 	m_ID = 0;
 	velocity = 0;
+	weight = 10;
 	maxvelocity = 10;
 	maxdispersal = 1;
 	health = 100;
 	fireresistance = -1;
 	inertialresistance = 1;
+
 	issolid = false;
 	isliquid = false;
 	isgas = false;
@@ -31,6 +33,7 @@ Elements::Elements() {
 }
 Liquids::Liquids() {
 	isliquid = true;
+
 }
 
 Solids::Solids() {
@@ -77,7 +80,7 @@ Sand::Sand() {
 	name = "Sand";
 	m_ID = 1;
 	health = 70;
-	weight = 4;
+	weight = 10;
 	corodable = true;
 	m_color = sf::Color(217, 184, 17, 255);
 	inertialresistance = 0.5;
@@ -92,7 +95,7 @@ Sand::Sand() {
 Water::Water() {
 	name = "Water";
 	m_ID = 2;
-	weight = 2;
+	weight = 5;
 	maxdispersal = 5;
 	density = 5;
 	m_color = sf::Color(0, 92, 212, 255);
@@ -187,7 +190,6 @@ BlackHole::BlackHole() {
 Lava::Lava() {
 	name = "Lava";
 	m_ID = 11;
-	corodable = true;
 	density = 10;
 	baseheat = 50;
 	maxheat = 500;
@@ -203,7 +205,6 @@ Oil::Oil() {
 	density = 4;
 	m_color = sf::Color(100, 80, 40, 255);
 	fireresistance = 50;
-	corodable = true;
 	colorPalette = { sf::Color(100, 80, 40, 255) };
 
 }
@@ -476,7 +477,7 @@ inline bool Elements::gravity(Matrix& matrix, int y, int x) {
 
 	if (matrix[y][x].isfreefaling == true && tempvel_y < maxvelocity)
 	{
-		tempvel_y += 0.3 + getRandom(0, 5) * 0.01;
+		tempvel_y += matrix[y][x].weight * 0.01 + getRandom(1, 5) * 0.1;
 	}
 
 	int desired = tempvel_y + 1;
@@ -1074,10 +1075,12 @@ void LiquidFire::updateelement(Matrix& matrix, int y, int x) {
 }
 
 void Lava::updateelement(Matrix& matrix, int y, int x) {
-
+	try_actOnOther(matrix, y, x);
 	try_applyHeat(matrix, y, x);
 	Liquids::updateelement(matrix, y, x);
 }
+
+
 
 
 void Steam::updateelement(Matrix& matrix, int y, int x) {

@@ -58,7 +58,7 @@ public:
 
 	Elements();
 
-	//virtual inline void getColor();
+	void updateelement(Matrix& matrix, int y, int x);
 
 	const inline void getColor(std::vector<sf::Color>& colorPalette, Matrix& matrix, int y, int x);
 
@@ -75,7 +75,6 @@ public:
 	void corode(Matrix& matrix,int yt, int xt);
 
 	inline void swapelements(Matrix& matrix, int y, int x, int i2, int j2);
-	void updateelement(Matrix& matrix, int y, int x);
 	virtual inline bool try_actOnOther(Matrix& matrix, int y, int x);
 	virtual inline bool actOnOther(Matrix& matrix, int y, int x, int yt, int xt);
 	inline bool try_applyHeat(Matrix& matrix, int y, int x);
