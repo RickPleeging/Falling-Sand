@@ -43,3 +43,4 @@ Steam STEAM;
 Lava LAVA;
 Oil OIL;
 Cement CEMENT;
+Ice ICE;

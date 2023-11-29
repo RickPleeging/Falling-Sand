@@ -35,6 +35,7 @@ public:
 	float hardness;
 	float fireresistance;
 	int m_spawnID;
+	int temperature;
 	int baseheat;
 	int maxheat;
 	int burnID;
@@ -246,6 +247,13 @@ public:
 
 
 
+class Ice : public ImmovableSolids {
+public:
+	Ice();
+	void updateelement(Matrix& matrix, int y, int x);
+	inline bool actOnOther(Matrix& matrix, int y, int x, int yt, int xt);
+
+};
 //gunpowder
 //salt
 

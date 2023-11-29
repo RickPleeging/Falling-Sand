@@ -17,6 +17,7 @@ Elements::Elements() {
 	maxvelocity = 10;
 	maxdispersal = 1;
 	health = 100;
+	temperature =0;
 	fireresistance = -1;
 	inertialresistance = 1;
 
@@ -98,6 +99,7 @@ Water::Water() {
 	weight = 5;
 	maxdispersal = 5;
 	density = 5;
+	temperature = 20;
 	m_color = sf::Color(0, 92, 212, 255);
 	colorPalette = {
 		sf::Color(136, 186, 182, 200),
@@ -221,6 +223,19 @@ Cement::Cement() {
 					sf::Color(145, 144, 140, 200), };
 }
 
+Ice::Ice() {
+	name = "Ice";
+	m_ID = 14;
+	health = 30;
+	colorPalette =
+	{
+		sf::Color(174, 208, 242,255),
+		sf::Color(174, 208, 242,255),
+		sf::Color(159, 183, 207, 255),
+	};
+
+}
+
 StaticFire::StaticFire() {
 	name = "Fire";
 	m_ID = 20;
@@ -292,41 +307,50 @@ inline bool Elements::actOnOther(Matrix& matrix, int y, int x, int yt, int xt) {
 }
 
 inline bool Elements::try_actOnOther(Matrix& matrix, int y, int x) {
+	
 	if (y - 1 > 0)
 	{
 		if (actOnOther(matrix, y, x, y - 1, x) == true) {
+			matrix[y - 1][x].wasupdated = true;
 			return true;
 		};
 	}
 	if (y + 1 < worldheight)
 	{
 		if (actOnOther(matrix, y, x, y + 1, x) == true) {
+			matrix[y + 1][x].wasupdated = true;
 			return true;
 		}
 	}
 	if (x + 1 < worldwidth)
 	{
 		if (actOnOther(matrix, y, x, y, x + 1) == true) {
+			matrix[y][x+1].wasupdated = true;
 			return true;
 		}
 	}
 	if (x - 1 > 0)
 	{
 		if (actOnOther(matrix, y, x, y, x - 1) == true) {
+			matrix[y][x-1].wasupdated = true;
 			return true;
 		}
 	}
 	return false;
+	
 }
 
 inline bool Elements::try_applyHeat(Matrix& matrix, int y, int x) {
+	bool success = false;
+	
 
 	if (y - 1 > 0)
 	{
 		if (applyHeat(matrix, y, x, y - 1, x) == true) {
-			return true;
+			success = true;
 		};
 	}
+	
 	if (y + 1 < worldheight)
 	{
 		if (applyHeat(matrix, y, x, y + 1, x) == true) {
@@ -379,13 +403,16 @@ inline bool Elements::applyHeat(Matrix& matrix, int y, int x, int yt, int xt) {
 		}
 		return true;
 	}
-	//turns water to steam
-	if (matrix[yt][xt].m_ID == 2)
+	
+	//turns water and ice into steam
+	if (matrix[yt][xt].m_ID == 2 || matrix[yt][xt].m_ID == 14)
 	{
+		
 		matrix[y][x] = AIR;
 		matrix[yt][xt] = STEAM;
 		matrix[yt][xt].getColor(STEAM.colorPalette, matrix, yt, xt);
 		return true;
+		
 	}
 	//turns sand into glass
 	if (matrix[yt][xt].m_ID == 1) {
@@ -436,9 +463,9 @@ inline bool Elements::completeboundscheck(int y, int x) {
 	else return false;
 }
 
-inline bool Elements::issurroundedby(Matrix& matrix, int y, int x,int id) {
-	if (completeboundscheck(y,x) == true) {
-		for(int i = -1; i < 2; i++)
+inline bool Elements::issurroundedby(Matrix& matrix, int y, int x, int id) {
+	if (completeboundscheck(y, x) == true) {
+		for (int i = -1; i < 2; i++)
 			for (int j = -1; j < 2; j++)
 			{
 				if (matrix[y + i][x + j].m_ID != id)
@@ -449,7 +476,7 @@ inline bool Elements::issurroundedby(Matrix& matrix, int y, int x,int id) {
 		return true;
 	}
 	else {
-	return false;
+		return false;
 	}
 
 }
@@ -523,13 +550,13 @@ inline bool Elements::gravity(Matrix& matrix, int y, int x) {
 			if (getRandom(-1, 1) < 0)
 			{
 				//negative velocity
-				matrix[y][x].velocity_x = matrix[y][x].velocity_y * -1 /2 ;
+				matrix[y][x].velocity_x = matrix[y][x].velocity_y * -1 / 2;
 				matrix[y][x].velocity_y = 0;
 			}
 			else
 			{
 				//positive velocity
-				matrix[y][x].velocity_x = matrix[y][x].velocity_y /2;
+				matrix[y][x].velocity_x = matrix[y][x].velocity_y / 2;
 				matrix[y][x].velocity_y = 0;
 			}
 
@@ -805,7 +832,7 @@ inline bool Elements::moveDiagonallyup(Matrix& matrix, int y, int x) {
 inline void Elements::swapelements(Matrix& matrix, int y, int x, int y2, int x2) {
 
 	temp = matrix[y][x];
-	matrix[y][x] = matrix[y2][x2]; 
+	matrix[y][x] = matrix[y2][x2];
 	matrix[y2][x2] = temp;
 	temp = AIR;
 
@@ -930,6 +957,7 @@ void Sand::updateelement(Matrix& matrix, int y, int x) {
 
 void Water::updateelement(Matrix& matrix, int y, int x) {
 	Liquids::updateelement(matrix, y, x);
+	
 
 
 }
@@ -1105,22 +1133,43 @@ void Steam::updateelement(Matrix& matrix, int y, int x) {
 void Cement::updateelement(Matrix& matrix, int y, int x) {
 
 	if (!istouchedby(matrix, y, x, 2)) {
-	matrix[y][x].lifetime -= getRandom(0,5) * 0.1;
+		matrix[y][x].lifetime -= getRandom(0, 5) * 0.1;
 	}
 
 	if (matrix[y][x].lifetime < 0)
 	{
-		if (!issurroundedby(matrix, y, x, 13) && !istouchedby(matrix,y,x,2))
+		if (!issurroundedby(matrix, y, x, 13) && !istouchedby(matrix, y, x, 2))
 		{
-		matrix[y][x] = STONE;
-		matrix[y][x].getColor(STONE.colorPalette, matrix, y, x);
+			matrix[y][x] = STONE;
+			matrix[y][x].getColor(STONE.colorPalette, matrix, y, x);
 		}
 	}
-	if(matrix[y][x].isliquid)
-	Liquids::updateelement(matrix, y, x);
+	if (matrix[y][x].isliquid)
+		Liquids::updateelement(matrix, y, x);
 
 }
 
+void Ice::updateelement(Matrix& matrix, int y, int x) {
+	ImmovableSolids::updateelement(matrix, y, x);
+	try_actOnOther(matrix, y, x);
+
+}
+
+inline bool Ice::actOnOther(Matrix& matrix, int y, int x, int yt, int xt) {
+	if (matrix[yt][xt].m_ID == 2) {
+		matrix[yt][xt].temperature -= 1;
+		if (matrix[yt][xt].temperature < 0)
+		{
+			matrix[yt][xt] = ICE;
+			matrix[yt][xt].getColor(ICE.colorPalette, matrix, yt, xt);
+		}
+		return true;
+	}
+	else {
+		return false;
+	}
+
+}
 
 void BlackHole::updateelement(Matrix& matrix, int y, int x) {
 	ImmovableSolids::updateelement(matrix, y, x);

@@ -59,6 +59,7 @@ class Steam;
 class Lava;
 class Oil;
 class Cement;
+class Ice;
 
 extern Elements AIR;
 extern Elements selection;
@@ -83,6 +84,7 @@ extern Steam STEAM;
 extern Lava LAVA;
 extern Oil OIL;
 extern Cement CEMENT;
+extern Ice ICE;
 
 extern Spawners SPAWNER;
 

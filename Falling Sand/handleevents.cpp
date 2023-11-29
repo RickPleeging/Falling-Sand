@@ -98,16 +98,18 @@ void handleevents(sf::Event& event, sf::RenderWindow& window, Matrix& matrix, in
 			}
 			else
 			{
-				selectedmat = 14;
+				selectedmat = 16;
 			}
 			break;
 		case sf::Keyboard::Right:
-			if (selectedmat < 14)
+			if (selectedmat < 16)
 			{
 				selectedmat++;
 			}
+			else {
+				selectedmat = 1;
+			}
 			break;
-
 		case sf::Keyboard::B:
 			sf::Vector2i mousePos = sf::Mouse::getPosition(window) / pixelsize;
 
@@ -122,6 +124,8 @@ void handleevents(sf::Event& event, sf::RenderWindow& window, Matrix& matrix, in
 			std::cout << "\nIs Corrodable: " << matrix[mousePos.y][mousePos.x].corodable;
 			std::cout << "\nAcidity: " << matrix[mousePos.y][mousePos.x].acidity;
 			std::cout << "\nFireResistance: " << matrix[mousePos.y][mousePos.x].fireresistance;
+			std::cout << "\nTemperature: " << matrix[mousePos.y][mousePos.x].temperature;
+
 			std::cout << std::endl;
 			break;
 		}

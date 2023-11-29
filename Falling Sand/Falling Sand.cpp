@@ -24,7 +24,7 @@ int main() {
 	}
 
 	sf::RenderWindow window(sf::VideoMode(width, height), "SandWindow", windowstyle);
-	window.setFramerateLimit(144);
+	window.setFramerateLimit(60);
 
 	std::vector<std::vector<Elements>> matrix(worldheight, std::vector<Elements>(worldwidth));
 

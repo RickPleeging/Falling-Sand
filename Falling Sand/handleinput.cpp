@@ -186,6 +186,9 @@ void handleinput(std::vector<std::vector<Elements>>& matrix, sf::RenderWindow& w
 		selection = CEMENT;
 		break;
 	case 15:
+		selection = ICE;
+		break;
+	case 16:
 		selection = LIQUIDFIRE;
 		break;
 
