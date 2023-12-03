@@ -1,6 +1,10 @@
 #include "pch.h"
 
 
+
+
+
+
 void updatematrix(std::vector<std::vector<Elements>>& matrix, int worldheight, int worldwidth, sf::RenderWindow& window)
 {
 	//reset wasupdated for every Element

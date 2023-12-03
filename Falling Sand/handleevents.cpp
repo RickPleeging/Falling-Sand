@@ -59,11 +59,13 @@ void handleevents(sf::Event& event, sf::RenderWindow& window, Matrix& matrix, in
 			break;
 
 		case sf::Keyboard::Hyphen:
-
+			if (selectedbrush > 1)
+				selectedbrush--;
 			break;
 
 		case sf::Keyboard::Equal:
-
+			if (selectedbrush < 3)
+				selectedbrush++;
 			break;
 		case sf::Keyboard::H:
 			if (nodraw == false)
@@ -72,15 +74,13 @@ void handleevents(sf::Event& event, sf::RenderWindow& window, Matrix& matrix, in
 				nodraw = false;
 			break;
 		case sf::Keyboard::Period:
-			if (selectedbrush < 3)
-				selectedbrush++;
+	
 			break;
 		case sf::Keyboard::Comma:
 
-			if (selectedbrush > 1)
-				selectedbrush--;
+			
 			break;
-		case sf::Keyboard::BackSlash:
+		case sf::Keyboard::F:
 			for (int i = worldheight - 1; i >= 0; i--)
 				for (int j = worldwidth - 1; j >= 0; j--)
 				{
@@ -90,6 +90,16 @@ void handleevents(sf::Event& event, sf::RenderWindow& window, Matrix& matrix, in
 			break;
 		case sf::Keyboard::Space:
 			steponce = true;
+			break;
+		case sf::Keyboard::C:
+			for (int i = worldheight - 1; i >= 0; i--)
+				for (int j = worldwidth - 1; j >= 0; j--)
+				{
+					if (matrix[i][j].m_ID == selection.m_ID)
+					{
+						matrix[i][j] = AIR;
+					}
+				}
 			break;
 		case sf::Keyboard::Left:
 			if (selectedmat > 0)
@@ -110,7 +120,7 @@ void handleevents(sf::Event& event, sf::RenderWindow& window, Matrix& matrix, in
 				selectedmat = 1;
 			}
 			break;
-		case sf::Keyboard::B:
+		case sf::Keyboard::D:
 			sf::Vector2i mousePos = sf::Mouse::getPosition(window) / pixelsize;
 
 			std::cout << std::endl << matrix[mousePos.y][mousePos.x].name << " X: " << mousePos.x << " Y: " << mousePos.y;

@@ -116,7 +116,7 @@ void handleinput(std::vector<std::vector<Elements>>& matrix, sf::RenderWindow& w
 		selection = BLACKHOLE;
 		selectedmat = 9;
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::F))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::B))
 	{
 		selection = STATICFIRE;
 		selectedmat = 10;
