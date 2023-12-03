@@ -9,20 +9,15 @@ sf::VertexArray mousehighlight(sf::LineStrip);
 
 sf::VertexArray particles(sf::Quads); // One vertex array for all particles
 
-void initializeParticles(std::vector<std::vector<int>>& matrix) {
+void initializeParticles(std::vector<std::vector<Elements>>& matrix) {
     particles.clear(); // Clear the existing vertex array
   
 
     for (int i = 0; i < worldheight; ++i) {
         for (int j = 0; j < worldwidth; ++j) {
-            switch (matrix[i][j]) {
-            case 1: // Sand particle
-                addParticle(j * pixelsize, i * pixelsize, sf::Color::Yellow);
-                break;
-            case 2: // Stone particle
-                addParticle(j * pixelsize, i * pixelsize, sf::Color::White);
-                break;
-                // Add more cases for other particle types if needed
+            if (matrix[i][j].m_ID != 0)
+            {
+                addParticle(j * pixelsize, i * pixelsize, sf::Color(matrix[i][j].m_color));
             }
         }
     }
@@ -53,6 +48,7 @@ void highlightmouse(sf::RenderWindow& window) // this cost me my sanity but it F
     int endY = ((rowindex + 1) * pixelsize);
 
 
+
 	mousehighlight.append(sf::Vertex(sf::Vector2f(startX - totalsize, startY - totalsize), sf::Color::Green));
 	mousehighlight.append(sf::Vertex(sf::Vector2f(endX + totalsize, startY - totalsize), sf::Color::Green));
 	mousehighlight.append(sf::Vertex(sf::Vector2f(endX + totalsize, endY + totalsize), sf::Color::Green));
@@ -62,19 +58,31 @@ void highlightmouse(sf::RenderWindow& window) // this cost me my sanity but it F
 
 void draw_performanceoverlay(sf::RenderWindow& window)
 {
-    
+    sf::Text t_FPS;
     sf::Text t_deltatime;
+
     t_deltatime.setFont(font); // Set the font
+    t_FPS.setFont(font);
 
     std::ostringstream dtstring;
     dtstring << "Time: " << std::fixed << std::setprecision(3) << dt << " seconds";
     t_deltatime.setString(dtstring.str());
 
-    
+    std::ostringstream FPSstring;
+    FPSstring << "FPS: " << FPS;
+    t_FPS.setString(FPSstring.str());
+
+
     t_deltatime.setCharacterSize(15); // Set the character size
+    t_FPS.setCharacterSize(15); // Set the character size
+
     t_deltatime.setFillColor(sf::Color::White); // Set the color (optional)
+    t_FPS.setFillColor(sf::Color::White); // Set the color (optional)
+
+    t_FPS.setPosition(0, 20);
 
     window.draw(t_deltatime);
+    window.draw(t_FPS);
 }
 
 void drawgameoverlay(sf::RenderWindow& window)
@@ -86,7 +94,7 @@ void drawgameoverlay(sf::RenderWindow& window)
     t_selectedMaterial.setPosition(150, 0);
 
     std::ostringstream materialstring;
-    materialstring << "Selected Material: " << selectedID;
+    materialstring << "Selected Material: " << selection.name;
     t_selectedMaterial.setString(materialstring.str());
 
     window.draw(t_selectedMaterial);
@@ -98,7 +106,7 @@ void drawgameoverlay(sf::RenderWindow& window)
         t_paused.setFillColor(sf::Color::White);
         t_paused.setCharacterSize(30);
         t_paused.setLetterSpacing(2);
-        t_paused.setPosition(0,60);
+        t_paused.setPosition(150,50);
 
         t_paused.setString("Paused!");
         window.draw(t_paused);
@@ -108,8 +116,8 @@ void drawgameoverlay(sf::RenderWindow& window)
 }
 
 
-void draw(std::vector<std::vector<int>>& matrix, sf::RenderWindow& window,sf::Event& event) {
-    window.clear(sf::Color(55,55,55,255));
+void draw(std::vector<std::vector<Elements>>& matrix, sf::RenderWindow& window,sf::Event& event) {
+    window.clear(BackgroundColor);
 
     initializeParticles(matrix);
 
