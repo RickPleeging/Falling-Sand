@@ -17,7 +17,7 @@ Elements::Elements() {
 	maxvelocity = 10;
 	maxdispersal = 1;
 	health = 100;
-	temperature =0;
+	temperature = 0;
 	fireresistance = -1;
 	inertialresistance = 1;
 
@@ -97,7 +97,7 @@ Water::Water() {
 	name = "Water";
 	m_ID = 2;
 	weight = 5;
-	maxdispersal = 5;
+	maxdispersal = 10;
 	density = 5;
 	temperature = 20;
 	m_color = sf::Color(0, 92, 212, 255);
@@ -121,6 +121,7 @@ Stone::Stone() {
 Smoke::Smoke() {
 	name = "Smoke";
 	m_ID = 4;
+
 	m_color = sf::Color(30, 30, 30, 150);
 	colorPalette = { sf::Color(30, 30, 30, 150) };
 
@@ -130,6 +131,7 @@ Acid::Acid() {
 	name = "Acid";
 	m_ID = 5;
 	acidity = 3;
+	maxdispersal = 7;
 	density = 6;
 	m_color = sf::Color(15, 222, 11, 255);
 	colorPalette = { sf::Color(15, 222, 11, 255) };
@@ -193,6 +195,8 @@ Lava::Lava() {
 	name = "Lava";
 	m_ID = 11;
 	density = 10;
+	maxdispersal = 2;
+
 	baseheat = 50;
 	maxheat = 500;
 	m_color = sf::Color(255, 90, 0, 255);
@@ -205,6 +209,7 @@ Oil::Oil() {
 	m_ID = 12;
 	health = 200;
 	density = 4;
+	maxdispersal = 5;
 	m_color = sf::Color(100, 80, 40, 255);
 	fireresistance = 50;
 	colorPalette = { sf::Color(100, 80, 40, 255) };
@@ -218,6 +223,8 @@ Cement::Cement() {
 	m_ID = 13;
 	lifetime = 100;
 	density = 9;
+	maxdispersal = 2;
+
 	m_color = sf::Color(150, 147, 138, 255);
 	colorPalette = { sf::Color(150, 147, 138, 200),
 					sf::Color(145, 144, 140, 200), };
@@ -307,7 +314,7 @@ inline bool Elements::actOnOther(Matrix& matrix, int y, int x, int yt, int xt) {
 }
 
 inline bool Elements::try_actOnOther(Matrix& matrix, int y, int x) {
-	
+
 	if (y - 1 > 0)
 	{
 		if (actOnOther(matrix, y, x, y - 1, x) == true) {
@@ -325,24 +332,24 @@ inline bool Elements::try_actOnOther(Matrix& matrix, int y, int x) {
 	if (x + 1 < worldwidth)
 	{
 		if (actOnOther(matrix, y, x, y, x + 1) == true) {
-			matrix[y][x+1].wasupdated = true;
+			matrix[y][x + 1].wasupdated = true;
 			return true;
 		}
 	}
 	if (x - 1 > 0)
 	{
 		if (actOnOther(matrix, y, x, y, x - 1) == true) {
-			matrix[y][x-1].wasupdated = true;
+			matrix[y][x - 1].wasupdated = true;
 			return true;
 		}
 	}
 	return false;
-	
+
 }
 
 inline bool Elements::try_applyHeat(Matrix& matrix, int y, int x) {
 	bool success = false;
-	
+
 
 	if (y - 1 > 0)
 	{
@@ -350,7 +357,7 @@ inline bool Elements::try_applyHeat(Matrix& matrix, int y, int x) {
 			success = true;
 		};
 	}
-	
+
 	if (y + 1 < worldheight)
 	{
 		if (applyHeat(matrix, y, x, y + 1, x) == true) {
@@ -403,16 +410,16 @@ inline bool Elements::applyHeat(Matrix& matrix, int y, int x, int yt, int xt) {
 		}
 		return true;
 	}
-	
+
 	//turns water and ice into steam
 	if (matrix[yt][xt].m_ID == 2 || matrix[yt][xt].m_ID == 14)
 	{
-		
+
 		matrix[y][x] = AIR;
 		matrix[yt][xt] = STEAM;
 		matrix[yt][xt].getColor(STEAM.colorPalette, matrix, yt, xt);
 		return true;
-		
+
 	}
 	//turns sand into glass
 	if (matrix[yt][xt].m_ID == 1) {
@@ -434,7 +441,7 @@ inline bool Elements::applyHeat(Matrix& matrix, int y, int x, int yt, int xt) {
 		return false;
 }
 
-
+//Subtracts health From Corodable Elements, on death replaces Element with FlammableGas
 void Elements::corode(Matrix& matrix, int yt, int xt) {
 	matrix[yt][xt].health -= 30;
 	if (matrix[yt][xt].health < 0)
@@ -462,7 +469,7 @@ inline bool Elements::completeboundscheck(int y, int x) {
 	}
 	else return false;
 }
-
+//checks if an Element is surrounded by another set Element
 inline bool Elements::issurroundedby(Matrix& matrix, int y, int x, int id) {
 	if (completeboundscheck(y, x) == true) {
 		for (int i = -1; i < 2; i++)
@@ -480,6 +487,7 @@ inline bool Elements::issurroundedby(Matrix& matrix, int y, int x, int id) {
 	}
 
 }
+//checks if an Element is touched by a single instance of another set Element
 inline bool Elements::istouchedby(Matrix& matrix, int y, int x, int id) {
 
 	for (int i = -1; i < 2; i++)
@@ -500,6 +508,7 @@ inline bool Elements::istouchedby(Matrix& matrix, int y, int x, int id) {
 
 //moves element down with acceleration
 inline bool Elements::gravity(Matrix& matrix, int y, int x) {
+
 	float tempvel_y = matrix[y][x].velocity_y;
 
 	if (matrix[y][x].isfreefaling == true && tempvel_y < maxvelocity)
@@ -564,6 +573,79 @@ inline bool Elements::gravity(Matrix& matrix, int y, int x) {
 	}
 	return false;
 }
+
+//Moves Elements to their max dispersal on x axis
+inline bool Elements::moveSideways2(Matrix& matrix, int y, int x) {
+	//add velocity
+
+	int current = 0;
+
+	int rng = getRandom(0, 1);
+
+	if (rng == 0)
+	{
+		for (int i = 1; i <= matrix[y][x].maxdispersal; i++)
+		{
+
+			if (x + i >= worldwidth)
+			{
+				break;
+			}
+			if (matrix[y][x + i].m_ID == 0 || matrix[y][x + i].isgas)
+			{
+				current++;
+			}
+			else
+			{
+				break;
+			}
+			
+		}
+	}
+	else if (rng == 1)
+	{
+		for (int i = -1; i >= matrix[y][x].maxdispersal *-1; i--)
+		{
+
+			if (x + i < 0)
+			{
+				break;
+			}
+			if (matrix[y][x + i].m_ID == 0 || matrix[y][x + i].isgas)
+			{
+				current--;
+			}
+			else
+			{
+				break;
+			}
+			
+		}
+	}
+
+
+
+	if (current == 0)
+	{
+		return false;
+	}
+	if (matrix[y][x + current].m_ID == 0)
+	{
+		matrix[y][x + current] = matrix[y][x];
+		matrix[y][x + current].wasupdated == true;
+		matrix[y][x] = AIR;
+		return true;
+	}
+	else if (x + current > 0 && matrix[y][x + current].isgas)
+	{
+		swapelements(matrix, y, x + current -1, y, x + current);
+		return true;
+	}
+
+
+
+}
+
 
 
 //check left and right and move if spoace is available
@@ -644,6 +726,7 @@ inline bool Elements::moveSideways(Matrix& matrix, int y, int x) {
 	return false;
 
 }
+
 
 
 inline bool MovableSolids::moveSideways(Matrix& matrix, int y, int x) {
@@ -737,7 +820,7 @@ inline bool MovableSolids::moveSideways(Matrix& matrix, int y, int x) {
 inline bool Elements::moveDiagonallydown(Matrix& matrix, int y, int x) {
 
 
-	if (getRandom100() > 50)
+	if (getRandom(0,100) > 50)
 	{
 		if (y + 1 < worldheight && x + 1 < worldwidth) //move down right
 		{
@@ -904,7 +987,7 @@ void Liquids::updateelement(Matrix& matrix, int y, int x) {
 	if (getRandom(0, 100) < 30) {
 		if (x - 1 > 0 && x + 1 < worldwidth) {
 			int rng = getRandom(-1, 1);
-			if (matrix[y][x + rng].m_ID != 0 && matrix[y][x + rng].isliquid && matrix[y][x + rng].m_ID != matrix[y][x].m_ID)
+			if (/*matrix[y][x + rng].m_ID != 0 &&*/matrix[y][x + rng].isliquid && matrix[y][x + rng].m_ID != matrix[y][x].m_ID)
 			{
 				swapelements(matrix, y, x, y, x + rng);
 			}
@@ -914,13 +997,12 @@ void Liquids::updateelement(Matrix& matrix, int y, int x) {
 
 	if (!gravity(matrix, y, x)) {
 		if (!moveDiagonallydown(matrix, y, x)) {
-			if (!moveSideways(matrix, y, x))
+			if (!moveSideways2(matrix, y, x))
 			{
 				matrix[y][x].hasmoved = false;
 			}
 		}
 	}
-
 }
 //		LIQUIDS
 ////////////////////////
@@ -957,7 +1039,7 @@ void Sand::updateelement(Matrix& matrix, int y, int x) {
 
 void Water::updateelement(Matrix& matrix, int y, int x) {
 	Liquids::updateelement(matrix, y, x);
-	
+
 
 
 }
@@ -1062,6 +1144,7 @@ void GasFire::updateelement(Matrix& matrix, int y, int x) {
 
 }
 
+
 void LiquidFire::updateelement(Matrix& matrix, int y, int x) {
 
 	getColor(colorPalette, matrix, y, x);
@@ -1077,8 +1160,7 @@ void LiquidFire::updateelement(Matrix& matrix, int y, int x) {
 	{
 		try_applyHeat(matrix, y, x);
 	}
-
-	//random chance to spawn GasFire Particle
+	//50% random chance to spawn GasFire Particle
 	if (getRandom(0, 100) < 50)
 	{
 		if (y - 1 > 0 && matrix[y - 1][x].m_ID == 0)

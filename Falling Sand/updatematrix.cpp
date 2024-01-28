@@ -7,6 +7,8 @@
 
 void updatematrix(std::vector<std::vector<Elements>>& matrix, int worldheight, int worldwidth, sf::RenderWindow& window)
 {
+	static bool updateswitch = true;
+
 	//reset wasupdated for every Element
 	for (int i = worldheight - 1; i >= 0; i--)
 		for (int j = worldwidth - 1; j >= 0; j--)
@@ -15,9 +17,10 @@ void updatematrix(std::vector<std::vector<Elements>>& matrix, int worldheight, i
 		}
 
 
-	//update every pixel in the matrix if it wasnt already updated
+	//update every pixel in the matrix if it wasnt already updated. Also switches from updating bottom left -> right / to bottom right -> left
+	//to avoid left/right bias
 	for (int i = worldheight - 1; i >= 0; i--)
-		for (int j = worldwidth - 1; j >= 0; j--)
+		for (int j = (updateswitch ? worldwidth - 1 : 0); (updateswitch ? j >= 0 : j < worldwidth); (updateswitch ? j-- : j++))
 		{
 			if (matrix[i][j].wasupdated == false) {
 

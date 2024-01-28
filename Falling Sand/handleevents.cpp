@@ -130,11 +130,14 @@ void handleevents(sf::Event& event, sf::RenderWindow& window, Matrix& matrix, in
 
 			std::cout << "\nWasUpdated: " << matrix[mousePos.y][mousePos.x].wasupdated;
 			std::cout << "\nIs Freefaling: " << matrix[mousePos.y][mousePos.x].isfreefaling;
+
 			std::cout << "\nHealth: " << matrix[mousePos.y][mousePos.x].health;
 			std::cout << "\nIs Corrodable: " << matrix[mousePos.y][mousePos.x].corodable;
 			std::cout << "\nAcidity: " << matrix[mousePos.y][mousePos.x].acidity;
 			std::cout << "\nFireResistance: " << matrix[mousePos.y][mousePos.x].fireresistance;
 			std::cout << "\nTemperature: " << matrix[mousePos.y][mousePos.x].temperature;
+
+
 
 			std::cout << std::endl;
 			break;

@@ -13,7 +13,7 @@
 //};
 
 
-
+// Base class for all elements
 class Elements
 {
 public:
@@ -69,6 +69,7 @@ public:
 	virtual inline bool gravity(Matrix& matrix, int y, int x);
 	inline bool inverse_gravity(Matrix& matrix, int y, int x);
 
+	inline bool moveSideways2(Matrix& matrix, int y, int x);
 	inline bool moveSideways(Matrix& matrix, int y, int x);
 	inline bool moveDiagonallydown(Matrix& matrix, int y, int x);
 	inline bool moveDiagonallyup(Matrix& matrix, int y, int x);
@@ -81,7 +82,7 @@ public:
 	inline bool try_applyHeat(Matrix& matrix, int y, int x);
 	inline bool applyHeat(Matrix& matrix, int y, int x, int yt, int xt);
 	inline void ignite(Matrix& matrix, int y, int x, int yt, int xt);
-	
+
 
 };
 
