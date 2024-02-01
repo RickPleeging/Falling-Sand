@@ -14,7 +14,7 @@ void initializeParticles(std::vector<std::vector<Elements>>& matrix);
 
 void addParticle(float x, float y, const sf::Color& color);
 
-void draw(std::vector<std::vector<Elements>>& matrix, sf::RenderWindow& window, sf::Event& event);
+void draw(std::vector<std::vector<Elements>>& matrix, sf::RenderWindow& window, sf::Event& event, bool nodraw);
 
 void handleinput(std::vector<std::vector<Elements>>& matrix, sf::RenderWindow& window, sf::Event& event);
 

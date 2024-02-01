@@ -2,7 +2,7 @@
 #include "Falling Sand.h"
 #include "globals.h"
 
-//thank you chatgpt 
+//thank you chatgpt
 void drawline(std::vector<std::vector<Elements>>& matrix, int x0, int y0, int x1, int y1)
 {
 	int dx = abs(x1 - x0);

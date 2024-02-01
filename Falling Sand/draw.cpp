@@ -6,7 +6,6 @@ std::mt19937 mt(rd());
 
 sf::VertexArray mousehighlight(sf::LineStrip);
 
-
 sf::VertexArray particles(sf::Quads); // One vertex array for all particles
 
 void initializeParticles(std::vector<std::vector<Elements>>& matrix) {
@@ -99,7 +98,7 @@ void drawgameoverlay(sf::RenderWindow& window)
 
     window.draw(t_selectedMaterial);
 
-    if (pause == true)
+    if (pause)
     {
         sf::Text t_paused;
         t_paused.setFont(font);
@@ -110,19 +109,21 @@ void drawgameoverlay(sf::RenderWindow& window)
 
         t_paused.setString("Paused!");
         window.draw(t_paused);
-
     }
     
 }
 
 
-void draw(std::vector<std::vector<Elements>>& matrix, sf::RenderWindow& window,sf::Event& event) {
+void draw(std::vector<std::vector<Elements>>& matrix, sf::RenderWindow& window,sf::Event& event,bool nodraw) {
     window.clear(BackgroundColor);
 
-    initializeParticles(matrix);
-
+    if (!nodraw)
+    {
     //draw particles
+    initializeParticles(matrix);
     window.draw(particles);
+    }
+
     
     //draw UI
     draw_performanceoverlay(window);
@@ -134,6 +135,7 @@ void draw(std::vector<std::vector<Elements>>& matrix, sf::RenderWindow& window,s
     highlightmouse(window);
     }
     window.draw(mousehighlight);
+
     //Display
     window.display();
 }

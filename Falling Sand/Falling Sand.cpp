@@ -45,23 +45,13 @@ int main() {
 
 		//delta time
 		dt = deltaclock.restart().asSeconds();
-		
-
 		FPS = static_cast<int>(1.0f / dt);
-		
-		
-
-
-		//Create Random
-		
-
-		//std::cout << "delta: " << std::fixed << std::setprecision(3) << dt << "\n";
 		
 		//input
 		handleinput(matrix, window, event);
 
 
-			//Update the matrix
+		//Update the matrix
 		if (pause == false || steponce == true)
 		{
 			updatematrix(matrix, worldheight, worldwidth, window);
@@ -72,8 +62,7 @@ int main() {
 		//Draw
 		// Inside your rendering function or game loop
 	
-		if (nodraw == false)
-		draw(matrix, window, event);
+		draw(matrix, window, event, nodraw);
 		//
 		//		Main Loop End
 		//////////////////////////////

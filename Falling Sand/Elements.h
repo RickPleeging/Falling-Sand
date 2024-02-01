@@ -32,7 +32,6 @@ public:
 	float density;
 	float health;
 	float lifetime;
-	float hardness;
 	float fireresistance;
 	int m_spawnID;
 	int temperature;
@@ -40,6 +39,8 @@ public:
 	int maxheat;
 	int burnID;
 	int acidity;
+
+
 
 	std::vector<sf::Color> colorPalette;
 
@@ -52,6 +53,7 @@ public:
 	bool issolid;
 	bool isliquid;
 	bool isgas;
+	bool ismovable;
 
 	sf::Color m_color;
 

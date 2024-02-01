@@ -121,8 +121,12 @@ void handleevents(sf::Event& event, sf::RenderWindow& window, Matrix& matrix, in
 			}
 			break;
 		case sf::Keyboard::D:
-			sf::Vector2i mousePos = sf::Mouse::getPosition(window) / pixelsize;
 
+			sf::Vector2i mousePos = sf::Mouse::getPosition(window) / pixelsize;
+			if (mousePos.y > worldheight || mousePos.y < 0 || mousePos.x > worldwidth || mousePos.x < 0)
+			{
+				break;
+			}
 			std::cout << std::endl << matrix[mousePos.y][mousePos.x].name << " X: " << mousePos.x << " Y: " << mousePos.y;
 			std::cout << "\nID: " << matrix[mousePos.y][mousePos.x].m_ID;
 			std::cout << "\nVelocity X: " << matrix[mousePos.y][mousePos.x].velocity_x;

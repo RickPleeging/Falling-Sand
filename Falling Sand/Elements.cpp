@@ -7,19 +7,31 @@
 
 
 
+
 ///////////
 // Classes
 Elements::Elements() {
 	name = "AIR";
 	m_ID = 0;
+	m_spawnID = 0;
 	velocity = 0;
+	velocity_x = 0;
+	velocity_y = 0;
 	weight = 10;
+	density = 1;
 	maxvelocity = 10;
 	maxdispersal = 1;
 	health = 100;
+	lifetime = -1;
+
 	temperature = 0;
 	fireresistance = -1;
+	baseheat = 0;
+	maxheat = 0;
+	burnID = 0;
 	inertialresistance = 1;
+	acidity=0;
+
 
 	issolid = false;
 	isliquid = false;
@@ -30,11 +42,11 @@ Elements::Elements() {
 	wasupdated = false;
 	hasmoved = false;
 	colorPalette = { sf::Color(55,55,55,255) };
+	ismovable = true;
 
 }
 Liquids::Liquids() {
 	isliquid = true;
-
 }
 
 Solids::Solids() {
@@ -43,6 +55,7 @@ Solids::Solids() {
 MovableSolids::MovableSolids() {
 }
 ImmovableSolids::ImmovableSolids() {
+	ismovable = false;
 }
 Gas::Gas() {
 	isgas = true;
@@ -480,7 +493,7 @@ inline bool Elements::issurroundedby(Matrix& matrix, int y, int x, int id) {
 					return false;
 				}
 			}
-		return true;
+			return true;
 	}
 	else {
 		return false;
@@ -524,15 +537,18 @@ inline bool Elements::gravity(Matrix& matrix, int y, int x) {
 
 
 		for (int i = 1; i <= desired; i++) {
-			if (y + i < worldheight && matrix[y + i][x].m_ID == 0 || y + i < worldheight && matrix[y + i][x].isgas)
+			if (y + i >= worldheight)
+			{
+				break;
+			}
+			if (matrix[y + i][x].m_ID == 0 || matrix[y + i][x].isgas)
 			{
 				//increase actual for every free pixel underneath
 				actual++;
 			}
-
 			else { break; }
 		}
-		if (actual == 0) { actual = 1; }
+		//if (actual == 0) { actual = 1; }
 
 		if (matrix[y + actual][x].isgas) {
 			swapelements(matrix, y, x, y + actual, x);
