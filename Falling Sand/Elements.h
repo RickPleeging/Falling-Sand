@@ -49,6 +49,7 @@ public:
 	bool hasmoved;
 
 	bool corodable;
+	bool ischangable;
 
 	bool issolid;
 	bool isliquid;
@@ -151,7 +152,9 @@ public:
 class Water : public Liquids {
 public:
 	Water();
+	inline bool actOnOther(Matrix& matrix, int y, int x, int yt, int xt);
 	void updateelement(Matrix& matrix, int y, int x);
+
 };
 
 class Stone : public ImmovableSolids {
@@ -184,6 +187,22 @@ public:
 class Glass : public ImmovableSolids {
 public:
 	Glass();
+
+};
+
+class Dirt : public ImmovableSolids {
+public:
+	Dirt(); 
+	void updateelement(Matrix& matrix, int y, int x);
+
+};
+class Grass : public ImmovableSolids {
+public:
+	Grass();
+	inline bool actOnOther(Matrix& matrix, int y, int x, int yt, int xt);
+	void updateelement(Matrix& matrix, int y, int x);
+
+
 
 };
 
@@ -227,6 +246,7 @@ class Lava : public Liquids {
 public:
 	Lava();
 	void updateelement(Matrix& matrix, int y, int x);
+	inline bool actOnOther(Matrix& matrix, int y, int x, int yt, int xt);
 };
 
 class Steam : public Gas {

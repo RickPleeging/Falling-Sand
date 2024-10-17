@@ -31,7 +31,7 @@ Elements::Elements() {
 	burnID = 0;
 	inertialresistance = 1;
 	acidity=0;
-
+	ischangable = false;
 
 	issolid = false;
 	isliquid = false;
@@ -131,6 +131,8 @@ Stone::Stone() {
 	};
 }
 
+
+
 Smoke::Smoke() {
 	name = "Smoke";
 	m_ID = 4;
@@ -187,6 +189,7 @@ Wood::Wood() {
 	sf::Color(36, 22, 8, 255),
 	};
 }
+
 
 Steam::Steam() {
 	name = "Steam";
@@ -255,6 +258,34 @@ Ice::Ice() {
 	};
 
 }
+
+Dirt::Dirt()
+{
+	name = "Dirt";
+	m_ID = 15;
+	health = 50;
+	corodable = true;
+
+	colorPalette = {
+		sf::Color(56, 35, 11,255),
+		sf::Color(74, 43, 7,255)
+
+	};
+}
+
+Grass::Grass() {
+	name = "Grass";
+	m_ID = 16;
+	health = 30;
+	corodable = true;
+	fireresistance = 90;
+	colorPalette = {
+		sf::Color(52, 235, 94,255),
+		sf::Color(29, 194, 67,255)
+	};
+}
+
+
 
 StaticFire::StaticFire() {
 	name = "Fire";
@@ -428,7 +459,6 @@ inline bool Elements::applyHeat(Matrix& matrix, int y, int x, int yt, int xt) {
 	if (matrix[yt][xt].m_ID == 2 || matrix[yt][xt].m_ID == 14)
 	{
 
-		matrix[y][x] = AIR;
 		matrix[yt][xt] = STEAM;
 		matrix[yt][xt].getColor(STEAM.colorPalette, matrix, yt, xt);
 		return true;
@@ -598,7 +628,7 @@ inline bool Elements::moveSideways2(Matrix& matrix, int y, int x) {
 
 	int rng = getRandom(0, 1);
 
-	if (rng == 0)
+ 	if (rng == 0)
 	{
 		for (int i = 1; i <= matrix[y][x].maxdispersal; i++)
 		{
@@ -669,7 +699,7 @@ inline bool Elements::moveSideways(Matrix& matrix, int y, int x) {
 
 
 	// Check leftward movement
-	if (getRandom100() > 50) {
+	if (getRandom(0,1)==1) {
 		if (x - 1 > 0) {
 			if (matrix[y][x - 1].m_ID == 0) {
 
@@ -912,20 +942,40 @@ inline bool Elements::moveDiagonallydown(Matrix& matrix, int y, int x) {
 
 
 inline bool Elements::moveDiagonallyup(Matrix& matrix, int y, int x) {
-	if (y - 1 > 0 && x + 1 < worldwidth && matrix[y - 1][x + 1].m_ID == 0 && matrix[y][x + 1].m_ID == 0) //move up right
-	{
-		matrix[y - 1][x + 1] = matrix[y][x];
-		matrix[y][x] = AIR;
-		matrix[y - 1][x + 1].wasupdated = true;
-		return true;
+
+	if (getRandom(0, 1) == 0) {
+		if (y - 1 > 0 && x + 1 < worldwidth && matrix[y - 1][x + 1].m_ID == 0 && matrix[y][x + 1].m_ID == 0) //move up right
+		{
+			matrix[y - 1][x + 1] = matrix[y][x];
+			matrix[y][x] = AIR;
+			matrix[y - 1][x + 1].wasupdated = true;
+			return true;
+		}
+		else if (y - 1 > 0 && x - 1 > 0 && matrix[y - 1][x - 1].m_ID == 0 && matrix[y][x - 1].m_ID == 0) //move up left
+		{
+			matrix[y - 1][x - 1] = matrix[y][x];
+			matrix[y][x] = AIR;
+			matrix[y - 1][x - 1].wasupdated = true;
+			return true;
+		}
 	}
-	else if (y - 1 > 0 && x - 1 > 0 && matrix[y - 1][x - 1].m_ID == 0 && matrix[y][x - 1].m_ID == 0) //move up left
-	{
-		matrix[y - 1][x - 1] = matrix[y][x];
-		matrix[y][x] = AIR;
-		matrix[y - 1][x - 1].wasupdated = true;
-		return true;
+	else {
+		if (y - 1 > 0 && x - 1 > 0 && matrix[y - 1][x - 1].m_ID == 0 && matrix[y][x - 1].m_ID == 0) //move up left
+		{
+			matrix[y - 1][x - 1] = matrix[y][x];
+			matrix[y][x] = AIR;
+			matrix[y - 1][x - 1].wasupdated = true;
+			return true;
+		}
+		else if (y - 1 > 0 && x + 1 < worldwidth && matrix[y - 1][x + 1].m_ID == 0 && matrix[y][x + 1].m_ID == 0) //move up right
+		{
+			matrix[y - 1][x + 1] = matrix[y][x];
+			matrix[y][x] = AIR;
+			matrix[y - 1][x + 1].wasupdated = true;
+			return true;
+		}
 	}
+
 	return false;
 }
 inline void Elements::swapelements(Matrix& matrix, int y, int x, int y2, int x2) {
@@ -990,7 +1040,7 @@ void ImmovableSolids::updateelement(Matrix& matrix, int y, int x) {
 void Liquids::updateelement(Matrix& matrix, int y, int x) {
 	matrix[y][x].hasmoved = true;
 
-	if (y - 1 > 0)
+	if (y - 1 > 0 && matrix[y-1][x].isliquid)
 	{
 		if (matrix[y][x].density < matrix[y - 1][x].density)
 		{
@@ -1054,10 +1104,46 @@ void Sand::updateelement(Matrix& matrix, int y, int x) {
 
 
 void Water::updateelement(Matrix& matrix, int y, int x) {
+	try_actOnOther(matrix, y, x);
 	Liquids::updateelement(matrix, y, x);
 
 
+}
 
+inline bool Water::actOnOther(Matrix& matrix, int y, int x, int yt, int xt)
+{
+	//Dirt into Grass
+	if (matrix[yt][xt].m_ID == 15) {
+		if (getRandom(1, 500) == 10) {
+			matrix[yt][xt] = GRASS;
+			matrix[yt][xt].getColor(GRASS.colorPalette, matrix, yt, xt);
+			matrix[y][x].wasupdated = true;
+			return true;
+		}
+	}
+	return false;
+}
+void Dirt::updateelement(Matrix& matrix, int y, int x)
+{
+	ImmovableSolids::updateelement(matrix, y, x);
+
+}
+void Grass::updateelement(Matrix& matrix, int y, int x)
+{
+	try_actOnOther(matrix, y, x);
+	ImmovableSolids::updateelement(matrix, y, x);
+
+}
+inline bool Grass::actOnOther(Matrix& matrix, int y, int x, int yt, int xt)
+{
+
+	if (matrix[yt][xt].m_ID == 15 && getRandom(1,1000) == 10) {
+		matrix[yt][xt] = GRASS;
+		matrix[yt][xt].getColor(GRASS.colorPalette, matrix, yt, xt);
+		matrix[y][x].wasupdated = true;
+		return true;
+	}
+	return false;
 }
 
 inline bool Acid::actOnOther(Matrix& matrix, int y, int x, int yt, int xt) {
@@ -1127,7 +1213,15 @@ void StaticFire::updateelement(Matrix& matrix, int y, int x) {
 
 
 }
+inline bool Lava::actOnOther(Matrix& matrix, int y, int x, int yt, int xt) {
 
+	if (matrix[yt][xt].m_ID == 2 && getRandom(1,5)==1) {
+		matrix[yt][xt] = STONE;
+		matrix[yt][xt].getColor(STONE.colorPalette, matrix, yt, xt);
+		matrix[yt][xt].wasupdated = true;
+		return true;
+	}
+}
 void GasFire::updateelement(Matrix& matrix, int y, int x) {
 
 	//matrix[y][x].m_color = sf::Color(255, getRandom(0, 100), 0, getRandom(50, 255));

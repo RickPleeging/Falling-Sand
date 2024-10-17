@@ -39,6 +39,8 @@ Wood WOOD;
 StaticFire STATICFIRE;
 LiquidFire LIQUIDFIRE;
 GasFire GASFIRE;
+Grass GRASS;
+Dirt DIRT;
 Steam STEAM;
 Lava LAVA;
 Oil OIL;

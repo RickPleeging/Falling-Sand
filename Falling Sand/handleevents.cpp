@@ -108,11 +108,11 @@ void handleevents(sf::Event& event, sf::RenderWindow& window, Matrix& matrix, in
 			}
 			else
 			{
-				selectedmat = 16;
+				selectedmat = 19;
 			}
 			break;
 		case sf::Keyboard::Right:
-			if (selectedmat < 16)
+			if (selectedmat < 19)
 			{
 				selectedmat++;
 			}

@@ -70,6 +70,12 @@ void updatematrix(std::vector<std::vector<Elements>>& matrix, int worldheight, i
 				case 14:
 					ICE.updateelement(matrix, i, j);
 					break;
+				case 15:
+					DIRT.updateelement(matrix, i, j);
+					break;
+				case 16:
+					GRASS.updateelement(matrix, i, j);
+					break;
 				case 20:
 					STATICFIRE.updateelement(matrix, i, j);
 					break;
@@ -79,6 +85,7 @@ void updatematrix(std::vector<std::vector<Elements>>& matrix, int worldheight, i
 				case 22:
 					GASFIRE.updateelement(matrix, i, j);
 					break;
+				
 				case 100:
 					SPAWNER.updateelement(matrix, i, j);
 					break;

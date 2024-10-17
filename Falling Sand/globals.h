@@ -60,6 +60,8 @@ class Lava;
 class Oil;
 class Cement;
 class Ice;
+class Dirt;
+class Grass;
 
 extern Elements AIR;
 extern Elements selection;
@@ -76,6 +78,8 @@ extern Acid ACID;
 extern FlammableGas FLAMMABLEGAS;
 extern Glass GLASS;
 extern Wood WOOD;
+extern Dirt DIRT;
+extern Grass GRASS;
 extern BlackHole BLACKHOLE;
 extern StaticFire STATICFIRE;
 extern LiquidFire LIQUIDFIRE;
